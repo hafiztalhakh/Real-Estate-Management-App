@@ -113,7 +113,7 @@ class AddProperty extends Component {
         completeAddress: "",
         demand: "",
         refernce: "",
-
+        contact: "",
         submitLoader: false
 
     }
@@ -133,7 +133,6 @@ class AddProperty extends Component {
         } = this.props.classes;
 
         const {
-            title,
             category,
             type,
             fileType,
@@ -152,10 +151,6 @@ class AddProperty extends Component {
             location,
             town,
             city,
-            completeAddress,
-            demand,
-            refernce,
-
             submitLoader,
 
         } = this.state;
@@ -611,7 +606,7 @@ class AddProperty extends Component {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Demand</InputLabel>
                                 <TextField
                                     variant="outlined"
@@ -628,7 +623,7 @@ class AddProperty extends Component {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Reference</InputLabel>
                                 <TextField
                                     variant="outlined"
@@ -642,6 +637,23 @@ class AddProperty extends Component {
                                     }}
                                     onChange={(e) => {
                                         this.setState({ refernce: e.target.value });
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Contact Number</InputLabel>
+                                <TextField
+                                    variant="outlined"
+                                    placeholder="Contact Number"
+                                    className={textField}
+                                    InputProps={{
+                                        classes: {
+                                            notchedOutline: notchedOutline,
+                                            focused: focused,
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        this.setState({ contact: e.target.value });
                                     }}
                                 />
                             </Grid>

@@ -3,6 +3,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/AddProperty/AddProperty';
+import Property from '../Screens/Property/Property';
 
 const routes = () => {
 
@@ -20,6 +21,13 @@ const routes = () => {
                 path='/add-property'
                 render={props => (
                     <AddProperty {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/property'
+                render={props => (
+                    <Property {...props} />
                 )}
             />
         </Switch>

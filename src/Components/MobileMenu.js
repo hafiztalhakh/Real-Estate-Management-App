@@ -111,7 +111,7 @@ class Drawer extends Component {
                                 </ListSubheader>
                             }
                         >
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-category') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/property') }}>
                                 <ListItemIcon>
                                     <HomeIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>

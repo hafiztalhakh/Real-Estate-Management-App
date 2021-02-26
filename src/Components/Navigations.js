@@ -35,7 +35,7 @@ function Navigations(props) {
                     </ListSubheader>
                 }
             >
-                <ListItem button onClick={() => { history.push('/add-category') }}>
+                <ListItem button onClick={() => { history.push('/property') }}>
                     <ListItemIcon>
                         <HomeIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
