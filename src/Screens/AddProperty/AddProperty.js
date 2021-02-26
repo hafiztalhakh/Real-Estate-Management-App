@@ -7,6 +7,10 @@ const styles = theme => ({
         padding: "30px 40px 40px 40px",
         backgroundColor: "#fff",
         borderRadius: 10,
+        [theme.breakpoints.down('md')]: {
+            padding: 0,
+            boxShadow: "none",
+        }
     },
     inputLabel: {
         fontWeight: "bold",
@@ -44,10 +48,10 @@ const styles = theme => ({
             // borderRadius: 0
         },
         "&:hover .MuiOutlinedInput-notchedOutline": {
-            border: 'none'
+            borderColor: "#a9a8a8",
         },
         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
-            border: 'none'
+            borderColor: "#a9a8a8",
         },
         "& .MuiOutlinedInput-root": {
             // borderRadius: 0,
@@ -64,11 +68,11 @@ const styles = theme => ({
     btn: {
         width: 200,
         height: 45,
-        backgroundColor: "#33c4ff",
+        backgroundColor: "#f5f5f5",
         color: "#000",
         fontWeight: "bold",
         "&:hover": {
-            backgroundColor: "#33c4ff",
+            backgroundColor: "#f5f5f5",
             color: "#000",
         },
     },
@@ -368,7 +372,7 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={12} sm={12} md={4}>
                                 <div style={{ height: 20 }} />
                                 <Chip
                                     label="Park Facing"
