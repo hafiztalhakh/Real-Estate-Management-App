@@ -40,7 +40,7 @@ class App extends Component {
     render() {
 
         const { open, isLoading, user, token } = this.state;
-        const { classes } = this.props;
+        const { classes, desktop } = this.props;
 
         if (!isLoading) {
             return (
@@ -66,23 +66,28 @@ class App extends Component {
                                 user
                             }}
                         >
-                            <div className={classes.root}>
-                                <Appbar
-                                    open={open}
-                                    toggleDrawer={this.handleDrawerToggle}
-                                    handleSwitchUser={this.switchUser}
-                                />
-                                <LeftDrawerMenu
-                                    open={open}
-                                    toggleDrawer={this.handleDrawerToggle}
-                                />
-                                <main className={classes.content}>
-                                    <div className={classes.appBarSpacer} />
-                                    <div className={classes.container}>
-                                        <Routes />
+                            {
+                                desktop ?
+                                    <div className={classes.root}>
+                                        <Appbar
+                                            open={open}
+                                            toggleDrawer={this.handleDrawerToggle}
+                                            handleSwitchUser={this.switchUser}
+                                        />
+                                        <LeftDrawerMenu
+                                            open={open}
+                                            toggleDrawer={this.handleDrawerToggle}
+                                        />
+                                        <main className={classes.content}>
+                                            <div className={classes.appBarSpacer} />
+                                            <div className={classes.container}>
+                                                <Routes />
+                                            </div>
+                                        </main>
                                     </div>
-                                </main>
-                            </div>
+                                    :
+                                    <Routes />
+                            }
                         </MyContextAPI.Provider>
                     }
                 </Fragment>

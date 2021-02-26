@@ -69,7 +69,7 @@ function Navigations(props) {
             <List
                 subheader={
                     <ListSubheader>
-                        Property
+                        Emails
                     </ListSubheader>
                 }
             >
