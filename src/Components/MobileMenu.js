@@ -81,7 +81,7 @@ class Drawer extends Component {
                                 variant="h6"
                                 onClick={() => this.props.history.push('/')}
                                 style={{
-                                    fontFamily: '"Merienda One", cursive',
+                                    // fontFamily: '"Merienda One", cursive',
                                     alignItems: 'center',
                                     verticalAlign: 'middle',
                                     display: 'inline-flex',
@@ -90,7 +90,7 @@ class Drawer extends Component {
                                     marginLeft: 10
 
                                 }}>
-                                Shaheer Enterprises
+                                Shaheer App
                             </Typography>
                             <IconButton edge="start" color="black" onClick={this.handleClose} aria-label="close">
                                 <CloseIcon style={{ color: '#000' }} />
@@ -187,7 +187,7 @@ class Drawer extends Component {
                             variant="h6"
                             onClick={() => this.props.history.push('/')}
                             style={{
-                                fontFamily: '"Merienda One", cursive',
+                                // fontFamily: '"Merienda One", cursive',
                                 alignItems: 'center',
                                 verticalAlign: 'middle',
                                 display: 'inline-flex',
@@ -196,7 +196,7 @@ class Drawer extends Component {
                                 marginLeft: 10
 
                             }}>
-                            Shaheer Enterprises
+                            Shaheer App
                         </Typography>
                         {this.renderMenu()}
                     </div>
