@@ -7,6 +7,7 @@ import Appbar from '../Components/Appbar';
 import LeftDrawerMenu from '../Components/LeftDrawerMenu';
 import Login from '../Screens/Login/Login';
 import Routes from '../Routes/Routes';
+import MobileMenu from '../Components/MobileMenu';
 
 const styles = theme => ({
     root: {
@@ -86,7 +87,12 @@ class App extends Component {
                                         </main>
                                     </div>
                                     :
-                                    <Routes />
+                                    <div>
+                                        <MobileMenu />
+                                        <br />
+                                        <br/>
+                                        <Routes />
+                                    </div>
                             }
                         </MyContextAPI.Provider>
                     }
