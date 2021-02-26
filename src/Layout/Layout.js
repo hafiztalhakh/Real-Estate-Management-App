@@ -89,9 +89,11 @@ class App extends Component {
                                     :
                                     <div>
                                         <MobileMenu />
-                                        <br />
-                                        <br/>
+
+                                        <div style={{ height: 50 }} />
+
                                         <Routes />
+                                        <div style={{ height: 20 }} />
                                     </div>
                             }
                         </MyContextAPI.Provider>
