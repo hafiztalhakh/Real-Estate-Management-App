@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button } from '@material-ui/core';
+import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const styles = theme => ({
@@ -23,6 +23,7 @@ const styles = theme => ({
             },
         },
         "& .MuiOutlinedInput-root": {
+            height: 45,
             // borderRadius: 0,
             backgroundColor: "#f5f5f5",
         }
@@ -51,7 +52,7 @@ const styles = theme => ({
         "& .MuiOutlinedInput-root": {
             // borderRadius: 0,
             backgroundColor: '#f5f5f5',
-            height: 41
+            height: 45
         },
         marginBottom: 10,
         borderRadius: 0
@@ -151,14 +152,11 @@ class AddProperty extends Component {
                         <h1>Add Property</h1>
                         <Divider className={divider} />
 
-                        <Grid container spacing={1}>
+                        <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={6}>
-                                <InputLabel className={inputLabel}>
-                                    Title
-                                </InputLabel>
+                                <InputLabel className={inputLabel}>Title</InputLabel>
                                 <TextField
                                     variant="outlined"
-                                    size="small"
                                     placeholder="Title of the property"
                                     className={textField}
                                     InputProps={{
@@ -173,7 +171,8 @@ class AddProperty extends Component {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={4}></Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Category</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["Residential", "Commercial"]}
@@ -195,7 +194,8 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Type</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["Lease", "Transfer"]}
@@ -217,7 +217,9 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}></Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Number of Bedrooms</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["1", "2", "3", "4", "5"]}
@@ -239,7 +241,8 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Number of Bathrooms</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["1", "2", "3", "4", "5"]}
@@ -261,7 +264,8 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Vehicle Space</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["1", "2", "3", "4", "5"]}
@@ -283,29 +287,8 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "60 yards"]}
-                                    value={areaCategory}
-                                    onChange={(e, value) => {
-                                        this.setState({ areaCategory: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Area Category"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ areaCategory: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Sector/Block</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["Sector P", "Sector Q", "Sector R", "Sector S"]}
@@ -327,7 +310,8 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Sub Sector</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["P", "Q-1", "R-1", "S-1"]}
@@ -349,8 +333,61 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            {/* <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Condition</InputLabel>
                                 <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["New", "Used"]}
+                                    value={condition}
+                                    onChange={(e, value) => {
+                                        this.setState({ condition: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Select Condition"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ condition: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <Chip
+                                    label="yes"
+                                    style={{ backgroundColor: "red", color: 'white' }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Area Category</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "60 yards"]}
+                                    value={areaCategory}
+                                    onChange={(e, value) => {
+                                        this.setState({ areaCategory: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Select Area Category"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ areaCategory: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            {/*   <Grid item xs={12} sm={12} md={4}>
+                             <InputLabel className={inputLabel}>Title</InputLabel>
+                            <Autocomplete
                                     className={autoCompleteTextField}
                                     options={[]}
                                     value={ }
@@ -371,8 +408,9 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Autocomplete
+                            <Grid item xs={12} sm={12} md={4}>
+                             <InputLabel className={inputLabel}>Title</InputLabel>
+                            <Autocomplete
                                     className={autoCompleteTextField}
                                     options={[]}
                                     value={ }
@@ -393,8 +431,9 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Autocomplete
+                            <Grid item xs={12} sm={12} md={4}>
+                             <InputLabel className={inputLabel}>Title</InputLabel>
+                            <Autocomplete
                                     className={autoCompleteTextField}
                                     options={[]}
                                     value={ }
@@ -415,30 +454,9 @@ class AddProperty extends Component {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={[]}
-                                    value={ }
-                                    onChange={(e, value) => {
-                                        this.setState({ category: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder=""
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ category: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <Autocomplete
+                            <Grid item xs={12} sm={12} md={4}>
+                             <InputLabel className={inputLabel}>Title</InputLabel>
+                            <Autocomplete
                                     className={autoCompleteTextField}
                                     options={[]}
                                     value={ }
