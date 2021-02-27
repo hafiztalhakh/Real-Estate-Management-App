@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useTheme, useMediaQuery, makeStyles, Container, Paper, Divider, CircularProgress, Button } from '@material-ui/core';
+import Axios from 'axios';
 
 import Table from './Components/Table';
-import Axios from 'axios';
 import baseUrl from '../../Util/baseUrl';
 
 const useStyles = makeStyles((theme) => ({
@@ -68,7 +68,6 @@ export default function Property() {
     if (isDesktop) {
         return (
             <Container maxWidth="lg">
-
                 <Paper elevation={3} className={paper}>
                     <h1>Property List</h1>
                     <Divider className={divider} />

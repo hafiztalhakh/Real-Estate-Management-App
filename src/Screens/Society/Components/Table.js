@@ -1,13 +1,8 @@
 import React, { useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Button, CircularProgress } from '@material-ui/core';
-//React Router
-import { Link, withRouter } from 'react-router-dom';
-import moment from 'moment';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Swal from 'sweetalert2';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Button, CircularProgress, IconButton } from '@material-ui/core';
 
-// import Dialog from './Modal';
+import Dialog from './Modal';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,6 +13,7 @@ const useStyles = makeStyles(theme => ({
         // maxHeight: 400,
     },
     tableRow: {
+        cursor: "pointer",
         "&:hover": {
             color: '#09926E',
             backgroundColor: '#f5f5f5',
@@ -33,31 +29,18 @@ const useStyles = makeStyles(theme => ({
     },
     tableCellBody: {
         textAlign: 'left',
-    },
-    idCell: {
-        textAlign: 'rigth',
-        color: 'green'
-    },
-    btn: {
-        backgroundColor: '#09926E',
-        color: '#fff',
-        fontWeight: 'bold',
-        "&:hover": {
-            backgroundColor: '#09926E',
-        }
-    },
+    }
 }));
 
-function CustomTable(props) {
-    const classes = useStyles();
+export default function CustomTable(props) {
     const { property } = props;
+    const classes = useStyles();
+    const { tableCell, tableCellBody } = classes;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rows, setrows] = useState([]);
 
-
     React.useEffect(() => {
-        //storing data in state
         setrows(property);
     }, [property]);
 
@@ -76,29 +59,24 @@ function CustomTable(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell className={classes.tableCell}>Category</TableCell>
-                            <TableCell className={classes.tableCell}>Type</TableCell>
-                            <TableCell className={classes.tableCell}>Location</TableCell>
-                            <TableCell className={classes.tableCell}>Area</TableCell>
-                            <TableCell className={classes.tableCell}>Demand</TableCell>
-                            <TableCell className={classes.tableCell}>Reference</TableCell>
-                            <TableCell className={classes.tableCell}>Contact Name</TableCell>
-                            <TableCell className={classes.tableCell}>Contact</TableCell>
+                            <TableCell className={tableCell}>Name</TableCell>
+                            <TableCell className={tableCell}>Category</TableCell>
+                            <TableCell className={tableCell}>Town</TableCell>
+                            <TableCell className={tableCell}>City</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                            // let date = moment(row.payment_date).format("dddd, DD/MM/YY");
                             return (
                                 <TableRow key={index} className={classes.tableRow}>
-                                    <TableCell className={classes.tableCellBody}>{row.category}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.type}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.subSector}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.area}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.demand}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.reference}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.contactPerson}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.contact}</TableCell>
+                                    <TableCell className={tableCellBody}>
+                                        <Dialog societyId={row._id}>
+                                            {row.name}
+                                        </Dialog>
+                                    </TableCell>
+                                    <TableCell className={tableCellBody}>{row.category}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.town}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.city}</TableCell>
                                 </TableRow>
                             )
                         }
@@ -118,5 +96,3 @@ function CustomTable(props) {
         </Paper >
     );
 }
-
-export default withRouter(CustomTable);
