@@ -54,7 +54,6 @@ export default function CustomCard(props) {
     const { data } = props;
 
     return (
-        <Container maxWidth="sm">
             <Paper elevation={3} className={paper}>
                 <h2 className={heading}> {data.category} {data.type} </h2>
                 <List className={list} style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -110,7 +109,6 @@ export default function CustomCard(props) {
                     </ListItem>
                 </List>
             </Paper>
-        </Container>
     )
 }
 

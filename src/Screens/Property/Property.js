@@ -58,12 +58,21 @@ export default function Property() {
         }
     ]);
 
-    return (
-        <Container maxWidth="lg">
-            <Paper elevation={3} className={paper}>
+    if (isDesktop) {
+        return (
+            <Container maxWidth="lg">
+                <Paper elevation={3} className={paper}>
+                    <h1>Property List</h1>
+                    <Divider className={divider} />
+                    <Table property={data} />
+                </Paper>
+            </Container>
+        )
+    } else {
+        return (
+            <Container maxWidth="md">
                 <h1>Property List</h1>
                 <Divider className={divider} />
-
                 {
                     data.map((el, i) => (
                         <Fragment key={i}>
@@ -71,8 +80,8 @@ export default function Property() {
                         </Fragment>
                     ))
                 }
-            </Paper>
-        </Container>
-    )
+            </Container>
+        )
+    }
 }
 
