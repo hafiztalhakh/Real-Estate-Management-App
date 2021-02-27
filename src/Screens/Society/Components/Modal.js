@@ -29,7 +29,7 @@ const useStles = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        height: "80vh"
+        height: 200
     },
     circularProgress: {
         color: '#33c4ff',
@@ -41,13 +41,14 @@ const useStles = makeStyles(theme => ({
     }
 }));
 
-export default function GalleryCard(props) {
+export default function Modal(props) {
     const classes = useStles();
     const { centerContainer, circularProgress, divider, root } = classes;
-    const { children, societyId } = props;
+    const { children, societyId, getData } = props;
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
+    const [deleteLoader, setDeleteLoader] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -62,7 +63,7 @@ export default function GalleryCard(props) {
             .then(res => {
                 console.log(res.data);
                 setData(res.data.society)
-                setLoader(false)
+                setLoader(false);
             })
             .catch(err => {
                 console.log(err);
@@ -72,6 +73,27 @@ export default function GalleryCard(props) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleDeleteSociety = () => {
+        setDeleteLoader(true);
+
+        Axios({
+            url: `${baseUrl}/society/delete-society`,
+            method: "DELETE",
+            params: {
+                societyId
+            }
+        })
+            .then(res => {
+                setDeleteLoader(false);
+                setOpen(false);
+                getData();
+            })
+            .catch(err => {
+                console.log(err);
+                setDeleteLoader(false);
+            })
+    }
 
     return (
         <Fragment>
@@ -90,8 +112,8 @@ export default function GalleryCard(props) {
                             <IconButton className={classes.closeButton} onClick={handleClose}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton className={classes.closeButton} onClick={handleClose}>
-                                <DeleteIcon />
+                            <IconButton className={classes.closeButton} onClick={handleDeleteSociety}>
+                                {deleteLoader ? <CircularProgress style={{ width: 25, height: 25, color: "#33c4ff" }} /> : <DeleteIcon />}
                             </IconButton>
                         </div>
                         <IconButton className={classes.closeButton} onClick={handleClose}>

@@ -10,6 +10,7 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 import Axios from 'axios';
 import baseUrl from '../../Util/baseUrl';
+import Swal from 'sweetalert2';
 
 const styles = theme => ({
     paper: {
@@ -222,8 +223,13 @@ class AddSociety extends Component {
             }
         })
             .then(res => {
-                console.log(res.data);
-                this.setState({ submitLoader: false })
+                // console.log(res.data);
+                this.setState({ submitLoader: false });
+                Swal.fire({
+                    icon: "success",
+                    title: "Shaheer App",
+                    text: `${res.data.message}`
+                })
             })
             .catch(err => {
                 console.log(err);
@@ -562,7 +568,7 @@ class AddSociety extends Component {
                                                                 </TreeItem>
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} onClick={() => { this.handleRemoveSector(i) }} /></IconButton>
+                                                                <IconButton onClick={() => { this.handleRemoveSector(i) }}><ClearIcon style={{ fontSize: 16 }} /></IconButton>
                                                             </Grid>
                                                         </Grid>
                                                     )
@@ -579,7 +585,7 @@ class AddSociety extends Component {
                                                                 />
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} onClick={() => { this.handleRemoveSector(i) }} /></IconButton>
+                                                                <IconButton onClick={() => { this.handleRemoveSector(i) }}><ClearIcon style={{ fontSize: 16 }} /></IconButton>
                                                             </Grid>
                                                         </Grid>
                                                     )

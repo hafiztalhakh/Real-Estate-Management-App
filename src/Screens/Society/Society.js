@@ -77,7 +77,7 @@ export default function Property() {
                                 <CircularProgress className={classes.circularProgress} />
                             </div>
                             :
-                            <Table property={data} />
+                            <Table property={data} getData={handleGetProperty} />
                     }
                 </Paper>
             </Container>

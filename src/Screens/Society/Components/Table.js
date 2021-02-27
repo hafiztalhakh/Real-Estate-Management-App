@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CustomTable(props) {
-    const { property } = props;
+    const { property, getData } = props;
     const classes = useStyles();
     const { tableCell, tableCellBody } = classes;
     const [page, setPage] = useState(0);
@@ -70,7 +70,7 @@ export default function CustomTable(props) {
                             return (
                                 <TableRow key={index} className={classes.tableRow}>
                                     <TableCell className={tableCellBody}>
-                                        <Dialog societyId={row._id}>
+                                        <Dialog societyId={row._id} getData={getData}>
                                             {row.name}
                                         </Dialog>
                                     </TableCell>
