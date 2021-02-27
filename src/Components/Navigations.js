@@ -47,19 +47,19 @@ function Navigations(props) {
                     </ListItemIcon>
                     <ListItemText primary="Add Property" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-brand') }}>
+                <ListItem button onClick={() => { history.push('/website-listings') }}>
                     <ListItemIcon>
                         <PlaylistAddCheckIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
                     <ListItemText primary="Website Listings" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-product') }}>
+                <ListItem button onClick={() => { history.push('/property/featured') }}>
                     <ListItemIcon>
                         <StarIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
                     <ListItemText primary="Featured Property" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/orders/all') }}>
+                <ListItem button onClick={() => { history.push('/property/sold-out') }}>
                     <ListItemIcon>
                         <LoyaltyIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
@@ -73,19 +73,19 @@ function Navigations(props) {
                     </ListSubheader>
                 }
             >
-                <ListItem button onClick={() => { history.push('/add-sub-category') }}>
+                <ListItem button onClick={() => { history.push('/email') }}>
                     <ListItemIcon>
                         <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
                     <ListItemText primary="Compose E-Mail" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-category') }}>
+                <ListItem button onClick={() => { history.push('/inbox') }}>
                     <ListItemIcon>
                         <EmailIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
                     <ListItemText primary="Inbox" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-brand') }}>
+                <ListItem button onClick={() => { history.push('/sent') }}>
                     <ListItemIcon>
                         <SendIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>

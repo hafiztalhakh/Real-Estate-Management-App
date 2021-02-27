@@ -123,19 +123,19 @@ class Drawer extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="Add Property" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-brand') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/website-listings') }}>
                                 <ListItemIcon>
                                     <PlaylistAddCheckIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
                                 <ListItemText primary="Website Listings" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-product') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/property/featured') }}>
                                 <ListItemIcon>
                                     <StarIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
                                 <ListItemText primary="Featured Property" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/orders/all') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/property/sold-out') }}>
                                 <ListItemIcon>
                                     <LoyaltyIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
@@ -149,19 +149,19 @@ class Drawer extends Component {
                                 </ListSubheader>
                             }
                         >
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-sub-category') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/email') }}>
                                 <ListItemIcon>
                                     <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
                                 <ListItemText primary="Compose E-Mail" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-category') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/inbox') }}>
                                 <ListItemIcon>
                                     <EmailIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
                                 <ListItemText primary="Inbox" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-brand') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/sent') }}>
                                 <ListItemIcon>
                                     <SendIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
