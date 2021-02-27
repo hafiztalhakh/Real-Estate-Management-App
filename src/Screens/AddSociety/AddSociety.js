@@ -184,6 +184,17 @@ class AddSociety extends Component {
 
     }
 
+    handleRemoveSector = index => {
+        let tempSectors = [...this.state.sectors];
+
+        tempSectors.splice(index, 1);
+        this.setState({ sectors: tempSectors });
+    }
+
+    handleSave = () => {
+        console.log(this.state);
+    }
+
     render() {
         const {
             paper,
@@ -213,7 +224,7 @@ class AddSociety extends Component {
             showSubSector
 
         } = this.state;
-        console.log(this.state.sectors)
+        // console.log(this.state.sectors)
 
         return (
             <Fragment>
@@ -514,7 +525,7 @@ class AddSociety extends Component {
                                                                 </TreeItem>
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} /></IconButton>
+                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} onClick={() => { this.handleRemoveSector(i) }} /></IconButton>
                                                             </Grid>
                                                         </Grid>
                                                     )
@@ -531,7 +542,7 @@ class AddSociety extends Component {
                                                                 />
                                                             </Grid>
                                                             <Grid item xs={3}>
-                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} /></IconButton>
+                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} onClick={() => { this.handleRemoveSector(i) }} /></IconButton>
                                                             </Grid>
                                                         </Grid>
                                                     )
@@ -549,7 +560,7 @@ class AddSociety extends Component {
                             <Button
                                 variant="contained"
                                 className={btn}
-
+                                onClick={this.handleSave}
                             >
                                 Save
                             </Button>
