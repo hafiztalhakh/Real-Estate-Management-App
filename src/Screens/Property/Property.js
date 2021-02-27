@@ -33,8 +33,9 @@ export default function Property() {
             subSector: "Y-1",
             area: "240 yds",
             demand: "50,00,000",
+            reference: "Direct",
+            contactPerson: "Hammad Usmani",
             contact: "03331234567",
-            reference: "Saghir Estate",
         },
         {
             category: "Residential",
@@ -43,8 +44,9 @@ export default function Property() {
             subSector: "X-6",
             area: "240 yds",
             demand: "5,00,000",
-            contact: "03331234567",
             reference: "Saghir Estate",
+            contactPerson: "Saghir Bhai",
+            contact: "03331234567",
         },
         {
             category: "Commercial",
@@ -53,8 +55,9 @@ export default function Property() {
             subSector: "Z-6",
             area: "100 yds",
             demand: "15,00,000",
+            reference: "Direct",
+            contactPerson: "Muhammad Hamza",
             contact: "03331234567",
-            reference: "Saghir Estate",
         }
     ]);
 

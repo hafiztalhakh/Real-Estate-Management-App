@@ -76,10 +76,14 @@ function CustomTable(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell className={classes.tableCell}>Category</TableCell>
+                            <TableCell className={classes.tableCell}>Type</TableCell>
+                            <TableCell className={classes.tableCell}>Location</TableCell>
                             <TableCell className={classes.tableCell}>Area</TableCell>
                             <TableCell className={classes.tableCell}>Demand</TableCell>
-                            <TableCell className={classes.tableCell}>Person Contact</TableCell>
                             <TableCell className={classes.tableCell}>Reference</TableCell>
+                            <TableCell className={classes.tableCell}>Contact Name</TableCell>
+                            <TableCell className={classes.tableCell}>Contact</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -87,10 +91,14 @@ function CustomTable(props) {
                             // let date = moment(row.payment_date).format("dddd, DD/MM/YY");
                             return (
                                 <TableRow key={index} className={classes.tableRow}>
+                                    <TableCell className={classes.tableCellBody}>{row.category}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.type}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.subSector}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.area}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.demand}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.contact}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.reference}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.contactPerson}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.contact}</TableCell>
                                 </TableRow>
                             )
                         }

@@ -102,11 +102,23 @@ export default function CustomCard(props) {
                         <ListItemText
                             primary={
                                 <Typography className={listItemText}>
-                                    <strong>Seller Contact: </strong> <a href={`tel:${data.contact}`} className={contactAnchor}>{data.contact}</a>
+                                    <strong>Contact Person: </strong> {data.contactPerson} <a href={`tel:${data.contact}`} className={contactAnchor}>({data.contact})</a>
                                 </Typography>
                             }
                         />
                     </ListItem>
+                    {/* <ListItem className={listItem}>
+                        <ListItemIcon className={listItemIcon}>
+                            <PhoneAndroidIcon className={icon} className="icons" />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={
+                                <Typography className={listItemText}>
+                                    <strong>Contact: </strong> 
+                                </Typography>
+                            }
+                        />
+                    </ListItem> */}
                 </List>
             </Paper>
     )
