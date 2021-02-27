@@ -69,7 +69,7 @@ export default function Property() {
         return (
             <Container maxWidth="lg">
                 <Paper elevation={3} className={paper}>
-                    <h1>Property List</h1>
+                    <h1>Societies List</h1>
                     <Divider className={divider} />
                     {
                         loader ?
@@ -85,9 +85,17 @@ export default function Property() {
     } else {
         return (
             <Container maxWidth="md">
-                <h1>Property List</h1>
+                <h1>Societies List</h1>
                 <Divider className={divider} />
                 {
+                        loader ?
+                            <div className={classes.centerContainer}>
+                                <CircularProgress className={classes.circularProgress} />
+                            </div>
+                            :
+                            <Table property={data} getData={handleGetProperty} />
+                    }
+                {/* {
                     loader ?
                         <div className={classes.centerContainer}>
                             <CircularProgress className={classes.circularProgress} />
@@ -102,7 +110,7 @@ export default function Property() {
                             <div className={classes.centerContainer}>
                                 <h1 align="center">No data found</h1>
                             </div>
-                }
+                } */}
             </Container>
         )
     }

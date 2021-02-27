@@ -129,20 +129,20 @@ export default function Modal(props) {
                             </div>
                             :
                             <Grid container spacing={1}>
-                                <Grid item xs={6}>
+                                <Grid item xs={12} sm={6}>
                                     <strong>Name:</strong> {data.name}
 
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={12} sm={6}>
                                     <strong>Town:</strong> {data.town}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={12} sm={6}>
                                     <strong>City:</strong> {data.city}
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={12} sm={6}>
                                     <strong>Category:</strong> {data.category}
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sm={12}>
                                     <strong>Sectors/Block:</strong>
                                     <TreeView
                                         // className={classes.root}
