@@ -5,6 +5,7 @@ import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/AddProperty/AddProperty';
 import Property from '../Screens/Property/Property';
 import AddSociety from '../Screens/AddSociety/AddSociety';
+import Society from '../Screens/Society/Society';
 
 const routes = () => {
 
@@ -32,6 +33,13 @@ const routes = () => {
                 )}
             />
 
+            <Route
+                exact
+                path='/societies'
+                render={props => (
+                    <Society {...props} />
+                )}
+            />
             <Route
                 exact
                 path='/add-society'

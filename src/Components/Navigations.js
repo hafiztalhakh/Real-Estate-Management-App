@@ -109,7 +109,7 @@ function Navigations(props) {
                     </ListSubheader>
                 }
             >
-                <ListItem button onClick={() => { history.push('/socieites') }}>
+                <ListItem button onClick={() => { history.push('/societies') }}>
                     <ListItemIcon>
                         <ApartmentIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>

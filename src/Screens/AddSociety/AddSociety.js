@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, IconButton } from '@material-ui/core';
+import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, IconButton, CircularProgress } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import AddIcon from '@material-ui/icons/Add';
 import TreeView from '@material-ui/lab/TreeView';
@@ -7,6 +7,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ClearIcon from '@material-ui/icons/Clear';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+
+import Axios from 'axios';
+import baseUrl from '../../Util/baseUrl';
 
 const styles = theme => ({
     paper: {
@@ -191,7 +194,42 @@ class AddSociety extends Component {
     }
 
     handleSave = () => {
-        console.log(this.state);
+        const {
+            name,
+            category,
+            sectors,
+            town,
+            city,
+            district,
+            province,
+            description
+        } = this.state;
+
+        this.setState({ submitLoader: true })
+
+        Axios({
+            url: `${baseUrl}/society/add-society`,
+            method: "POST",
+            data: {
+                name,
+                category,
+                sectors,
+                town,
+                city,
+                district,
+                province,
+                description
+            }
+        })
+            .then(res => {
+                console.log(res.data);
+                this.setState({ submitLoader: false })
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ submitLoader: false })
+            })
+
     }
 
     render() {
@@ -561,7 +599,12 @@ class AddSociety extends Component {
                                 className={btn}
                                 onClick={this.handleSave}
                             >
-                                Save
+                                {
+                                    submitLoader ?
+                                        <CircularProgress style={{ color: '#0095FF', width: 25, height: 25 }} />
+                                        :
+                                        "Save"
+                                }
                             </Button>
                         </div>
                     </Paper>
