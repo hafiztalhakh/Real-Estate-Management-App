@@ -1,12 +1,12 @@
 import React, { Fragment, Component } from 'react';
-import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip } from '@material-ui/core';
+import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, IconButton } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import AddIcon from '@material-ui/icons/Add';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearIcon from '@material-ui/icons/Clear';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-
 
 const styles = theme => ({
     paper: {
@@ -100,12 +100,22 @@ const styles = theme => ({
         marginTop: 10,
         marginBottom: 30
     },
-    chip: {
-        width: 120,
-        color: 'white',
-        fontSize: 15,
-        fontWeight: "bold",
+    sectorsContainer: {
+        padding: 10,
+        backgroundColor: "#f5f5f5",
+        height: 640,
+        overflowY: "auto",
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
+        "&::-webkit-scrollbar": {
+            display: 'none',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none'
+        }
     },
+    root: {
+        paddingTop: 7
+    }
 });
 
 class AddSociety extends Component {
@@ -114,14 +124,7 @@ class AddSociety extends Component {
         name: "",
         category: "Private",
         sector: "",
-        sectors: [{
-            name: "sa",
-            subSectors: ["1", "2"]
-        },
-        {
-            name: "se",
-            subSectors: ["1", "2"]
-        }],
+        sectors: [],
         subSector: "",
         subSectors: [],
         town: "Gadap",
@@ -148,12 +151,36 @@ class AddSociety extends Component {
     }
 
     handleAddSubSectors = () => {
-        const { sectors, subSector } = this.state;
+        const { sectors, sector, subSector } = this.state;
         const tempSectors = [...sectors];
 
-        const lastElement = tempSectors.slice(-1);
-        lastElement[0].subSectors = []
+        console.log("tempArray", tempSectors)
 
+        const tempIndex = tempSectors.findIndex(e => e.name === sector);
+
+        console.log(tempIndex);
+
+        if (tempIndex <= -1) {
+            console.log("nahi hai")
+        } else {
+            console.log("hai");
+
+            if (tempSectors[tempIndex].subSectors) {
+                if (!tempSectors[tempIndex].subSectors.includes(subSector)) {
+                    tempSectors[tempIndex].subSectors.push(subSector);
+                    this.setState({ sectors: tempSectors })
+                } else {
+                    alert("already exist")
+                }
+            } else {
+                let tempSubSectors = [];
+                tempSubSectors.push(subSector);
+
+                tempSectors[tempIndex].subSectors = tempSubSectors;
+                this.setState({ sectors: tempSectors })
+            }
+
+        }
 
     }
 
@@ -169,6 +196,8 @@ class AddSociety extends Component {
             btnContainer,
             btn,
             multilineTextField,
+            sectorsContainer,
+            root
         } = this.props.classes;
 
         const {
@@ -277,6 +306,11 @@ class AddSociety extends Component {
                                                     }}
                                                     onChange={(e) => {
                                                         this.setState({ subSector: e.target.value });
+                                                    }}
+                                                    onKeyPress={(e) => {
+                                                        if (e.charCode === 13) {
+                                                            this.handleAddSubSectors();
+                                                        }
                                                     }}
                                                 />
                                             </Grid>
@@ -452,40 +486,61 @@ class AddSociety extends Component {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sm={12} md={5}>
-                                <TreeView
-                                    // className={classes.root}
-                                    defaultCollapseIcon={<ExpandMoreIcon />}
-                                    defaultExpandIcon={<ChevronRightIcon />}
-                                >
-                                    {
-                                        sectors.map((el, i) => {
-                                            if (el.subSectors && el.subSectors.length > 0) {
-                                                return (
-                                                    <TreeItem
-                                                        key={i}
-                                                        nodeId={el.name}
-                                                        label={el.name}
-                                                    >
-                                                        {
-                                                            el.subSectors.map((subEl, index) => (
-                                                                <TreeItem key={index} nodeId={subEl} label={subEl} />
-                                                            ))
-                                                        }
-                                                    </TreeItem>
-                                                )
-                                            } else {
-                                                return (
-                                                    <TreeItem
-                                                        key={i}
-                                                        nodeId={(i + 1).toString()}
-                                                        label={el.name}
-                                                    />
-                                                )
-                                            }
+                                <InputLabel className={inputLabel}>Sector/Block Representation</InputLabel>
+                                <div className={sectorsContainer}>
+                                    <TreeView
+                                        // className={classes.root}
+                                        defaultCollapseIcon={<ExpandMoreIcon />}
+                                        defaultExpandIcon={<ChevronRightIcon />}
+                                    >
+                                        {
+                                            sectors.length > 0 && sectors.map((el, i) => {
+                                                if (el.subSectors && el.subSectors.length > 0) {
+                                                    return (
+                                                        <Grid container spacing={1} key={i}>
+                                                            <Grid item xs={9}>
+                                                                <TreeItem
+                                                                    classes={{
+                                                                        root: root,
+                                                                    }}
+                                                                    nodeId={el.name}
+                                                                    label={el.name}
+                                                                >
+                                                                    {
+                                                                        el.subSectors.map((subEl, index) => (
+                                                                            <TreeItem key={index} nodeId={subEl} label={subEl} />
+                                                                        ))
+                                                                    }
+                                                                </TreeItem>
+                                                            </Grid>
+                                                            <Grid item xs={3}>
+                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} /></IconButton>
+                                                            </Grid>
+                                                        </Grid>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <Grid container spacing={1} key={i}>
+                                                            <Grid item xs={9}>
+                                                                <TreeItem
+                                                                    classes={{
+                                                                        root: root,
+                                                                    }}
+                                                                    nodeId={el.name}
+                                                                    label={el.name}
+                                                                />
+                                                            </Grid>
+                                                            <Grid item xs={3}>
+                                                                <IconButton><ClearIcon style={{ fontSize: 16 }} /></IconButton>
+                                                            </Grid>
+                                                        </Grid>
+                                                    )
+                                                }
 
-                                        })
-                                    }
-                                </TreeView>
+                                            })
+                                        }
+                                    </TreeView>
+                                </div>
                             </Grid>
                         </Grid>
 
