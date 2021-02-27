@@ -126,7 +126,6 @@ class AddSociety extends Component {
         sector: "",
         sectors: [],
         subSector: "",
-        subSectors: [],
         town: "Gadap",
         city: "Karachi",
         district: "Malir",
