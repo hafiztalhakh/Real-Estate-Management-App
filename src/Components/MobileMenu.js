@@ -22,6 +22,7 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import CreateIcon from '@material-ui/icons/Create';
 import EmailIcon from '@material-ui/icons/Email';
 import SendIcon from '@material-ui/icons/Send';
+import ApartmentIcon from '@material-ui/icons/Apartment';
 
 const styles = theme => ({
     appBar: {
@@ -166,6 +167,26 @@ class Drawer extends Component {
                                     <SendIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>
                                 <ListItemText primary="Sent" />
+                            </ListItem>
+                        </List>
+                        <List
+                            subheader={
+                                <ListSubheader>
+                                    Societies
+                                </ListSubheader>
+                            }
+                        >
+                            <ListItem button onClick={() => { this.handleButtonPress('/socieites') }}>
+                                <ListItemIcon>
+                                    <ApartmentIcon style={{ color: '#33C4FF' }} className="icons" />
+                                </ListItemIcon>
+                                <ListItemText primary="Societies" />
+                            </ListItem>
+                            <ListItem button onClick={() => { this.handleButtonPress('/add-society') }}>
+                                <ListItemIcon>
+                                    <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
+                                </ListItemIcon>
+                                <ListItemText primary="Add Society" />
                             </ListItem>
                         </List>
                     </Fragment>

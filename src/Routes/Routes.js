@@ -4,6 +4,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/AddProperty/AddProperty';
 import Property from '../Screens/Property/Property';
+import AddSociety from '../Screens/AddSociety/AddSociety';
 
 const routes = () => {
 
@@ -28,6 +29,14 @@ const routes = () => {
                 path='/property'
                 render={props => (
                     <Property {...props} />
+                )}
+            />
+
+            <Route
+                exact
+                path='/add-society'
+                render={props => (
+                    <AddSociety {...props} />
                 )}
             />
         </Switch>

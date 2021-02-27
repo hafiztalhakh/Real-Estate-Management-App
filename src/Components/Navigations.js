@@ -1,13 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText, ListSubheader, makeStyles } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
-import ReceiptIcon from '@material-ui/icons/Receipt';
-import AddIcon from '@material-ui/icons/Add';
-import CategoryIcon from '@material-ui/icons/Category';
-import BrandingWatermarkIcon from '@material-ui/icons/BrandingWatermark';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import HomeIcon from '@material-ui/icons/Home';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import StarIcon from '@material-ui/icons/Star';
@@ -16,12 +10,28 @@ import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import CreateIcon from '@material-ui/icons/Create';
 import EmailIcon from '@material-ui/icons/Email';
 import SendIcon from '@material-ui/icons/Send';
+import ApartmentIcon from '@material-ui/icons/Apartment';
+
+const useStyles = makeStyles(theme =>({
+    root:{
+        height: "72vh",
+        overflowY: "auto",
+        msOverflowStyle: 'none',
+        scrollbarWidth: 'none',
+        "&::-webkit-scrollbar": {
+            display: 'none',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none'
+        }
+    }
+}));
 
 function Navigations(props) {
     const { history } = props;
+    const classes = useStyles();
 
     return (
-        <Fragment>
+        <div className={classes.root}>
             <ListItem button onClick={() => { history.push('/') }}>
                 <ListItemIcon>
                     <DashboardIcon style={{ color: '#33C4FF' }} className="icons" />
@@ -92,7 +102,27 @@ function Navigations(props) {
                     <ListItemText primary="Sent" />
                 </ListItem>
             </List>
-        </Fragment>
+            <List
+                subheader={
+                    <ListSubheader>
+                        Societies
+                    </ListSubheader>
+                }
+            >
+                <ListItem button onClick={() => { history.push('/socieites') }}>
+                    <ListItemIcon>
+                        <ApartmentIcon style={{ color: '#33C4FF' }} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText primary="Societies" />
+                </ListItem>
+                <ListItem button onClick={() => { history.push('/add-society') }}>
+                    <ListItemIcon>
+                        <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Society" />
+                </ListItem>
+            </List>
+        </div>
     );
 }
 
