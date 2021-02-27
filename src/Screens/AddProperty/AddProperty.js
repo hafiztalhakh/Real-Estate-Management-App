@@ -77,7 +77,7 @@ const styles = theme => ({
         },
     },
     divider: {
-        marginTop: 15,
+        marginTop: 10,
         marginBottom: 30
     },
     chip: {
