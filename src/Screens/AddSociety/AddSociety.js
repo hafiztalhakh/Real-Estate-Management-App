@@ -2,6 +2,10 @@ import React, { Fragment, Component } from 'react';
 import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import AddIcon from '@material-ui/icons/Add';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
 
 
 const styles = theme => ({
@@ -110,7 +114,14 @@ class AddSociety extends Component {
         name: "",
         category: "Private",
         sector: "",
-        sectors: [],
+        sectors: [{
+            name: "sa",
+            subSectors: ["1", "2"]
+        },
+        {
+            name: "se",
+            subSectors: ["1", "2"]
+        }],
         subSector: "",
         subSectors: [],
         town: "Gadap",
@@ -130,7 +141,7 @@ class AddSociety extends Component {
 
         if (!tempSectors.filter(e => e.name === sector).length > 0) {
             tempSectors.push({ name: sector });
-            this.setState({ sectors: tempSectors, sector: "" });
+            this.setState({ sectors: tempSectors });
         } else {
             alert("already exist")
         }
@@ -143,7 +154,7 @@ class AddSociety extends Component {
         const lastElement = tempSectors.slice(-1);
         lastElement[0].subSectors = []
 
-        
+
     }
 
     render() {
@@ -164,7 +175,7 @@ class AddSociety extends Component {
             category,
             sector,
             subSector,
-            society,
+            sectors,
             town,
             city,
             district,
@@ -181,30 +192,26 @@ class AddSociety extends Component {
                     <Paper elevation={3} className={paper}>
                         <h1>Add Society</h1>
                         <Divider className={divider} />
-
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={6}>
-                                <InputLabel className={inputLabel}>Society Name</InputLabel>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Title of the property"
-                                    className={textField}
-                                    InputProps={{
-                                        classes: {
-                                            notchedOutline: notchedOutline,
-                                            focused: focused,
-                                        },
-                                    }}
-                                    onChange={(e) => {
-                                        this.setState({ name: e.target.value });
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}></Grid>
-                        </Grid>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={1}>
                             <Grid item xs={12} sm={12} md={7}>
-                                <Grid container spacing={1}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <InputLabel className={inputLabel}>Society Name</InputLabel>
+                                        <TextField
+                                            variant="outlined"
+                                            placeholder="Title of the property"
+                                            className={textField}
+                                            InputProps={{
+                                                classes: {
+                                                    notchedOutline: notchedOutline,
+                                                    focused: focused,
+                                                },
+                                            }}
+                                            onChange={(e) => {
+                                                this.setState({ name: e.target.value });
+                                            }}
+                                        />
+                                    </Grid>
                                     <Grid item xs={9}>
                                         <InputLabel className={inputLabel}>Sector/Block</InputLabel>
                                         <TextField
@@ -285,186 +292,203 @@ class AddSociety extends Component {
                                             </Grid>
                                         </Fragment>
                                     }
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <InputLabel className={inputLabel}>Category</InputLabel>
+                                        <Autocomplete
+                                            className={autoCompleteTextField}
+                                            options={["Public", "Private"]}
+                                            value={category}
+                                            onChange={(e, value) => {
+                                                this.setState({ category: value });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    className={textField}
+                                                    variant="outlined"
+                                                    placeholder="Select Category"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        this.setState({ category: e.target.value });
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <InputLabel className={inputLabel}>Town</InputLabel>
+                                        <Autocomplete
+                                            className={autoCompleteTextField}
+                                            options={[
+                                                "Baldia Town",
+                                                "Bin Qasim Town",
+                                                "Gadap Town",
+                                                "Gulberg Town",
+                                                "Gulshan Town",
+                                                "Jamshed Town",
+                                                "Kiamari Town",
+                                                "Korangi Town",
+                                                "Landhi Town",
+                                                "Liaquatabad Town",
+                                                "Lyari Town",
+                                                "Malir Town",
+                                                "New Karachi Town",
+                                                "North Nazimabad Town",
+                                                "Orangi Town",
+                                                "Saddar Town",
+                                                "Shah Faisal Town",
+                                                "SITE Town",
+                                                "Taiser Town"
+                                            ]}
+                                            value={town}
+                                            onChange={(e, value) => {
+                                                this.setState({ town: value });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    className={textField}
+                                                    variant="outlined"
+                                                    placeholder="Town"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        this.setState({ town: e.target.value });
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <InputLabel className={inputLabel}>City</InputLabel>
+                                        <Autocomplete
+                                            className={autoCompleteTextField}
+                                            options={["Karachi", "Lahore", "Islamabad", "Peshawar", "Quetta", "Faislabad", "Multan", "Hyderabad"]}
+                                            value={city}
+                                            onChange={(e, value) => {
+                                                this.setState({ city: value });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    className={textField}
+                                                    variant="outlined"
+                                                    placeholder="Select City"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        this.setState({ city: e.target.value });
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <InputLabel className={inputLabel}>District</InputLabel>
+                                        <Autocomplete
+                                            className={autoCompleteTextField}
+                                            options={["Karachi Central", "Malir", "Karachi East", "Karachi West", "Karachi South"]}
+                                            value={district}
+                                            onChange={(e, value) => {
+                                                this.setState({ district: value });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    className={textField}
+                                                    variant="outlined"
+                                                    placeholder="Select District"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        this.setState({ district: e.target.value });
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6}>
+                                        <InputLabel className={inputLabel}>Select Province</InputLabel>
+                                        <Autocomplete
+                                            className={autoCompleteTextField}
+                                            options={["Sindh", "Punjab", "Balochistan", "Khyber Pakhtunkhuwah"]}
+                                            value={province}
+                                            onChange={(e, value) => {
+                                                this.setState({ province: value });
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    className={textField}
+                                                    variant="outlined"
+                                                    placeholder="Select Province"
+                                                    size="small"
+                                                    onChange={(e) => {
+                                                        this.setState({ province: e.target.value });
+                                                    }}
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Divider className={divider} />
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <InputLabel className={inputLabel}>Description</InputLabel>
+                                        <TextField
+                                            variant="outlined"
+                                            placeholder="Contact Number"
+                                            className={multilineTextField}
+                                            multiline
+                                            rows={4}
+                                            InputProps={{
+                                                classes: {
+                                                    notchedOutline: notchedOutline,
+                                                    focused: focused,
+                                                },
+                                            }}
+                                            onChange={(e) => {
+                                                this.setState({ contact: e.target.value });
+                                            }}
+                                        />
+                                    </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sm={12} md={5}>
-                                <ul>
-                                    <li>Sector1
-                                        <ul>
-                                            <li>sub sector 1</li>
-                                            <li>sub sector 1</li>
-                                            <li>sub sector 1</li>
-                                            <li>sub sector 1</li>
-                                        </ul>
-                                    </li>
-                                    <li>Sector1</li>
-                                    <li>Sector1</li>
-                                    <li>Sector1</li>
-                                    <li>Sector1</li>
-                                </ul>
-                            </Grid>
-                        </Grid>
-                        <Divider className={divider} />
+                                <TreeView
+                                    // className={classes.root}
+                                    defaultCollapseIcon={<ExpandMoreIcon />}
+                                    defaultExpandIcon={<ChevronRightIcon />}
+                                >
+                                    {
+                                        sectors.map((el, i) => {
+                                            if (el.subSectors && el.subSectors.length > 0) {
+                                                return (
+                                                    <TreeItem
+                                                        key={i}
+                                                        nodeId={el.name}
+                                                        label={el.name}
+                                                    >
+                                                        {
+                                                            el.subSectors.map((subEl, index) => (
+                                                                <TreeItem key={index} nodeId={subEl} label={subEl} />
+                                                            ))
+                                                        }
+                                                    </TreeItem>
+                                                )
+                                            } else {
+                                                return (
+                                                    <TreeItem
+                                                        key={i}
+                                                        nodeId={(i + 1).toString()}
+                                                        label={el.name}
+                                                    />
+                                                )
+                                            }
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Category</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["Public", "Private"]}
-                                    value={category}
-                                    onChange={(e, value) => {
-                                        this.setState({ category: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Category"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ category: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Town</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={[
-                                        "Baldia Town",
-                                        "Bin Qasim Town",
-                                        "Gadap Town",
-                                        "Gulberg Town",
-                                        "Gulshan Town",
-                                        "Jamshed Town",
-                                        "Kiamari Town",
-                                        "Korangi Town",
-                                        "Landhi Town",
-                                        "Liaquatabad Town",
-                                        "Lyari Town",
-                                        "Malir Town",
-                                        "New Karachi Town",
-                                        "North Nazimabad Town",
-                                        "Orangi Town",
-                                        "Saddar Town",
-                                        "Shah Faisal Town",
-                                        "SITE Town",
-                                        "Taiser Town"
-                                    ]}
-                                    value={town}
-                                    onChange={(e, value) => {
-                                        this.setState({ town: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Town"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ town: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>City</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["Karachi", "Lahore", "Islamabad", "Peshawar", "Quetta", "Faislabad", "Multan", "Hyderabad"]}
-                                    value={city}
-                                    onChange={(e, value) => {
-                                        this.setState({ city: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select City"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ city: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>District</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["Karachi Central", "Malir", "Karachi East", "Karachi West", "Karachi South"]}
-                                    value={district}
-                                    onChange={(e, value) => {
-                                        this.setState({ district: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select District"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ district: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Select Province</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["Sindh", "Punjab", "Balochistan", "Khyber Pakhtunkhuwah"]}
-                                    value={province}
-                                    onChange={(e, value) => {
-                                        this.setState({ province: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Province"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ province: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
+                                        })
+                                    }
+                                </TreeView>
                             </Grid>
                         </Grid>
-                        <Divider className={divider} />
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <InputLabel className={inputLabel}>Description</InputLabel>
-                                <TextField
-                                    variant="outlined"
-                                    placeholder="Contact Number"
-                                    className={multilineTextField}
-                                    multiline
-                                    rows={4}
-                                    InputProps={{
-                                        classes: {
-                                            notchedOutline: notchedOutline,
-                                            focused: focused,
-                                        },
-                                    }}
-                                    onChange={(e) => {
-                                        this.setState({ contact: e.target.value });
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
+
                         <Divider className={divider} />
                         <div className={btnContainer}>
                             <Button
