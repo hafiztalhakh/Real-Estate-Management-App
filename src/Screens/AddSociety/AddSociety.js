@@ -34,6 +34,20 @@ const styles = theme => ({
             backgroundColor: "#f5f5f5",
         }
     },
+    multilineTextField: {
+        backgroundColor: "transparent",
+        marginBottom: 5,
+        width: "100%",
+        "&:hover": {
+            "& $notchedOutline": {
+                borderColor: "#a9a8a8 !important",
+                border: "2px solid",
+            },
+        },
+        "& .MuiOutlinedInput-root": {
+            backgroundColor: "#f5f5f5",
+        }
+    },
     notchedOutline: {
         "&:hover": {
             borderColor: "#a9a8a8",
@@ -94,18 +108,42 @@ class AddSociety extends Component {
 
     state = {
         name: "",
-        category: "",
+        category: "Private",
+        sector: "",
         sectors: [],
+        subSector: "",
         subSectors: [],
         town: "Gadap",
         city: "Karachi",
-        district: "",
-        province: "",
+        district: "Malir",
+        province: "Sindh",
         description: "",
 
         submitLoader: false,
         showSubSector: false
 
+    }
+
+    handleAddSectors = () => {
+        const { sectors, sector } = this.state;
+        const tempSectors = [...sectors];
+
+        if (!tempSectors.filter(e => e.name === sector).length > 0) {
+            tempSectors.push({ name: sector });
+            this.setState({ sectors: tempSectors, sector: "" });
+        } else {
+            alert("already exist")
+        }
+    }
+
+    handleAddSubSectors = () => {
+        const { sectors, subSector } = this.state;
+        const tempSectors = [...sectors];
+
+        const lastElement = tempSectors.slice(-1);
+        lastElement[0].subSectors = []
+
+        
     }
 
     render() {
@@ -119,7 +157,7 @@ class AddSociety extends Component {
             divider,
             btnContainer,
             btn,
-            chip,
+            multilineTextField,
         } = this.props.classes;
 
         const {
@@ -129,11 +167,13 @@ class AddSociety extends Component {
             society,
             town,
             city,
+            district,
+            province,
             submitLoader,
             showSubSector
 
         } = this.state;
-
+        console.log(this.state.sectors)
 
         return (
             <Fragment>
@@ -156,7 +196,7 @@ class AddSociety extends Component {
                                         },
                                     }}
                                     onChange={(e) => {
-                                        this.setState({ patientLis: e.target.value });
+                                        this.setState({ name: e.target.value });
                                     }}
                                 />
                             </Grid>
@@ -165,12 +205,13 @@ class AddSociety extends Component {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={7}>
                                 <Grid container spacing={1}>
-                                    <Grid item xs={9} sm={8}>
+                                    <Grid item xs={9}>
                                         <InputLabel className={inputLabel}>Sector/Block</InputLabel>
                                         <TextField
                                             variant="outlined"
-                                            placeholder="Title of the property"
+                                            placeholder="Enter Sector/Block"
                                             className={textField}
+                                            value={sector}
                                             InputProps={{
                                                 classes: {
                                                     notchedOutline: notchedOutline,
@@ -178,15 +219,21 @@ class AddSociety extends Component {
                                                 },
                                             }}
                                             onChange={(e) => {
-                                                this.setState({ patientLis: e.target.value });
+                                                this.setState({ sector: e.target.value });
+                                            }}
+                                            onKeyPress={(e) => {
+                                                if (e.charCode === 13) {
+                                                    this.handleAddSectors();
+                                                }
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs={3} sm={4}>
+                                    <Grid item xs={3}>
                                         <Button
                                             variant="contained"
                                             className={btn}
                                             style={{ marginTop: 20, width: "auto" }}
+                                            onClick={this.handleAddSectors}
                                         >
                                             <AddIcon />
                                         </Button>
@@ -208,12 +255,13 @@ class AddSociety extends Component {
                                     {
                                         showSubSector &&
                                         <Fragment>
-                                            <Grid item xs={9} sm={8}>
-                                                <InputLabel className={inputLabel}>Sector/Block</InputLabel>
+                                            <Grid item xs={9}>
+                                                <InputLabel className={inputLabel}>Sub-Sector</InputLabel>
                                                 <TextField
                                                     variant="outlined"
-                                                    placeholder="Title of the property"
+                                                    placeholder="Enter Sub-Sector"
                                                     className={textField}
+                                                    value={subSector}
                                                     InputProps={{
                                                         classes: {
                                                             notchedOutline: notchedOutline,
@@ -221,15 +269,16 @@ class AddSociety extends Component {
                                                         },
                                                     }}
                                                     onChange={(e) => {
-                                                        this.setState({ patientLis: e.target.value });
+                                                        this.setState({ subSector: e.target.value });
                                                     }}
                                                 />
                                             </Grid>
-                                            <Grid item xs={3} sm={4}>
+                                            <Grid item xs={3}>
                                                 <Button
                                                     variant="contained"
                                                     className={btn}
                                                     style={{ marginTop: 20, width: "auto" }}
+                                                    onClick={this.handleAddSubSectors}
                                                 >
                                                     <AddIcon />
                                                 </Button>
@@ -255,71 +304,27 @@ class AddSociety extends Component {
                                 </ul>
                             </Grid>
                         </Grid>
+                        <Divider className={divider} />
+
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Society</InputLabel>
+                                <InputLabel className={inputLabel}>Category</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["Gulshane-e-Maymar", "Garden City", "Diamond City", "Taiser", "Mashriqui Society", "Attawa Society"]}
-                                    value={society}
+                                    options={["Public", "Private"]}
+                                    value={category}
                                     onChange={(e, value) => {
-                                        this.setState({ society: value });
+                                        this.setState({ category: value });
                                     }}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
                                             className={textField}
                                             variant="outlined"
-                                            placeholder="Society"
+                                            placeholder="Select Category"
                                             size="small"
                                             onChange={(e) => {
-                                                this.setState({ society: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Select Sector/Block</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["Sector P", "Sector Q", "Sector R", "Sector S"]}
-                                    value={sector}
-                                    onChange={(e, value) => {
-                                        this.setState({ sector: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Sector/Block"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ sector: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Select Sub Sector</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["P", "Q-1", "R-1", "S-1"]}
-                                    value={subSector}
-                                    onChange={(e, value) => {
-                                        this.setState({ subSector: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Sub Sector"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ subSector: e.target.value });
+                                                this.setState({ category: e.target.value });
                                             }}
                                         />
                                     )}
@@ -329,7 +334,27 @@ class AddSociety extends Component {
                                 <InputLabel className={inputLabel}>Town</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["Gadap Town", "Taiser Town"]}
+                                    options={[
+                                        "Baldia Town",
+                                        "Bin Qasim Town",
+                                        "Gadap Town",
+                                        "Gulberg Town",
+                                        "Gulshan Town",
+                                        "Jamshed Town",
+                                        "Kiamari Town",
+                                        "Korangi Town",
+                                        "Landhi Town",
+                                        "Liaquatabad Town",
+                                        "Lyari Town",
+                                        "Malir Town",
+                                        "New Karachi Town",
+                                        "North Nazimabad Town",
+                                        "Orangi Town",
+                                        "Saddar Town",
+                                        "Shah Faisal Town",
+                                        "SITE Town",
+                                        "Taiser Town"
+                                    ]}
                                     value={town}
                                     onChange={(e, value) => {
                                         this.setState({ town: value });
@@ -352,7 +377,7 @@ class AddSociety extends Component {
                                 <InputLabel className={inputLabel}>City</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["Karachi"]}
+                                    options={["Karachi", "Lahore", "Islamabad", "Peshawar", "Quetta", "Faislabad", "Multan", "Hyderabad"]}
                                     value={city}
                                     onChange={(e, value) => {
                                         this.setState({ city: value });
@@ -371,15 +396,63 @@ class AddSociety extends Component {
                                     )}
                                 />
                             </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>District</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["Karachi Central", "Malir", "Karachi East", "Karachi West", "Karachi South"]}
+                                    value={district}
+                                    onChange={(e, value) => {
+                                        this.setState({ district: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Select District"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ district: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Province</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["Sindh", "Punjab", "Balochistan", "Khyber Pakhtunkhuwah"]}
+                                    value={province}
+                                    onChange={(e, value) => {
+                                        this.setState({ province: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Select Province"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ province: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
                         </Grid>
                         <Divider className={divider} />
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Contact Number</InputLabel>
+                            <Grid item xs={12}>
+                                <InputLabel className={inputLabel}>Description</InputLabel>
                                 <TextField
                                     variant="outlined"
                                     placeholder="Contact Number"
-                                    className={textField}
+                                    className={multilineTextField}
+                                    multiline
+                                    rows={4}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,

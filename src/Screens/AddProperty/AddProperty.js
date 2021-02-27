@@ -178,7 +178,7 @@ class AddProperty extends Component {
                                         },
                                     }}
                                     onChange={(e) => {
-                                        this.setState({ patientLis: e.target.value });
+                                        this.setState({ title: e.target.value });
                                     }}
                                 />
                             </Grid>
