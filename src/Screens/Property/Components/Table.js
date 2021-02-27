@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 
 function CustomTable(props) {
     const classes = useStyles();
-    const { donationList } = props;
+    const { property } = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rows, setrows] = useState([]);
@@ -58,25 +58,8 @@ function CustomTable(props) {
 
     React.useEffect(() => {
         //storing data in state
-        setrows([{
-            area: "240 yds",
-            demand: "5,00,000",
-            contact: "03331234567",
-            reference: "Saghir Estate",
-        },
-        {
-            area: "240 yds",
-            demand: "5,00,000",
-            contact: "03331234567",
-            reference: "Saghir Estate",
-        },
-        {
-            area: "240 yds",
-            demand: "5,00,000",
-            contact: "03331234567",
-            reference: "Saghir Estate",
-        }]);
-    }, [donationList]);
+        setrows(property);
+    }, [property]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

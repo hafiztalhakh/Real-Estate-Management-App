@@ -29,13 +29,13 @@ class Notification extends Component {
         anchorEl: false,
         notifications: [
             {
-                message : 'Checking 1st Notification'
+                message: 'Checking 1st Notification'
             },
             {
-                message : 'Checking 2nd Notification'
+                message: 'Checking 2nd Notification'
             },
             {
-                message : 'Checking 3rd Notification'
+                message: 'Checking 3rd Notification'
             }
         ],
         unreadLength: 0,
@@ -155,19 +155,17 @@ class Notification extends Component {
                                 notifications && notifications.length > 0 &&
                                 notifications.map((notification, index) => {
                                     return (
-                                        <>
-                                            <ListItem style={{
-                                                paddingTop: 0,
-                                                paddingBottom: 0,
-                                                paddingLeft: 5,
-                                            }}>
-                                                <ListItemText primary={<label style={{ fontSize: 14 }}>{notification.message}</label>} secondary={
-                                                    <span style={{ float: 'left', color: 'blue', fontSize: 12, marginTop: -7 }} >{
-                                                        moment(notification.createdAt).format("MMM Do YYYY hh:mm A")
-                                                    }</span>
-                                                } />
-                                            </ListItem>
-                                        </>
+                                        <ListItem key={index} style={{
+                                            paddingTop: 0,
+                                            paddingBottom: 0,
+                                            paddingLeft: 5,
+                                        }}>
+                                            <ListItemText primary={<label style={{ fontSize: 14 }}>{notification.message}</label>} secondary={
+                                                <span style={{ float: 'left', color: 'blue', fontSize: 12, marginTop: -7 }} >{
+                                                    moment(notification.createdAt).format("MMM Do YYYY hh:mm A")
+                                                }</span>
+                                            } />
+                                        </ListItem>
                                     )
                                 })
                             }
