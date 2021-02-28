@@ -236,9 +236,10 @@ class SocietyForm extends Component {
         this.setState({ submitLoader: true })
 
         Axios({
-            url: `${baseUrl}/society/add-society`,
+            url: `${baseUrl}/society/update-society`,
             method: "POST",
             data: {
+                societyId: this.props.data._id,
                 name,
                 category,
                 sectors,
@@ -253,8 +254,8 @@ class SocietyForm extends Component {
                 this.setState({ submitLoader: false });
                 Swal.fire({
                     icon: "success",
-                    title: "Saved!",
-                    text: `${name} has been saved successfully.`
+                    title: "Updated!",
+                    text: `${name} has been updated successfully.`
                 }).then(() => {
                     this.props.history.push("/societies");
                 })
