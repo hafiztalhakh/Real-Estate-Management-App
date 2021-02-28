@@ -118,7 +118,7 @@ class Drawer extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="Property" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-property') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/property/new') }}>
                                 <ListItemIcon>
                                     <PostAddIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>

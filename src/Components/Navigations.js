@@ -51,7 +51,7 @@ function Navigations(props) {
                     </ListItemIcon>
                     <ListItemText primary="Property" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-property') }}>
+                <ListItem button onClick={() => { history.push('/property/new') }}>
                     <ListItemIcon>
                         <PostAddIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>

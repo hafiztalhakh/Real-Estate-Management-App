@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Switch, Route, withRouter } from "react-router-dom";
 
 import Dashboard from '../Screens/Dashboard/Dashboard';
-import AddProperty from '../Screens/AddProperty/AddProperty';
+import AddProperty from '../Screens/Property/Screens/AddProperty';
 import Property from '../Screens/Property/Property';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
@@ -21,7 +21,7 @@ const routes = () => {
             />
             <Route
                 exact
-                path='/add-property'
+                path='/property/new'
                 render={props => (
                     <AddProperty {...props} />
                 )}
