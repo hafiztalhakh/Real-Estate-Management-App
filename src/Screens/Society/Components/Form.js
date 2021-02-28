@@ -7,10 +7,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ClearIcon from '@material-ui/icons/Clear';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-
-import Axios from 'axios';
-import baseUrl from '../../Util/baseUrl';
 import Swal from 'sweetalert2';
+import Axios from 'axios';
+import baseUrl from '../../../Util/baseUrl';
 
 const styles = theme => ({
     paper: {
@@ -122,7 +121,7 @@ const styles = theme => ({
     }
 });
 
-class AddSociety extends Component {
+class SocietyForm extends Component {
 
     state = {
         name: "",
@@ -141,6 +140,33 @@ class AddSociety extends Component {
 
     }
 
+    componentDidMount() {
+        this.getData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props !== prevProps) {
+            this.getData();
+        }
+    }
+
+    getData = () => {
+        const { origin, data } = this.props;
+
+        if (origin === "update" && data) {
+            this.setState({
+                name: data.name || "",
+                category: data.category || "Private",
+                sectors: [...data.sectors] || "",
+                town: data.town || "Gadap",
+                city: data.city || "Karachi",
+                district: data.district || "Malir",
+                province: data.province || "Sindh",
+                description: data.description || ""
+            })
+        }
+    }
+
     handleAddSectors = () => {
         const { sectors, sector } = this.state;
         const tempSectors = [...sectors];
@@ -149,19 +175,18 @@ class AddSociety extends Component {
             tempSectors.push({ name: sector });
             this.setState({ sectors: tempSectors });
         } else {
-            alert("already exist")
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Already exist"
+            })
         }
     }
 
     handleAddSubSectors = () => {
         const { sectors, sector, subSector } = this.state;
         const tempSectors = [...sectors];
-
-        console.log("tempArray", tempSectors)
-
         const tempIndex = tempSectors.findIndex(e => e.name === sector);
-
-        console.log(tempIndex);
 
         if (tempIndex <= -1) {
             console.log("nahi hai")
@@ -173,18 +198,20 @@ class AddSociety extends Component {
                     tempSectors[tempIndex].subSectors.push(subSector);
                     this.setState({ sectors: tempSectors })
                 } else {
-                    alert("already exist")
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Already exist"
+                    })
                 }
             } else {
                 let tempSubSectors = [];
                 tempSubSectors.push(subSector);
 
-                tempSectors[tempIndex].subSectors = tempSubSectors;
+                tempSectors[tempIndex].subSectors = [...tempSubSectors];
                 this.setState({ sectors: tempSectors })
             }
-
         }
-
     }
 
     handleRemoveSector = index => {
@@ -223,7 +250,6 @@ class AddSociety extends Component {
             }
         })
             .then(res => {
-                // console.log(res.data);
                 this.setState({ submitLoader: false });
                 Swal.fire({
                     icon: "success",
@@ -235,12 +261,20 @@ class AddSociety extends Component {
             })
             .catch(err => {
                 console.log(err);
-                this.setState({ submitLoader: false })
+                this.setState({ submitLoader: false });
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: `${err.response.data.message}`
+                    })
+                }
             })
 
     }
 
     render() {
+        const { origin, classes } = this.props;
         const {
             paper,
             inputLabel,
@@ -254,9 +288,10 @@ class AddSociety extends Component {
             multilineTextField,
             sectorsContainer,
             root
-        } = this.props.classes;
+        } = classes;
 
         const {
+            name,
             category,
             sector,
             subSector,
@@ -269,13 +304,12 @@ class AddSociety extends Component {
             showSubSector
 
         } = this.state;
-        // console.log(this.state.sectors)
 
         return (
             <Fragment>
                 <Container maxWidth="lg">
                     <Paper elevation={3} className={paper}>
-                        <h1>Add Society</h1>
+                        <h1>{origin === "update" ? "Update Society" : "Add Society"}</h1>
                         <Divider className={divider} />
                         <Grid container spacing={1}>
                             <Grid item xs={12} sm={12} md={7}>
@@ -286,6 +320,7 @@ class AddSociety extends Component {
                                             variant="outlined"
                                             placeholder="Title of the property"
                                             className={textField}
+                                            value={name}
                                             InputProps={{
                                                 classes: {
                                                     notchedOutline: notchedOutline,
@@ -622,4 +657,4 @@ class AddSociety extends Component {
     }
 }
 
-export default withStyles(styles)(AddSociety);
+export default withStyles(styles)(SocietyForm);

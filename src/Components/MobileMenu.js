@@ -182,7 +182,7 @@ class Drawer extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="Societies" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/add-society') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/society/new') }}>
                                 <ListItemIcon>
                                     <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>

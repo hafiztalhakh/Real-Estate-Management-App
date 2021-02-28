@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles, Dialog, IconButton, Grid, CircularProgress, Divider } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -39,12 +40,16 @@ const useStles = makeStyles(theme => ({
     },
     root: {
         paddingTop: 7
+    },
+    link: {
+        textDecoration: "none",
+        color: "inherit"
     }
 }));
 
 export default function Modal(props) {
     const classes = useStles();
-    const { centerContainer, circularProgress, divider, root } = classes;
+    const { centerContainer, circularProgress, divider, root, link } = classes;
     const { children, societyId, getData } = props;
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
@@ -136,9 +141,10 @@ export default function Modal(props) {
                 <div style={{ padding: 20 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
-                            <IconButton className={classes.closeButton} onClick={handleClose}>
-                                <EditIcon />
-                            </IconButton>
+                            <Link to={`/society/update/${societyId}`} className={link}>
+                                <IconButton className={classes.closeButton} onClick={handleClose}>
+                                    <EditIcon />
+                                </IconButton></Link>
                             <IconButton className={classes.closeButton} onClick={handleConfirmation}>
                                 <DeleteIcon />
                             </IconButton>

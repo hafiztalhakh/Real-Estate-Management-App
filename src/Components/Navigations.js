@@ -115,7 +115,7 @@ function Navigations(props) {
                     </ListItemIcon>
                     <ListItemText primary="Societies" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/add-society') }}>
+                <ListItem button onClick={() => { history.push('/society/new') }}>
                     <ListItemIcon>
                         <CreateIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
