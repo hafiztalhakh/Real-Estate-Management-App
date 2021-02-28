@@ -96,12 +96,14 @@ class PropertyForm extends Component {
 
     state = {
         title: "",
+        plotNumber: "",
         category: "",
         type: "",
         fileType: "",
         bedrooms: "",
         bathrooms: "",
         garage: "",
+        floors: "",
         sector: "",
         subSector: "",
         society: "",
@@ -117,6 +119,7 @@ class PropertyForm extends Component {
         completeAddress: "",
         demand: "",
         refernce: "",
+        referrer: "",
         contact: "",
 
         societies: [],
@@ -157,6 +160,103 @@ class PropertyForm extends Component {
             })
     }
 
+    handleSave = () => {
+        const { origin, data } = this.props;
+        const {
+            title,
+            plotNumber,
+            category,
+            type,
+            fileType,
+            bedrooms,
+            bathrooms,
+            garage,
+            floors,
+            sector,
+            subSector,
+            society,
+            condition,
+            parkFacing,
+            corner,
+            areaCategory,
+            area,
+            roadWidth,
+            location,
+            town,
+            city,
+            completeAddress,
+            demand,
+            refernce,
+            referrer,
+            contact
+        } = this.state;
+        let tempData = {
+            title,
+            plotNumber,
+            category,
+            type,
+            fileType,
+            bedrooms,
+            bathrooms,
+            garage,
+            floors,
+            sector,
+            subSector,
+            society,
+            condition,
+            parkFacing,
+            corner,
+            areaCategory,
+            area,
+            roadWidth,
+            location,
+            town,
+            city,
+            completeAddress,
+            demand,
+            refernce,
+            referrer,
+            contact
+        };
+        let tempUrl = "";
+
+        this.setState({ submitLoader: true });
+
+        if (origin === "update") {
+            tempUrl = `${baseUrl}/property/update-property`;
+            tempData.societyId = this.props.data._id;
+        } else {
+            tempUrl = `${baseUrl}/property/add-property`;
+        }
+
+        Axios({
+            url: tempUrl,
+            method: "POST",
+            data: tempData
+        })
+            .then(res => {
+                this.setState({ submitLoader: false });
+                Swal.fire({
+                    icon: "success",
+                    title: origin === "update" ? "Updated!" : "Saved!",
+                    text: `${res.data.message}`
+                }).then(() => {
+                    this.props.history.push("/property");
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ submitLoader: false });
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: `${err.response.data.message}`
+                    })
+                }
+            })
+    }
+
     render() {
         const { origin, classes } = this.props;
         const {
@@ -172,12 +272,15 @@ class PropertyForm extends Component {
             chip,
         } = classes;
         const {
+            title,
+            plotNumber,
             category,
             type,
             fileType,
             bedrooms,
             bathrooms,
             garage,
+            floors,
             sector,
             subSector,
             society,
@@ -190,6 +293,11 @@ class PropertyForm extends Component {
             location,
             town,
             city,
+            completeAddress,
+            demand,
+            refernce,
+            referrer,
+            contact,
 
             submitLoader,
             societies,
@@ -205,12 +313,13 @@ class PropertyForm extends Component {
                         <Divider className={divider} />
 
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={6}>
+                            <Grid item xs={12} sm={12} md={8}>
                                 <InputLabel className={inputLabel}>Title</InputLabel>
                                 <TextField
                                     variant="outlined"
                                     placeholder="Title of the property"
                                     className={textField}
+                                    value={title}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,
@@ -222,7 +331,29 @@ class PropertyForm extends Component {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12} md={4}></Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Select Condition</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["New", "Used"]}
+                                    value={condition}
+                                    onChange={(e, value) => {
+                                        this.setState({ condition: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Select Condition"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ condition: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Select Category</InputLabel>
                                 <Autocomplete
@@ -293,29 +424,6 @@ class PropertyForm extends Component {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={4}>
-                                <InputLabel className={inputLabel}>Select Condition</InputLabel>
-                                <Autocomplete
-                                    className={autoCompleteTextField}
-                                    options={["New", "Used"]}
-                                    value={condition}
-                                    onChange={(e, value) => {
-                                        this.setState({ condition: value });
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            className={textField}
-                                            variant="outlined"
-                                            placeholder="Select Condition"
-                                            size="small"
-                                            onChange={(e) => {
-                                                this.setState({ condition: e.target.value });
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Select Area Category</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
@@ -356,6 +464,29 @@ class PropertyForm extends Component {
                                             size="small"
                                             onChange={(e) => {
                                                 this.setState({ area: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Floors</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["Ground", "Ground +1", "Ground +2", "Ground +3", "4", "5", "6"]}
+                                    value={floors}
+                                    onChange={(e, value) => {
+                                        this.setState({ floors: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Floors"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ floors: e.target.value });
                                             }}
                                         />
                                     )}
@@ -511,6 +642,24 @@ class PropertyForm extends Component {
                         </Grid>
                         <Divider className={divider} />
                         <Grid container spacing={2}>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Plot Number</InputLabel>
+                                <TextField
+                                    variant="outlined"
+                                    placeholder="Plot Number"
+                                    className={textField}
+                                    value={plotNumber}
+                                    InputProps={{
+                                        classes: {
+                                            notchedOutline: notchedOutline,
+                                            focused: focused,
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        this.setState({ plotNumber: e.target.value });
+                                    }}
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Society</InputLabel>
                                 <Autocomplete
@@ -679,12 +828,13 @@ class PropertyForm extends Component {
                         </Grid>
                         <Divider className={divider} />
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={12} md={12}>
+                            <Grid item xs={12} sm={12} md={8}>
                                 <InputLabel className={inputLabel}>Complete Address</InputLabel>
                                 <TextField
                                     variant="outlined"
                                     placeholder="Complete Address"
                                     className={textField}
+                                    value={completeAddress}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,
@@ -702,6 +852,7 @@ class PropertyForm extends Component {
                                     variant="outlined"
                                     placeholder="Demand"
                                     className={textField}
+                                    value={demand}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,
@@ -715,10 +866,34 @@ class PropertyForm extends Component {
                             </Grid>
                             <Grid item xs={12} sm={12} md={4}>
                                 <InputLabel className={inputLabel}>Reference</InputLabel>
+                                <Autocomplete
+                                    className={autoCompleteTextField}
+                                    options={["Direct", "Newspaper", "Al-Bari Estate"]}
+                                    value={refernce}
+                                    onChange={(e, value) => {
+                                        this.setState({ refernce: value });
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            className={textField}
+                                            variant="outlined"
+                                            placeholder="Reference"
+                                            size="small"
+                                            onChange={(e) => {
+                                                this.setState({ refernce: e.target.value });
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={4}>
+                                <InputLabel className={inputLabel}>Referrer/Seller</InputLabel>
                                 <TextField
                                     variant="outlined"
-                                    placeholder="Reference Name (if any)"
+                                    placeholder="Reference/Seller Name"
                                     className={textField}
+                                    value={referrer}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,
@@ -726,7 +901,7 @@ class PropertyForm extends Component {
                                         },
                                     }}
                                     onChange={(e) => {
-                                        this.setState({ refernce: e.target.value });
+                                        this.setState({ referrer: e.target.value });
                                     }}
                                 />
                             </Grid>
@@ -736,6 +911,7 @@ class PropertyForm extends Component {
                                     variant="outlined"
                                     placeholder="Contact Number"
                                     className={textField}
+                                    value={contact}
                                     InputProps={{
                                         classes: {
                                             notchedOutline: notchedOutline,
@@ -753,7 +929,7 @@ class PropertyForm extends Component {
                             <Button
                                 variant="contained"
                                 className={btn}
-
+                                onClick={this.handleSave}
                             >
                                 Save
                             </Button>

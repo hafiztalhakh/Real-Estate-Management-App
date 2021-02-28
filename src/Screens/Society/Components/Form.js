@@ -280,7 +280,6 @@ class SocietyForm extends Component {
                     })
                 }
             })
-
     }
 
     render() {
