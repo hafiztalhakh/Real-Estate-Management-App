@@ -49,7 +49,6 @@ export default function Modal(props) {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
     const [loader, setLoader] = useState(true);
-    const [deleteLoader, setDeleteLoader] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -76,7 +75,6 @@ export default function Modal(props) {
     };
 
     const handleDeleteSociety = () => {
-        setDeleteLoader(true);
 
         Axios({
             url: `${baseUrl}/society/delete-society`,
@@ -86,12 +84,23 @@ export default function Modal(props) {
             }
         })
             .then(res => {
-                setDeleteLoader(false);
-                getData();
+                Swal.fire({
+                    icon: "success",
+                    title: "Deleted!",
+                    text: `${res.data.message}`
+                }).then(() => {
+                    getData();
+                })
             })
             .catch(err => {
                 console.log(err);
-                setDeleteLoader(false);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Saved!",
+                        text: `${err.response.data.message}`
+                    })
+                }
             })
     };
 
@@ -106,15 +115,11 @@ export default function Modal(props) {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Delete'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire(
-                'Deleted!',
-                'Society has been deleted.',
-                'success'
-              )
+                handleDeleteSociety();
             }
-          })
+        })
     }
 
     return (
@@ -135,7 +140,7 @@ export default function Modal(props) {
                                 <EditIcon />
                             </IconButton>
                             <IconButton className={classes.closeButton} onClick={handleConfirmation}>
-                                {deleteLoader ? <CircularProgress style={{ width: 25, height: 25, color: "#33c4ff" }} /> : <DeleteIcon />}
+                                <DeleteIcon />
                             </IconButton>
                         </div>
                         <IconButton className={classes.closeButton} onClick={handleClose}>

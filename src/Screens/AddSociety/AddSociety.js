@@ -229,6 +229,8 @@ class AddSociety extends Component {
                     icon: "success",
                     title: "Saved!",
                     text: `${name} has been saved successfully.`
+                }).then(() => {
+                    this.props.history.push("/socities");
                 })
             })
             .catch(err => {
