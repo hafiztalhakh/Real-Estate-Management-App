@@ -1,6 +1,10 @@
 import React, { Fragment, Component } from 'react';
 import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import Axios from 'axios';
+import Swal from 'sweetalert2';
+
+import baseUrl from '../../../Util/baseUrl';
 
 const styles = theme => ({
     paper: {
@@ -100,7 +104,7 @@ class PropertyForm extends Component {
         garage: "",
         sector: "",
         subSector: "",
-        society: "Gulshan-e-Maymar",
+        society: "",
         condition: "",
         parkFacing: false,
         corner: false,
@@ -114,11 +118,47 @@ class PropertyForm extends Component {
         demand: "",
         refernce: "",
         contact: "",
-        submitLoader: false
+
+        societies: [],
+        sectors: [],
+        subSectors: [],
+        submitLoader: false,
+
 
     }
 
+    componentDidMount() {
+
+        this.getSocities();
+    }
+
+    getSocities = () => {
+
+        Axios({
+            url: `${baseUrl}/society/get-societies`,
+            method: "GET",
+            params: {
+                type: "name sectors"
+            }
+        })
+            .then(res => {
+                console.log(res.data);
+                this.setState({ societies: res.data.societies })
+            })
+            .catch(err => {
+                console.log(err);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Internal server error while fetching socities"
+                    })
+                }
+            })
+    }
+
     render() {
+        const { origin, classes } = this.props;
         const {
             paper,
             inputLabel,
@@ -130,8 +170,7 @@ class PropertyForm extends Component {
             btnContainer,
             btn,
             chip,
-        } = this.props.classes;
-
+        } = classes;
         const {
             category,
             type,
@@ -151,15 +190,18 @@ class PropertyForm extends Component {
             location,
             town,
             city,
-            submitLoader,
 
+            submitLoader,
+            societies,
+            sectors,
+            subSectors
         } = this.state;
 
         return (
             <Fragment>
                 <Container maxWidth="lg">
                     <Paper elevation={3} className={paper}>
-                        <h1>Add Property</h1>
+                        <h1>{origin === "update" ? "Update Property" : "Add Property"}</h1>
                         <Divider className={divider} />
 
                         <Grid container spacing={2}>
@@ -473,10 +515,23 @@ class PropertyForm extends Component {
                                 <InputLabel className={inputLabel}>Society</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["Gulshane-e-Maymar", "Garden City", "Diamond City", "Taiser", "Mashriqui Society", "Attawa Society"]}
+                                    options={
+                                        societies.length > 0 && societies.map(el => el.name)
+                                    }
                                     value={society}
                                     onChange={(e, value) => {
-                                        this.setState({ society: value });
+                                        let tempArr = [];
+                                        societies.forEach(el => {
+                                            if (el.name === value) {
+                                                tempArr = el.sectors;
+                                            }
+                                        });
+                                        this.setState({
+                                            society: value,
+                                            sectors: tempArr || [],
+                                            sector: "",
+                                            subSector: ""
+                                        });
                                     }}
                                     renderInput={(params) => (
                                         <TextField
@@ -486,7 +541,18 @@ class PropertyForm extends Component {
                                             placeholder="Society"
                                             size="small"
                                             onChange={(e) => {
-                                                this.setState({ society: e.target.value });
+                                                let tempArr = [];
+                                                societies.forEach(el => {
+                                                    if (el.name === e.target.value) {
+                                                        tempArr = el.sectors;
+                                                    }
+                                                });
+                                                this.setState({
+                                                    society: e.target.value,
+                                                    sectors: tempArr || [],
+                                                    sector: "",
+                                                    subSector: ""
+                                                });
                                             }}
                                         />
                                     )}
@@ -496,10 +562,23 @@ class PropertyForm extends Component {
                                 <InputLabel className={inputLabel}>Select Sector/Block</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["Sector P", "Sector Q", "Sector R", "Sector S"]}
+                                    options={
+                                        sectors.length > 0 && sectors.map(el => el.name)
+                                    }
+                                    disabled={sectors.length <= 0}
                                     value={sector}
                                     onChange={(e, value) => {
-                                        this.setState({ sector: value });
+                                        let tempArr = [];
+                                        sectors.forEach(el => {
+                                            if (el.name === value) {
+                                                tempArr = el.subSectors;
+                                            }
+                                        });
+                                        this.setState({
+                                            sector: value,
+                                            subSectors: tempArr || [],
+                                            subSector: ""
+                                        });
                                     }}
                                     renderInput={(params) => (
                                         <TextField
@@ -509,7 +588,17 @@ class PropertyForm extends Component {
                                             placeholder="Select Sector/Block"
                                             size="small"
                                             onChange={(e) => {
-                                                this.setState({ sector: e.target.value });
+                                                let tempArr = [];
+                                                societies.forEach(el => {
+                                                    if (el.name === e.target.value) {
+                                                        tempArr = el.sectors;
+                                                    }
+                                                });
+                                                this.setState({
+                                                    sector: e.target.value,
+                                                    subSectors: tempArr || [],
+                                                    subSector: ""
+                                                });
                                             }}
                                         />
                                     )}
@@ -519,8 +608,11 @@ class PropertyForm extends Component {
                                 <InputLabel className={inputLabel}>Select Sub Sector</InputLabel>
                                 <Autocomplete
                                     className={autoCompleteTextField}
-                                    options={["P", "Q-1", "R-1", "S-1"]}
+                                    options={
+                                        subSectors.length > 0 && subSectors.map(el => el)
+                                    }
                                     value={subSector}
+                                    disabled={subSectors.length <= 0}
                                     onChange={(e, value) => {
                                         this.setState({ subSector: value });
                                     }}
