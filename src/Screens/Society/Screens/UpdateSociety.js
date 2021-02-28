@@ -37,13 +37,20 @@ export default function UpdateSociety(props) {
             }
         })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setData(res.data.society)
                 setLoader(false);
             })
             .catch(err => {
                 console.log(err);
-                setLoader(false)
+                setLoader(false);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: `${err.response.data.message}`
+                    })
+                }
             })
 
     }, [societyId]);

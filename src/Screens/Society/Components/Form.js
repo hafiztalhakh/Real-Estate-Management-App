@@ -232,23 +232,32 @@ class SocietyForm extends Component {
             province,
             description
         } = this.state;
+        const { origin, data } = this.props;
+        let tempUrl = "";
+        let tempData = {
+            name,
+            category,
+            sectors,
+            town,
+            city,
+            district,
+            province,
+            description
+        };
 
-        this.setState({ submitLoader: true })
+        this.setState({ submitLoader: true });
+
+        if (origin === "update") {
+            tempUrl = `${baseUrl}/society/update-society`;
+            tempData.societyId = this.props.data._id;
+        } else {
+            tempUrl = `${baseUrl}/society/add-society`;
+        }
 
         Axios({
-            url: `${baseUrl}/society/update-society`,
+            url: tempUrl,
             method: "POST",
-            data: {
-                societyId: this.props.data._id,
-                name,
-                category,
-                sectors,
-                town,
-                city,
-                district,
-                province,
-                description
-            }
+            data: tempData
         })
             .then(res => {
                 this.setState({ submitLoader: false });

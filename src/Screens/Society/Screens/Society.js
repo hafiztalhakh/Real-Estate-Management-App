@@ -1,9 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { useTheme, useMediaQuery, makeStyles, Container, Paper, Divider, CircularProgress, Button } from '@material-ui/core';
+import { useTheme, useMediaQuery, makeStyles, Container, Paper, Divider, CircularProgress, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Axios from 'axios';
+import ApartmentIcon from '@material-ui/icons/Apartment';
+import Swal from 'sweetalert2';
 
-import Table from './Components/Table';
-import baseUrl from '../../Util/baseUrl';
+import baseUrl from '../../../Util/baseUrl';
+import Table from '../Components/Table';
+import Modal from '../Components/Modal';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -61,7 +64,14 @@ export default function Property() {
             })
             .catch(err => {
                 console.log(err);
-                setLoader(false)
+                setLoader(false);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: `${err.response.data.message}`
+                    })
+                }
             })
     }
 
@@ -88,29 +98,29 @@ export default function Property() {
                 <h1>Societies List</h1>
                 <Divider className={divider} />
                 {
-                        loader ?
-                            <div className={classes.centerContainer}>
-                                <CircularProgress className={classes.circularProgress} />
-                            </div>
-                            :
-                            <Table property={data} getData={handleGetProperty} />
-                    }
-                {/* {
                     loader ?
                         <div className={classes.centerContainer}>
                             <CircularProgress className={classes.circularProgress} />
                         </div>
                         :
                         data.length > 0 ? data.map((el, i) => (
-                            <Fragment key={i}>
-                                <span>test</span>
-                            </Fragment>
+                            <Modal societyId={el._id} getData={handleGetProperty}>
+                                <ListItem key={i} disableGutters>
+                                    <ListItemIcon>
+                                        <ApartmentIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={
+                                        <strong>{el.name}</strong>
+                                    }
+                                    />
+                                </ListItem>
+                            </Modal>
                         ))
                             :
                             <div className={classes.centerContainer}>
                                 <h1 align="center">No data found</h1>
                             </div>
-                } */}
+                }
             </Container>
         )
     }

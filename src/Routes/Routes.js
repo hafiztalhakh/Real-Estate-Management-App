@@ -6,7 +6,7 @@ import AddProperty from '../Screens/AddProperty/AddProperty';
 import Property from '../Screens/Property/Property';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
-import Society from '../Screens/Society/Society';
+import Society from '../Screens/Society/Screens/Society';
 
 const routes = () => {
 
