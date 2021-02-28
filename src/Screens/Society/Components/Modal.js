@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import Axios from 'axios';
 import baseUrl from '../../../Util/baseUrl';
+import Swal from 'sweetalert2';
 
 const useStles = makeStyles(theme => ({
     closeButton: {
@@ -86,13 +87,34 @@ export default function Modal(props) {
         })
             .then(res => {
                 setDeleteLoader(false);
-                setOpen(false);
                 getData();
             })
             .catch(err => {
                 console.log(err);
                 setDeleteLoader(false);
             })
+    };
+
+    const handleConfirmation = () => {
+        setOpen(false);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                'Deleted!',
+                'Society has been deleted.',
+                'success'
+              )
+            }
+          })
     }
 
     return (
@@ -112,7 +134,7 @@ export default function Modal(props) {
                             <IconButton className={classes.closeButton} onClick={handleClose}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton className={classes.closeButton} onClick={handleDeleteSociety}>
+                            <IconButton className={classes.closeButton} onClick={handleConfirmation}>
                                 {deleteLoader ? <CircularProgress style={{ width: 25, height: 25, color: "#33c4ff" }} /> : <DeleteIcon />}
                             </IconButton>
                         </div>

@@ -227,8 +227,8 @@ class AddSociety extends Component {
                 this.setState({ submitLoader: false });
                 Swal.fire({
                     icon: "success",
-                    title: "Shaheer App",
-                    text: `${res.data.message}`
+                    title: "Saved!",
+                    text: `${name} has been saved successfully.`
                 })
             })
             .catch(err => {
