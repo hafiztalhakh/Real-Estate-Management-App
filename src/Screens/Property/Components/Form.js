@@ -118,7 +118,7 @@ class PropertyForm extends Component {
         city: "Karachi",
         completeAddress: "",
         demand: "",
-        refernce: "",
+        reference: "",
         referrer: "",
         contact: "",
 
@@ -186,7 +186,7 @@ class PropertyForm extends Component {
             city,
             completeAddress,
             demand,
-            refernce,
+            reference,
             referrer,
             contact
         } = this.state;
@@ -214,7 +214,7 @@ class PropertyForm extends Component {
             city,
             completeAddress,
             demand,
-            refernce,
+            reference,
             referrer,
             contact
         };
@@ -295,7 +295,7 @@ class PropertyForm extends Component {
             city,
             completeAddress,
             demand,
-            refernce,
+            reference,
             referrer,
             contact,
 
@@ -665,7 +665,7 @@ class PropertyForm extends Component {
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={
-                                        societies.length > 0 && societies.map(el => el.name)
+                                        societies.length > 0 ? societies.map(el => el.name) : []
                                     }
                                     value={society}
                                     onChange={(e, value) => {
@@ -712,7 +712,7 @@ class PropertyForm extends Component {
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={
-                                        sectors.length > 0 && sectors.map(el => el.name)
+                                        sectors.length > 0 ? sectors.map(el => el.name) : []
                                     }
                                     disabled={sectors.length <= 0}
                                     value={sector}
@@ -758,7 +758,7 @@ class PropertyForm extends Component {
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={
-                                        subSectors.length > 0 && subSectors.map(el => el)
+                                        subSectors.length > 0 ? subSectors.map(el => el) : []
                                     }
                                     value={subSector}
                                     disabled={subSectors.length <= 0}
@@ -869,9 +869,9 @@ class PropertyForm extends Component {
                                 <Autocomplete
                                     className={autoCompleteTextField}
                                     options={["Direct", "Newspaper", "Al-Bari Estate"]}
-                                    value={refernce}
+                                    value={reference}
                                     onChange={(e, value) => {
-                                        this.setState({ refernce: value });
+                                        this.setState({ reference: value });
                                     }}
                                     renderInput={(params) => (
                                         <TextField
@@ -881,7 +881,7 @@ class PropertyForm extends Component {
                                             placeholder="Reference"
                                             size="small"
                                             onChange={(e) => {
-                                                this.setState({ refernce: e.target.value });
+                                                this.setState({ reference: e.target.value });
                                             }}
                                         />
                                     )}

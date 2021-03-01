@@ -45,10 +45,10 @@ export default function Property() {
     const [loader, setLoader] = useState(true);
 
     useEffect(() => {
-        handleGetProperty();
+        handleGetSocieties();
     }, []);
 
-    const handleGetProperty = () => {
+    const handleGetSocieties = () => {
 
         Axios({
             url: `${baseUrl}/society/get-societies`,
@@ -87,7 +87,7 @@ export default function Property() {
                                 <CircularProgress className={classes.circularProgress} />
                             </div>
                             :
-                            <Table property={data} getData={handleGetProperty} />
+                            <Table property={data} getData={handleGetSocieties} />
                     }
                 </Paper>
             </Container>
@@ -104,7 +104,7 @@ export default function Property() {
                         </div>
                         :
                         data.length > 0 ? data.map((el, i) => (
-                            <Modal societyId={el._id} getData={handleGetProperty}>
+                            <Modal societyId={el._id} getData={handleGetSocieties}>
                                 <ListItem key={i} disableGutters>
                                     <ListItemIcon>
                                         <ApartmentIcon />

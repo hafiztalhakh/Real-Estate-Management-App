@@ -3,7 +3,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/Property/Screens/AddProperty';
-import Property from '../Screens/Property/Property';
+import Property from '../Screens/Property/Screens/Property';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
 import Society from '../Screens/Society/Screens/Society';
