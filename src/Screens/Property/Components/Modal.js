@@ -175,8 +175,8 @@ export default function Modal(props) {
                 open={open}
             >
                 <div className={container}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        {/* <div>
                             <Link to={`/property/update/${propertyId}`} className={link}>
                                 <IconButton className={classes.closeButton} onClick={handleClose}>
                                     <EditIcon />
@@ -184,7 +184,7 @@ export default function Modal(props) {
                             <IconButton className={classes.closeButton} onClick={handleConfirmation}>
                                 <DeleteIcon />
                             </IconButton>
-                        </div>
+                        </div> */}
                         <IconButton className={classes.closeButton} onClick={handleClose}>
                             <CloseIcon />
                         </IconButton>
