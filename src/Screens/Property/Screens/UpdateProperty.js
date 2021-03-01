@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdateSociety(props) {
-    const societyId = props.match.params.id;
+    const propertyId = props.match.params.id;
     const classes = useStyles();
     const [data, setData] = useState(null);
     const [loader, setLoader] = useState(true);
@@ -30,15 +30,14 @@ export default function UpdateSociety(props) {
     useEffect(() => {
 
         Axios({
-            url: `${baseUrl}/society/get-society`,
+            url: `${baseUrl}/property/get-property`,
             method: "GET",
             params: {
-                societyId
+                propertyId
             }
         })
             .then(res => {
-                // console.log(res.data);
-                setData(res.data.society)
+                setData(res.data.property)
                 setLoader(false);
             })
             .catch(err => {
@@ -53,7 +52,7 @@ export default function UpdateSociety(props) {
                 }
             })
 
-    }, [societyId]);
+    }, [propertyId]);
 
     return (
         <Fragment>
