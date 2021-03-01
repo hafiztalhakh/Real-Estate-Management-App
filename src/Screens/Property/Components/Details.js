@@ -51,6 +51,13 @@ const useStles = makeStyles(theme => ({
     header: {
         display: 'flex',
         justifyContent: 'space-between'
+    },
+    root: {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        "& .MuiPaper-elevation8": {
+            boxShadow: "none"
+        }
     }
 }));
 
@@ -62,8 +69,9 @@ const formatter = new Intl.NumberFormat('ur', {
 
 export default function Details(props) {
     const classes = useStles();
-    const { container, centerContainer, circularProgress, divider, price, contactAnchor, header } = classes;
-    const propertyId = props.match.params.id;
+    const { container, centerContainer, circularProgress, divider, price, contactAnchor, header, root } = classes;
+    const { history, match } = props;
+    const propertyId = match.params.id;
     const [data, setData] = useState({});
     const [loader, setLoader] = useState(true);
     const [anchorEl, setAnchorEl] = useState(false);
@@ -187,11 +195,17 @@ export default function Details(props) {
                             vertical: 'top',
                             horizontal: 'center',
                         }}
+                        classes={{ paper: root }}
                     >
                         <List>
                             <ListItem>
-                                <IconButton className={classes.closeButton}>
+                                <IconButton className={classes.closeButton} onClick={() => { history.push(`/property/update/${data._id}`) }}>
                                     <EditIcon />
+                                </IconButton>
+                            </ListItem>
+                            <ListItem>
+                                <IconButton title="Delete Property" className={classes.closeButton} onClick={handleConfirmation}>
+                                    <DeleteIcon />
                                 </IconButton>
                             </ListItem>
                         </List>
