@@ -87,7 +87,7 @@ export default function Property() {
             url: `${baseUrl}/property/get-properties`,
             method: "GET",
             params: {
-                type: "category type location area demand reference referrer contact"
+                type: "category type area society sector subSector demand reference referrer contact"
             }
         })
             .then(res => {

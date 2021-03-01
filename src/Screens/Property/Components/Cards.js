@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 15,
         marginBottom: 30
     },
-    heading:{
+    heading: {
         margin: "7px 0 10px 0px",
         textDecoration: "underline",
         textAlign: "Center"
@@ -54,60 +54,60 @@ export default function CustomCard(props) {
     const { data } = props;
 
     return (
-            <Paper elevation={3} className={paper}>
-                <h2 className={heading}> {data.category} {data.type} </h2>
-                <List className={list} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <ListItem className={listItem}>
-                        <ListItemIcon className={listItemIcon}>
-                            <LocationOnIcon className={icon} className="icons" />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={
-                                <Typography className={listItemText}>
-                                    <strong>Location:</strong> {data.subSector}
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                    <ListItem className={listItem}>
-                        <ListItemIcon className={listItemIcon}>
-                            <AspectRatioIcon className={icon} className="icons" />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={
-                                <Typography className={listItemText}>
-                                    <strong>Area:</strong> {data.area}
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                </List>
-                <List className={list}>
-                    <ListItem className={listItem}>
-                        <ListItemIcon className={listItemIcon}>
-                            <MonetizationOnIcon className={icon} className="icons" />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={
-                                <Typography className={listItemText}>
-                                    <strong>Demand:</strong> <span className={price}>{data.demand}</span>
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                    <ListItem className={listItem}>
-                        <ListItemIcon className={listItemIcon}>
-                            <PhoneAndroidIcon className={icon} className="icons" />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary={
-                                <Typography className={listItemText}>
-                                    <strong>Contact Person: </strong> {data.contactPerson} <a href={`tel:${data.contact}`} className={contactAnchor}>({data.contact})</a>
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                    {/* <ListItem className={listItem}>
+        <Paper elevation={3} className={paper}>
+            <h2 className={heading}> {data.category} {data.type} </h2>
+            <List className={list} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <MonetizationOnIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Demand:</strong> <span className={price}>{data.demand}</span>
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <AspectRatioIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Area:</strong> {data.area} yds
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+            </List>
+            <List className={list}>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <LocationOnIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Location:</strong> {data.subSector}
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <PhoneAndroidIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Contact Person: </strong> {data.contactPerson} <a href={`tel:${data.contact}`} className={contactAnchor}>({data.contact})</a>
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+                {/* <ListItem className={listItem}>
                         <ListItemIcon className={listItemIcon}>
                             <PhoneAndroidIcon className={icon} className="icons" />
                         </ListItemIcon>
@@ -119,8 +119,8 @@ export default function CustomCard(props) {
                             }
                         />
                     </ListItem> */}
-                </List>
-            </Paper>
+            </List>
+        </Paper>
     )
 }
 

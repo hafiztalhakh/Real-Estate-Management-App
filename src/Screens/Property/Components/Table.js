@@ -93,11 +93,15 @@ function CustomTable(props) {
                                 <TableRow key={index} className={classes.tableRow}>
                                     <TableCell className={classes.tableCellBody}>{row.category}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.type}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.subSector}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.area}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>
+                                        {
+                                           row.subSector ? `${row.subSector}, ${row.society}` : `${row.sector}, ${row.society}`
+                                        }
+                                    </TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.area} yds</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.demand}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.reference}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.contactPerson}</TableCell>
+                                    <TableCell className={classes.tableCellBody}>{row.referrer}</TableCell>
                                     <TableCell className={classes.tableCellBody}>{row.contact}</TableCell>
                                 </TableRow>
                             )
