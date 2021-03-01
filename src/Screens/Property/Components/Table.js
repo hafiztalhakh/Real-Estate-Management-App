@@ -7,8 +7,6 @@ import moment from 'moment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Swal from 'sweetalert2';
 
-import Modal from './Modal';
-
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
@@ -44,8 +42,9 @@ const useStyles = makeStyles(theme => ({
         color: "#fff",
         fontWeight: "bold",
         textTransform: "capitalize",
+        textDecoration: "none",
         boxShadow: "0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)",
-        borderRadius:2,
+        borderRadius: 2,
         cursor: "pointer",
         padding: "10px 20px",
         "&:hover": {
@@ -110,9 +109,8 @@ function CustomTable(props) {
                                     <TableCell className={tableCellBody}>{row.referrer}</TableCell>
                                     <TableCell className={tableCellBody}>{row.contact}</TableCell>
                                     <TableCell className={tableCellBody}>
-                                        <Modal propertyId={row._id} getData={getData}>
-                                            <span className={btn}>View</span>
-                                        </Modal>
+                                        <Link to={`/property/${row._id}`} className={btn}>View</Link>
+                                            {/* <span className={btn}>View</span> */}
                                     </TableCell>
                                 </TableRow>
                             )
