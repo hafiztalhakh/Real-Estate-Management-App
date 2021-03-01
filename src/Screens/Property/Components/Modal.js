@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles, Dialog, IconButton, Divider } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
+import Details from './Details';
+
 const useStles = makeStyles(theme => ({
     container: {
         padding: "20px 20px 40px 20px",
@@ -50,7 +52,7 @@ export default function Modal(props) {
                 </div>
                 <Divider className={divider} />
 
-                {children}
+                <Details {...props} origin="modal" hideModal={handleClose} />
             </div>
         </Dialog>
     );

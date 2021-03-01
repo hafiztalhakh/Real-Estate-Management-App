@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, IconButton, Grid, CircularProgress, Divider, Chip, Menu, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import StarIcon from '@material-ui/icons/Star';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import LoyaltyIcon from '@material-ui/icons/Loyalty';
+import BlockIcon from '@material-ui/icons/Block';
 
 import Axios from 'axios';
 import baseUrl from '../../../Util/baseUrl';
@@ -58,6 +59,50 @@ const useStles = makeStyles(theme => ({
         "& .MuiPaper-elevation8": {
             boxShadow: "none"
         }
+    },
+    iconButton: {
+        backgroundColor: "#f5f5f5",
+        "&:hover": {
+            color: '#33c4ff',
+            backgroundColor: "#edecec"
+        }
+    },
+    publishButton1: {
+        backgroundColor: "#f5f5f5",
+        "&:hover": {
+            color: 'green',
+            backgroundColor: "#edecec"
+        }
+    },
+    publishButton2: {
+        backgroundColor: "#f5f5f5",
+        color: 'green',
+        "&:hover": {
+            color: '#0000008a',
+            backgroundColor: "#edecec"
+        }
+    },
+    featuredButton1: {
+        backgroundColor: "#f5f5f5",
+        "&:hover": {
+            color: '#dda71f',
+            backgroundColor: "#edecec"
+        }
+    },
+    featuredButton2: {
+        backgroundColor: "#f5f5f5",
+        color: '#dda71f',
+        "&:hover": {
+            color: '#0000008a',
+            backgroundColor: "#edecec"
+        }
+    },
+    removeButton: {
+        backgroundColor: "#f5f5f5",
+        "&:hover": {
+            color: '#fd5a5a',
+            backgroundColor: "#edecec"
+        }
     }
 }));
 
@@ -69,8 +114,22 @@ const formatter = new Intl.NumberFormat('ur', {
 
 export default function Details(props) {
     const classes = useStles();
-    const { container, centerContainer, circularProgress, divider, price, contactAnchor, header, root } = classes;
-    const { history, match } = props;
+    const { container,
+        centerContainer,
+        circularProgress,
+        divider,
+        price,
+        contactAnchor,
+        header,
+        root,
+        iconButton,
+        publishButton1,
+        publishButton2,
+        featuredButton1,
+        featuredButton2,
+        removeButton
+    } = classes;
+    const { history, match, origin, hideModal } = props;
     const propertyId = match.params.id;
     const [data, setData] = useState({});
     const [loader, setLoader] = useState(true);
@@ -128,6 +187,9 @@ export default function Details(props) {
     };
 
     const handleConfirmation = () => {
+        if (origin === "modal") {
+            hideModal();
+        }
 
         Swal.fire({
             title: 'Are you sure?',
@@ -150,6 +212,47 @@ export default function Details(props) {
 
     const handleHideMenu = () => {
         setAnchorEl(null)
+    }
+
+    const handlePropertyPublishToWebsite = status => {
+        let tempUrl = "";
+
+        if (status === "publish") {
+            tempUrl = `${baseUrl}/property/publish-property-to-website`;
+        } else {
+            tempUrl = `${baseUrl}/property/remove-property-from-website`
+        }
+
+        if (origin === "modal") {
+            hideModal();
+        }
+
+        Axios({
+            url: tempUrl,
+            method: "POST",
+            data: {
+                propertyId
+            }
+        })
+            .then(res => {
+                Swal.fire({
+                    icon: "success",
+                    title: status === "publish" ? "Published!" : "Removed!",
+                    text: `${res.data.message}`
+                }).then(() => {
+                    history.push("/property");
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Saved!",
+                        text: `${err.response.data.message}`
+                    })
+                }
+            })
     }
 
     return (
@@ -199,12 +302,53 @@ export default function Details(props) {
                     >
                         <List>
                             <ListItem>
-                                <IconButton className={classes.closeButton} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                <IconButton title="Edit Property" className={iconButton} onClick={() => { history.push(`/property/update/${data._id}`) }}>
                                     <EditIcon />
                                 </IconButton>
                             </ListItem>
                             <ListItem>
-                                <IconButton title="Delete Property" className={classes.closeButton} onClick={handleConfirmation}>
+                                {
+                                    data.isShowOnWebsite ?
+                                        <IconButton
+                                            title="Remove from Website"
+                                            className={publishButton2}
+                                            onClick={() => {
+                                                handlePropertyPublishToWebsite("remove");
+                                            }}
+                                        >
+                                            <PlaylistAddCheckIcon />
+                                        </IconButton>
+                                        :
+                                        <IconButton
+                                            title="Publish to Website"
+                                            className={publishButton1}
+                                            onClick={() => {
+                                                handlePropertyPublishToWebsite("publish");
+                                            }}
+                                        >
+                                            <PlaylistAddCheckIcon />
+                                        </IconButton>
+                                }
+                            </ListItem>
+                            <ListItem>
+                                {
+                                    data.isFeatured ?
+                                        <IconButton title="Make it Featured" className={featuredButton2} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                            <StarIcon />
+                                        </IconButton>
+                                        :
+                                        <IconButton title="Make it Featured" className={featuredButton1} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                            <StarIcon />
+                                        </IconButton>
+                                }
+                            </ListItem>
+                            <ListItem>
+                                <IconButton title="Mark as Sold out" className={iconButton} onClick={handleConfirmation}>
+                                    <LoyaltyIcon />
+                                </IconButton>
+                            </ListItem>
+                            <ListItem>
+                                <IconButton title="Delete Property" className={removeButton} onClick={handleConfirmation}>
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItem>

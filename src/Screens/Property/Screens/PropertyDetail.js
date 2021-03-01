@@ -10,9 +10,7 @@ export default function PropertyDetail(props) {
     if (isDesktop) {
         return (
             <Fragment>
-                <Modal {...props}>
-                    <Details {...props} />
-                </Modal>
+                <Modal {...props} />
             </Fragment>
         )
     } else {
