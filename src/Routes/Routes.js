@@ -3,6 +3,7 @@ import { Switch, Route, withRouter } from "react-router-dom";
 
 import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/Property/Screens/AddProperty';
+import UpdateProperty from '../Screens/Property/Screens/UpdateProperty';
 import Property from '../Screens/Property/Screens/Property';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
@@ -21,6 +22,13 @@ const routes = () => {
             />
             <Route
                 exact
+                path='/property'
+                render={props => (
+                    <Property {...props} />
+                )}
+            />
+            <Route
+                exact
                 path='/property/new'
                 render={props => (
                     <AddProperty {...props} />
@@ -28,12 +36,11 @@ const routes = () => {
             />
             <Route
                 exact
-                path='/property'
+                path='/property/update/:id'
                 render={props => (
-                    <Property {...props} />
+                    <UpdateProperty {...props} />
                 )}
             />
-
             <Route
                 exact
                 path='/societies'

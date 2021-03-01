@@ -41,41 +41,7 @@ export default function Property() {
     const classes = useStyles();
     const { paper, divider } = classes;
     const [loader, setLoader] = useState(true);
-    const [data, setData] = useState([
-        {
-            category: "Residential",
-            type: "Plot",
-            sector: "Sector Y",
-            subSector: "Y-1",
-            area: "240 yds",
-            demand: "50,00,000",
-            reference: "Direct",
-            contactPerson: "Hammad Usmani",
-            contact: "03331234567",
-        },
-        {
-            category: "Residential",
-            type: "House",
-            sector: "Sector X",
-            subSector: "X-6",
-            area: "240 yds",
-            demand: "5,00,000",
-            reference: "Saghir Estate",
-            contactPerson: "Saghir Bhai",
-            contact: "03331234567",
-        },
-        {
-            category: "Commercial",
-            type: "Plot",
-            sector: "Sector Z",
-            subSector: "Z-6",
-            area: "100 yds",
-            demand: "15,00,000",
-            reference: "Direct",
-            contactPerson: "Muhammad Hamza",
-            contact: "03331234567",
-        }
-    ]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         handleGetProperties();
@@ -91,7 +57,7 @@ export default function Property() {
             }
         })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 setData(res.data.properties)
                 setLoader(false)
             })
@@ -120,7 +86,7 @@ export default function Property() {
                                 <CircularProgress className={classes.circularProgress} />
                             </div>
                             :
-                            <Table property={data} />
+                            <Table property={data} getData={handleGetProperties} />
                     }
                 </Paper>
             </Container>
@@ -133,7 +99,7 @@ export default function Property() {
                 {
                     data.map((el, i) => (
                         <Fragment key={i}>
-                            <Card data={el} />
+                            <Card data={el} getData={handleGetProperties} />
                         </Fragment>
                     ))
                 }

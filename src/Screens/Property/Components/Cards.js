@@ -6,6 +6,8 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import HomeIcon from '@material-ui/icons/Home';
 
+import Modal from './Modal';
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         padding: 10,
@@ -58,11 +60,13 @@ const formatter = new Intl.NumberFormat('ur', {
 export default function CustomCard(props) {
     const classes = useStyles();
     const { paper, heading, list, listItem, listItemIcon, icon, listItemText, price, contactAnchor } = classes;
-    const { data } = props;
+    const { data, getData } = props;
 
     return (
         <Paper elevation={3} className={paper}>
-            <h2 className={heading}> {data.category} {data.type} </h2>
+            <Modal propertyId={data._id} getData={getData}>
+                <h2 className={heading}> {data.category} {data.type} </h2>
+            </Modal>
             <List className={list}>
                 <ListItem className={listItem}>
                     <ListItemIcon className={listItemIcon}>

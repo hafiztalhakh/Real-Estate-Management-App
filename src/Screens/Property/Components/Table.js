@@ -7,7 +7,7 @@ import moment from 'moment';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Swal from 'sweetalert2';
 
-// import Dialog from './Modal';
+import Modal from './Modal';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,25 +39,32 @@ const useStyles = makeStyles(theme => ({
         color: 'green'
     },
     btn: {
-        backgroundColor: '#09926E',
-        color: '#fff',
-        fontWeight: 'bold',
+        width: "auto",
+        backgroundColor: "#33c4ff",
+        color: "#fff",
+        fontWeight: "bold",
+        textTransform: "capitalize",
+        boxShadow: "0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)",
+        borderRadius:2,
+        cursor: "pointer",
+        padding: "10px 20px",
         "&:hover": {
-            backgroundColor: '#09926E',
-        }
+            backgroundColor: "#33c4ff",
+            color: "#fff",
+        },
     },
 }));
 
 function CustomTable(props) {
     const classes = useStyles();
-    const { property } = props;
+    const { root, tableContainer, tableRow, tableCell, tableCellBody, btn } = classes;
+    const { property, getData } = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rows, setrows] = useState([]);
 
 
     React.useEffect(() => {
-        //storing data in state
         setrows(property);
     }, [property]);
 
@@ -71,38 +78,42 @@ function CustomTable(props) {
     };
 
     return (
-        <Paper elevation={0} className={classes.root}>
-            <TableContainer className={classes.tableContainer}>
+        <Paper elevation={0} className={root}>
+            <TableContainer className={tableContainer}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell className={classes.tableCell}>Category</TableCell>
-                            <TableCell className={classes.tableCell}>Type</TableCell>
-                            <TableCell className={classes.tableCell}>Location</TableCell>
-                            <TableCell className={classes.tableCell}>Area</TableCell>
-                            <TableCell className={classes.tableCell}>Demand</TableCell>
-                            <TableCell className={classes.tableCell}>Reference</TableCell>
-                            <TableCell className={classes.tableCell}>Contact Name</TableCell>
-                            <TableCell className={classes.tableCell}>Contact</TableCell>
+                            <TableCell className={tableCell}>Property</TableCell>
+                            <TableCell className={tableCell}>Location</TableCell>
+                            <TableCell className={tableCell}>Area</TableCell>
+                            <TableCell className={tableCell}>Demand</TableCell>
+                            <TableCell className={tableCell}>Reference</TableCell>
+                            <TableCell className={tableCell}>Contact Name</TableCell>
+                            <TableCell className={tableCell}>Contact</TableCell>
+                            <TableCell className={tableCell}>View</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             // let date = moment(row.payment_date).format("dddd, DD/MM/YY");
                             return (
-                                <TableRow key={index} className={classes.tableRow}>
-                                    <TableCell className={classes.tableCellBody}>{row.category}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.type}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>
+                                <TableRow key={index} className={tableRow}>
+                                    <TableCell className={tableCellBody}>{row.category} {row.type}</TableCell>
+                                    <TableCell className={tableCellBody}>
                                         {
-                                           row.subSector ? `${row.subSector}, ${row.society}` : `${row.sector}, ${row.society}`
+                                            row.subSector ? `${row.subSector}, ${row.society}` : `${row.sector}, ${row.society}`
                                         }
                                     </TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.area} yds</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.demand}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.reference}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.referrer}</TableCell>
-                                    <TableCell className={classes.tableCellBody}>{row.contact}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.area} yds</TableCell>
+                                    <TableCell className={tableCellBody}>{row.demand}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.reference}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.referrer}</TableCell>
+                                    <TableCell className={tableCellBody}>{row.contact}</TableCell>
+                                    <TableCell className={tableCellBody}>
+                                        <Modal propertyId={row._id} getData={getData}>
+                                            <span className={btn}>View</span>
+                                        </Modal>
+                                    </TableCell>
                                 </TableRow>
                             )
                         }
