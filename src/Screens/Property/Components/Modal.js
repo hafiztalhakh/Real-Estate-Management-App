@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles, Dialog, IconButton, Grid, CircularProgress, Divider, Chip } from '@material-ui/core';
+import { makeStyles, Dialog, IconButton, Grid, CircularProgress, Divider, Chip, Menu, List, ListItem, ListItemText } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -8,12 +8,19 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import Axios from 'axios';
 import baseUrl from '../../../Util/baseUrl';
 import Swal from 'sweetalert2';
 
 const useStles = makeStyles(theme => ({
+    container: {
+        padding: "20px 20px 40px 20px",
+        [theme.breakpoints.down('md')]: {
+            padding: 10
+        }
+    },
     closeButton: {
         float: 'right'
     },
@@ -54,6 +61,10 @@ const useStles = makeStyles(theme => ({
     contactAnchor: {
         textDecoration: "none",
         color: "inherit"
+    },
+    header: {
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 }));
 
@@ -65,11 +76,12 @@ const formatter = new Intl.NumberFormat('ur', {
 
 export default function Modal(props) {
     const classes = useStles();
-    const { centerContainer, circularProgress, divider, price, link, contactAnchor } = classes;
+    const { container, centerContainer, circularProgress, divider, price, link, contactAnchor, header } = classes;
     const { children, propertyId, getData } = props;
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({});
     const [loader, setLoader] = useState(true);
+    const [anchorEl, setAnchorEl] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -141,6 +153,14 @@ export default function Modal(props) {
                 handleDeleteProperty();
             }
         })
+    };
+
+    const handleShowMenu = event => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleHideMenu = () => {
+        setAnchorEl(null)
     }
 
     return (
@@ -151,10 +171,10 @@ export default function Modal(props) {
             <Dialog
                 fullWidth
                 maxWidth="md"
-                onClose={handleClose}
+                onClose={handleHideMenu}
                 open={open}
             >
-                <div style={{ padding: 20 }}>
+                <div className={container}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
                             <Link to={`/property/update/${propertyId}`} className={link}>
@@ -169,6 +189,58 @@ export default function Modal(props) {
                             <CloseIcon />
                         </IconButton>
                     </div>
+                    <Divider className={divider} />
+
+                    <div className={header}>
+                        <h1 style={{ margin: 0 }}>Property Details</h1>
+                        <div>
+                            <IconButton
+                                aria-label="more"
+                                aria-controls="long-menu"
+                                aria-haspopup="true"
+                                onClick={handleShowMenu}
+                            >
+                                <MoreVertIcon />
+                            </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={handleHideMenu}
+                                getContentAnchorEl={null}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                }}
+                            >
+                                <List>
+                                    <ListItem button onClick={() => { console.log("test") }}>
+                                        <ListItemText primary="Print worksheet" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => { handleHideMenu() }}>
+                                        <ListItemText primary="Show pending entries" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => { handleHideMenu() }}>
+                                        <ListItemText primary="Show in-progress entries" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => { handleHideMenu() }}>
+                                        <ListItemText primary="Show verified entries" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => { handleHideMenu() }}>
+                                        <ListItemText primary="Show ready to print entries" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => { handleHideMenu() }}>
+                                        <ListItemText primary="Show all entries" />
+                                    </ListItem>
+                                </List>
+                            </Menu>
+                        </div>
+                    </div>
+
                     <Divider className={divider} />
 
                     {
@@ -276,6 +348,10 @@ export default function Modal(props) {
                                     </Grid>
                                     <Grid item xs={12} sm={3}>
                                         <strong>Contact:</strong> <a href={`tel:${data.contact}`} className={contactAnchor}>{data.contact}</a>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <strong>Description:</strong>
+                                        <p style={{ whiteSpace: "break-spaces", margin: 0 }}>{data.description}</p>
                                     </Grid>
                                 </Grid>
                             </Fragment>

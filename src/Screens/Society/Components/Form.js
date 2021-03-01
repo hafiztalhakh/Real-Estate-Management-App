@@ -568,7 +568,7 @@ class SocietyForm extends Component {
                                         <InputLabel className={inputLabel}>Description</InputLabel>
                                         <TextField
                                             variant="outlined"
-                                            placeholder="Contact Number"
+                                            placeholder="Description"
                                             className={multilineTextField}
                                             multiline
                                             rows={4}
@@ -579,7 +579,7 @@ class SocietyForm extends Component {
                                                 },
                                             }}
                                             onChange={(e) => {
-                                                this.setState({ contact: e.target.value });
+                                                this.setState({ description: e.target.value });
                                             }}
                                         />
                                     </Grid>
@@ -646,18 +646,23 @@ class SocietyForm extends Component {
 
                         <Divider className={divider} />
                         <div className={btnContainer}>
-                            <Button
-                                variant="contained"
-                                className={btn}
-                                onClick={this.handleSave}
-                            >
-                                {
-                                    submitLoader ?
+                            {
+                                submitLoader ?
+                                    <Button
+                                        variant="contained"
+                                        className={btn}
+                                    >
                                         <CircularProgress style={{ color: '#0095FF', width: 25, height: 25 }} />
-                                        :
-                                        "Save"
-                                }
-                            </Button>
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant="contained"
+                                        className={btn}
+                                        onClick={this.handleSave}
+                                    >
+                                        Save
+                                    </Button>
+                            }
                         </div>
                     </Paper>
                 </Container>

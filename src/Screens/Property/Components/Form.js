@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip } from '@material-ui/core';
+import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, Chip, CircularProgress } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Axios from 'axios';
 import Swal from 'sweetalert2';
@@ -33,6 +33,20 @@ const styles = theme => ({
         "& .MuiOutlinedInput-root": {
             height: 45,
             // borderRadius: 0,
+            backgroundColor: "#f5f5f5",
+        }
+    },
+    multilineTextField: {
+        backgroundColor: "transparent",
+        marginBottom: 5,
+        width: "100%",
+        "&:hover": {
+            "& $notchedOutline": {
+                borderColor: "#a9a8a8 !important",
+                border: "2px solid",
+            },
+        },
+        "& .MuiOutlinedInput-root": {
             backgroundColor: "#f5f5f5",
         }
     },
@@ -121,6 +135,7 @@ class PropertyForm extends Component {
         reference: "",
         referrer: "",
         contact: "",
+        description: "",
 
         societies: [],
         sectors: [],
@@ -133,6 +148,50 @@ class PropertyForm extends Component {
     componentDidMount() {
 
         this.getSocities();
+        this.getData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props !== prevProps) {
+            this.getSocities();
+            this.getData();
+        }
+    }
+
+    getData = () => {
+        const { origin, data } = this.props;
+        console.log(data);
+        if (origin === "update" && data) {
+            this.setState({
+                title: data.title || "",
+                plotNumber: data.plotNumber || "",
+                category: data.category || "",
+                type: data.type || "",
+                fileType: data.fileType || "",
+                bedrooms: data.bedrooms || "",
+                bathrooms: data.bathrooms || "",
+                garage: data.garage || "",
+                floors: data.floors || "",
+                sector: data.sector || "",
+                subSector: data.subSector || "",
+                society: data.society || "",
+                condition: data.condition || "",
+                parkFacing: data.parkFacing || false,
+                corner: data.corner || false,
+                areaCategory: data.areaCategory || "",
+                area: data.area || "",
+                roadWidth: data.roadWidth || "",
+                location: data.location || "",
+                town: data.town || "Gadap",
+                city: data.city || "Karachi",
+                completeAddress: data.completeAddress || "",
+                demand: data.demand || "",
+                reference: data.reference || "",
+                referrer: data.referrer || "",
+                contact: data.contact || "",
+                description: data.description || ""
+            })
+        }
     }
 
     getSocities = () => {
@@ -145,7 +204,7 @@ class PropertyForm extends Component {
             }
         })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.setState({ societies: res.data.societies })
             })
             .catch(err => {
@@ -188,7 +247,8 @@ class PropertyForm extends Component {
             demand,
             reference,
             referrer,
-            contact
+            contact,
+            description
         } = this.state;
         let tempData = {
             title,
@@ -216,7 +276,8 @@ class PropertyForm extends Component {
             demand,
             reference,
             referrer,
-            contact
+            contact,
+            description
         };
         let tempUrl = "";
 
@@ -224,7 +285,7 @@ class PropertyForm extends Component {
 
         if (origin === "update") {
             tempUrl = `${baseUrl}/property/update-property`;
-            tempData.societyId = this.props.data._id;
+            tempData.propertyId = this.props.data._id;
         } else {
             tempUrl = `${baseUrl}/property/add-property`;
         }
@@ -263,6 +324,7 @@ class PropertyForm extends Component {
             paper,
             inputLabel,
             textField,
+            multilineTextField,
             notchedOutline,
             focused,
             autoCompleteTextField,
@@ -298,7 +360,7 @@ class PropertyForm extends Component {
             reference,
             referrer,
             contact,
-
+            description,
             submitLoader,
             societies,
             sectors,
@@ -923,16 +985,47 @@ class PropertyForm extends Component {
                                     }}
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <InputLabel className={inputLabel}>Description</InputLabel>
+                                <TextField
+                                    variant="outlined"
+                                    placeholder="Description"
+                                    className={multilineTextField}
+                                    value={description}
+                                    multiline
+                                    rows={4}
+                                    InputProps={{
+                                        classes: {
+                                            notchedOutline: notchedOutline,
+                                            focused: focused,
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        this.setState({ description: e.target.value });
+                                    }}
+                                />
+                            </Grid>
                         </Grid>
                         <Divider className={divider} />
+
                         <div className={btnContainer}>
-                            <Button
-                                variant="contained"
-                                className={btn}
-                                onClick={this.handleSave}
-                            >
-                                Save
-                            </Button>
+                            {
+                                submitLoader ?
+                                    <Button
+                                        variant="contained"
+                                        className={btn}
+                                    >
+                                        <CircularProgress style={{ color: '#0095FF', width: 25, height: 25 }} />
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant="contained"
+                                        className={btn}
+                                        onClick={this.handleSave}
+                                    >
+                                        Save
+                                    </Button>
+                            }
                         </div>
                     </Paper>
                 </Container>
