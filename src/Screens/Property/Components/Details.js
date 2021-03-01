@@ -222,11 +222,11 @@ export default function Details(props) {
         } else {
             tempUrl = `${baseUrl}/property/remove-property-from-website`
         }
-
         if (origin === "modal") {
             hideModal();
         }
 
+        handleHideMenu();
         Axios({
             url: tempUrl,
             method: "POST",
@@ -255,24 +255,52 @@ export default function Details(props) {
             })
     }
 
+
+    const handleMarkAsFeatured = status => {
+        let tempUrl = "";
+
+        if (status === "featured") {
+            tempUrl = `${baseUrl}/property/mark-as-featured`;
+        } else {
+            tempUrl = `${baseUrl}/property/unmark-featured-property`
+        }
+        if (origin === "modal") {
+            hideModal();
+        }
+
+        handleHideMenu();
+        Axios({
+            url: tempUrl,
+            method: "POST",
+            data: {
+                propertyId
+            }
+        })
+            .then(res => {
+                Swal.fire({
+                    icon: "success",
+                    title: status === "featured" ? "Featured!" : "Removed!",
+                    text: `${res.data.message}`
+                }).then(() => {
+                    history.push("/property");
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Saved!",
+                        text: `${err.response.data.message}`
+                    })
+                }
+            })
+    }
+
+
+
     return (
         <div className={container}>
-            {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div>
-                    <Link to={`/property/update/${propertyId}`} className={link}>
-                        <IconButton className={classes.closeButton} onClick={handleClose}>
-                            <EditIcon />
-                        </IconButton></Link>
-                    <IconButton className={classes.closeButton} onClick={handleConfirmation}>
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
-                <IconButton className={classes.closeButton} onClick={handleClose}>
-                    <CloseIcon />
-                </IconButton>
-            </div>
-            <Divider className={divider} /> */}
-
             <div className={header}>
                 <h1 style={{ margin: 0 }}>Property Details</h1>
                 <div>
@@ -333,11 +361,23 @@ export default function Details(props) {
                             <ListItem>
                                 {
                                     data.isFeatured ?
-                                        <IconButton title="Make it Featured" className={featuredButton2} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                        <IconButton
+                                            title="Make it Featured"
+                                            className={featuredButton2}
+                                            onClick={() => {
+                                                handleMarkAsFeatured("remove")
+                                            }}
+                                        >
                                             <StarIcon />
                                         </IconButton>
                                         :
-                                        <IconButton title="Make it Featured" className={featuredButton1} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                        <IconButton
+                                            title="Make it Featured"
+                                            className={featuredButton1}
+                                            onClick={() => {
+                                                handleMarkAsFeatured("featured")
+                                            }}
+                                        >
                                             <StarIcon />
                                         </IconButton>
                                 }
