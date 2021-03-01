@@ -186,22 +186,28 @@ export default function Details(props) {
             })
     };
 
-    const handleConfirmation = () => {
+    const handleConfirmation = action => {
         if (origin === "modal") {
             hideModal();
         }
 
+        handleHideMenu();
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: action === "sold" ? "Confirmation!" : 'Are you sure?',
+            text: action === "sold" ? "Press confirm to proceed" : "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Delete'
+            confirmButtonText: action === "sold" ? "Confirm" : 'Delete'
         }).then((result) => {
             if (result.isConfirmed) {
-                handleDeleteProperty();
+                if (action === "sold") {
+                    handleMarkAsSold();
+                } else {
+                    handleDeleteProperty();
+
+                }
             }
         })
     };
@@ -297,7 +303,39 @@ export default function Details(props) {
             })
     }
 
+    const handleMarkAsSold = () => {
+        if (origin === "modal") {
+            hideModal();
+        }
 
+        handleHideMenu();
+        Axios({
+            url: `${baseUrl}/property/mark-as-sold`,
+            method: "POST",
+            data: {
+                propertyId
+            }
+        })
+            .then(res => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Done!",
+                    text: `${res.data.message}`
+                }).then(() => {
+                    history.push("/property");
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Saved!",
+                        text: `${err.response.data.message}`
+                    })
+                }
+            })
+    }
 
     return (
         <div className={container}>
@@ -330,7 +368,13 @@ export default function Details(props) {
                     >
                         <List>
                             <ListItem>
-                                <IconButton title="Edit Property" className={iconButton} onClick={() => { history.push(`/property/update/${data._id}`) }}>
+                                <IconButton
+                                    title="Edit Property"
+                                    className={iconButton}
+                                    onClick={() => {
+                                        history.push(`/property/update/${data._id}`);
+                                    }}
+                                >
                                     <EditIcon />
                                 </IconButton>
                             </ListItem>
@@ -365,7 +409,7 @@ export default function Details(props) {
                                             title="Make it Featured"
                                             className={featuredButton2}
                                             onClick={() => {
-                                                handleMarkAsFeatured("remove")
+                                                handleMarkAsFeatured("remove");
                                             }}
                                         >
                                             <StarIcon />
@@ -375,7 +419,7 @@ export default function Details(props) {
                                             title="Make it Featured"
                                             className={featuredButton1}
                                             onClick={() => {
-                                                handleMarkAsFeatured("featured")
+                                                handleMarkAsFeatured("featured");
                                             }}
                                         >
                                             <StarIcon />
@@ -383,12 +427,24 @@ export default function Details(props) {
                                 }
                             </ListItem>
                             <ListItem>
-                                <IconButton title="Mark as Sold out" className={iconButton} onClick={handleConfirmation}>
+                                <IconButton
+                                    title="Mark as Sold out"
+                                    className={iconButton}
+                                    onClick={() => {
+                                        handleConfirmation("sold");
+                                    }}
+                                >
                                     <LoyaltyIcon />
                                 </IconButton>
                             </ListItem>
                             <ListItem>
-                                <IconButton title="Delete Property" className={removeButton} onClick={handleConfirmation}>
+                                <IconButton
+                                    title="Delete Property"
+                                    className={removeButton}
+                                    onClick={() => {
+                                        handleConfirmation("delete");
+                                    }}
+                                >
                                     <DeleteIcon />
                                 </IconButton>
                             </ListItem>
