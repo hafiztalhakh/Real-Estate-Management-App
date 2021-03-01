@@ -4,6 +4,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const formatter = new Intl.NumberFormat('ur', {
+    style: 'currency',
+    currency: 'PKR',
+    minimumFractionDigits: 0
+});
+
 export default function CustomCard(props) {
     const classes = useStyles();
     const { paper, heading, list, listItem, listItemIcon, icon, listItemText, price, contactAnchor } = classes;
@@ -56,32 +63,6 @@ export default function CustomCard(props) {
     return (
         <Paper elevation={3} className={paper}>
             <h2 className={heading}> {data.category} {data.type} </h2>
-            <List className={list} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <ListItem className={listItem}>
-                    <ListItemIcon className={listItemIcon}>
-                        <MonetizationOnIcon className={icon} className="icons" />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary={
-                            <Typography className={listItemText}>
-                                <strong>Demand:</strong> <span className={price}>{data.demand}</span>
-                            </Typography>
-                        }
-                    />
-                </ListItem>
-                <ListItem className={listItem}>
-                    <ListItemIcon className={listItemIcon}>
-                        <AspectRatioIcon className={icon} className="icons" />
-                    </ListItemIcon>
-                    <ListItemText
-                        primary={
-                            <Typography className={listItemText}>
-                                <strong>Area:</strong> {data.area} yds
-                            </Typography>
-                        }
-                    />
-                </ListItem>
-            </List>
             <List className={list}>
                 <ListItem className={listItem}>
                     <ListItemIcon className={listItemIcon}>
@@ -90,7 +71,34 @@ export default function CustomCard(props) {
                     <ListItemText
                         primary={
                             <Typography className={listItemText}>
-                                <strong>Location:</strong> {data.subSector}
+                                <strong>Location: </strong>
+                                {
+                                    data.subSector ? `${data.subSector}, ${data.society}` : `${data.sector}, ${data.society}`
+                                }
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <MonetizationOnIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Demand: </strong> <span className={price}>{formatter.format(data.demand)}</span>
+                            </Typography>
+                        }
+                    />
+                </ListItem>
+                <ListItem className={listItem}>
+                    <ListItemIcon className={listItemIcon}>
+                        <HomeIcon className={icon} className="icons" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Typography className={listItemText}>
+                                <strong>Area: </strong> {data.area} yds
                             </Typography>
                         }
                     />
@@ -102,7 +110,7 @@ export default function CustomCard(props) {
                     <ListItemText
                         primary={
                             <Typography className={listItemText}>
-                                <strong>Contact Person: </strong> {data.contactPerson} <a href={`tel:${data.contact}`} className={contactAnchor}>({data.contact})</a>
+                                <strong>Contact: </strong> {data.referrer} <a href={`tel:${data.contact}`} className={contactAnchor}>({data.contact})</a>
                             </Typography>
                         }
                     />
