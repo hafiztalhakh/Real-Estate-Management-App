@@ -5,6 +5,7 @@ import Dashboard from '../Screens/Dashboard/Dashboard';
 import AddProperty from '../Screens/Property/Screens/AddProperty';
 import UpdateProperty from '../Screens/Property/Screens/UpdateProperty';
 import Property from '../Screens/Property/Screens/Property';
+import PropertyDetails from '../Screens/Property/Screens/PropertyDetail';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
 import Society from '../Screens/Society/Screens/Society';
@@ -39,6 +40,13 @@ const routes = () => {
                 path='/property/update/:id'
                 render={props => (
                     <UpdateProperty {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/property/:id'
+                render={props => (
+                    <PropertyDetails {...props} />
                 )}
             />
             <Route

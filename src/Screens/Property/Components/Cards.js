@@ -1,12 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles, Container, Paper, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 import HomeIcon from '@material-ui/icons/Home';
-
-import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -64,9 +63,10 @@ export default function CustomCard(props) {
 
     return (
         <Paper elevation={3} className={paper}>
-            <Modal propertyId={data._id} getData={getData}>
-                <h2 className={heading}> {data.category} {data.type} </h2>
-            </Modal>
+            <h2 className={heading}>
+                <Link to={`/property/${data._id}`}>{data.category} {data.type}</Link>
+            </h2>
+
             <List className={list}>
                 <ListItem className={listItem}>
                     <ListItemIcon className={listItemIcon}>
