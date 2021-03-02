@@ -57,12 +57,10 @@ export default function Property() {
             }
         })
             .then(res => {
-                console.log(res.data);
                 setData(res.data.properties)
                 setLoader(false)
             })
             .catch(err => {
-                console.log(err);
                 setLoader(false);
                 if (err && err.response) {
                     Swal.fire({
