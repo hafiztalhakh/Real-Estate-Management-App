@@ -109,7 +109,7 @@ function CustomTable(props) {
                                     <TableCell className={tableCellBody}>{row.referrer}</TableCell>
                                     <TableCell className={tableCellBody}>{row.contact}</TableCell>
                                     <TableCell className={tableCellBody}>
-                                        <Link to={`/property/${row._id}`} className={btn}>View</Link>
+                                        <Link to={`/property/detail/${row._id}`} className={btn}>View</Link>
                                             {/* <span className={btn}>View</span> */}
                                     </TableCell>
                                 </TableRow>

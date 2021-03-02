@@ -64,7 +64,7 @@ export default function CustomCard(props) {
     return (
         <Paper elevation={3} className={paper}>
             <h2 className={heading}>
-                <Link to={`/property/${data._id}`} className={contactAnchor} >{data.category} {data.type}</Link>
+                <Link to={`/property/detail/${data._id}`} className={contactAnchor} >{data.category} {data.type}</Link>
             </h2>
 
             <List className={list}>

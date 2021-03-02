@@ -47,7 +47,7 @@ const routes = () => {
             />
             <Route
                 exact
-                path='/property/:id'
+                path='/property/detail/:id'
                 render={props => (
                     <PropertyDetails {...props} />
                 )}
