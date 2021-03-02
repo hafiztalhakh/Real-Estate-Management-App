@@ -124,7 +124,7 @@ class Drawer extends Component {
                                 </ListItemIcon>
                                 <ListItemText primary="Add Property" />
                             </ListItem>
-                            <ListItem button onClick={() => { this.handleButtonPress('/website-listings') }}>
+                            <ListItem button onClick={() => { this.handleButtonPress('/property/website-listings') }}>
                                 <ListItemIcon>
                                     <PlaylistAddCheckIcon style={{ color: '#33C4FF' }} className="icons" />
                                 </ListItemIcon>

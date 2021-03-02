@@ -6,6 +6,9 @@ import AddProperty from '../Screens/Property/Screens/AddProperty';
 import UpdateProperty from '../Screens/Property/Screens/UpdateProperty';
 import Property from '../Screens/Property/Screens/Property';
 import PropertyDetails from '../Screens/Property/Screens/PropertyDetail';
+import WebsiteListings from '../Screens/Property/Screens/WebsiteListings';
+import FeaturedProperties from '../Screens/Property/Screens/FeaturedProperties';
+import SoldOutProperties from '../Screens/Property/Screens/SoldOutProperties';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
 import Society from '../Screens/Society/Screens/Society';
@@ -47,6 +50,27 @@ const routes = () => {
                 path='/property/:id'
                 render={props => (
                     <PropertyDetails {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/property/website-listings'
+                render={props => (
+                    <WebsiteListings {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/property/featured'
+                render={props => (
+                    <FeaturedProperties {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/property/sold-out'
+                render={props => (
+                    <SoldOutProperties {...props} />
                 )}
             />
             <Route

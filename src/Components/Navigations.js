@@ -57,7 +57,7 @@ function Navigations(props) {
                     </ListItemIcon>
                     <ListItemText primary="Add Property" />
                 </ListItem>
-                <ListItem button onClick={() => { history.push('/website-listings') }}>
+                <ListItem button onClick={() => { history.push('/property/website-listings') }}>
                     <ListItemIcon>
                         <PlaylistAddCheckIcon style={{ color: '#33C4FF' }} className="icons" />
                     </ListItemIcon>
