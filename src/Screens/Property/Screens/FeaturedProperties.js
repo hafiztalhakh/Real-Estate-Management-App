@@ -50,14 +50,14 @@ export default function Property() {
     const handleGetProperties = () => {
 
         Axios({
-            url: `${baseUrl}/property/get-properties`,
+            url: `${baseUrl}/property/get-featured-properties`,
             method: "GET",
             params: {
                 type: "category type area society sector subSector demand reference referrer contact"
             }
         })
             .then(res => {
-                // console.log(res.data);
+                console.log(res.data);
                 setData(res.data.properties)
                 setLoader(false)
             })
@@ -85,8 +85,10 @@ export default function Property() {
                             <div className={classes.centerContainer}>
                                 <CircularProgress className={classes.circularProgress} />
                             </div>
-                            :
-                            <Table property={data} getData={handleGetProperties} />
+                            : data.length > 0 ?
+                                <Table property={data} getData={handleGetProperties} />
+                                :
+                                <h1 align="center">No data found</h1>
                     }
                 </Paper>
             </Container>
@@ -94,14 +96,16 @@ export default function Property() {
     } else {
         return (
             <Container maxWidth="md">
-                <h1>Property List</h1>
+                <h1>Featured Property List</h1>
                 <Divider className={divider} />
                 {
-                    data.map((el, i) => (
+                    data.length > 0 ? data.map((el, i) => (
                         <Fragment key={i}>
                             <Card data={el} getData={handleGetProperties} />
                         </Fragment>
                     ))
+                        :
+                        <h1 align="center">No data found</h1>
                 }
             </Container>
         )
