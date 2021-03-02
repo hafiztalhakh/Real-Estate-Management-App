@@ -73,7 +73,7 @@ export default function Topbar(props) {
     return (
         <AppBar position="absolute" color="default" className={clsx(classes.appBar, open && classes.appBarShift)}>
             <Toolbar className={classes.toolbar}>
-                <IconButton
+                {/* <IconButton
                     edge="start"
                     color="inherit"
                     aria-label="open drawer"
@@ -81,14 +81,13 @@ export default function Topbar(props) {
                     className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                 >
                     <MenuIcon />
-                </IconButton>
-                <Typography
-                    variant="h5"
+                </IconButton> */}
+                <h2
                     className={classes.webAppbarHeading}
                 >
                     Shaheer Enterprises
-                </Typography>
-                <Notifications />
+                </h2>
+                {/* <Notifications />
                 <List className={classes.webAppbarButton}>
                     <ListItem button onClick={handleSwitchUser}>
                         <ListItemIcon style={{ minWidth: 35 }}>
@@ -103,7 +102,7 @@ export default function Topbar(props) {
                             }}>Switch User</Typography>}
                         />
                     </ListItem>
-                </List>
+                </List> */}
             </Toolbar>
         </AppBar>
     )

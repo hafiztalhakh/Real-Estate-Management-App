@@ -4,7 +4,8 @@ import { Avatar, Drawer, IconButton, makeStyles } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import Navigations from '../Components/Navigations';
-import userPic from '../Assets/Icons/male-user.svg'
+// import userPic from '../Assets/Icons/male-user.svg';
+import logo from '../Assets/Images/logo1.png';
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -16,7 +17,7 @@ const styles = makeStyles((theme) => ({
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         // padding: '0 8px',
         ...theme.mixins.toolbar,
     },
@@ -74,12 +75,13 @@ const LeftDrawerMenu = (props) => {
                 open={open}
             >
                 <div className={classes.toolbarIcon}>
-                    <IconButton onClick={() => { toggleDrawer(false) }}>
+                    {/* <IconButton onClick={() => { toggleDrawer(false) }}>
                         <ChevronLeftIcon style={{ color: 'black' }} />
-                    </IconButton>
+                    </IconButton> */}
+                    <h3>Khalid A. Jabbar</h3>
                 </div>
                 <div className={classes.userDiv}>
-                    <Avatar alt="avatar" src={userPic} className={classes.large} />
+                    <Avatar alt="avatar" src={logo} className={classes.large} />
                     {/* <Avatar> */}
                     {/* <img src={userPic} alt="avatar" /> */}
                     {/* </Avatar> */}
