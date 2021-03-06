@@ -469,7 +469,7 @@ export default function Details(props) {
                             <Grid item xs={12} sm={6}>
                                 <strong>Condition:</strong>
                                 <Chip
-                                    label={data.condition}
+                                    label={data.condition ? data.condition : "Not specified"}
                                     style={{ backgroundColor: "#33c4ff", color: "#fff", marginLeft: 10 }}
                                 />
                             </Grid>
@@ -497,9 +497,12 @@ export default function Details(props) {
                             <Grid item xs={12} sm={6}>
                                 <strong>City:</strong> {data.city}
                             </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <strong>Complete Address:</strong> {data.completeAddress}
-                            </Grid>
+                            {
+                                data.completeAddress &&
+                                <Grid item xs={12} sm={12}>
+                                    <strong>Complete Address:</strong> {data.completeAddress}
+                                </Grid>
+                            }
                         </Grid>
                         <Divider className={divider} />
 
@@ -521,10 +524,10 @@ export default function Details(props) {
 
                         <Grid container spacing={1}>
                             <Grid item xs={12} sm={3}>
-                                <strong>Road Width:</strong> {data.roadWidth}
+                                <strong>Road Width:</strong> {data.roadWidth ? data.roadWidth : "Not specified"}
                             </Grid>
                             <Grid item xs={12} sm={3}>
-                                <strong>Location:</strong> {data.location}
+                                <strong>Location:</strong> {data.location ? data.location : "Not specified"}
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <strong>Park Facing:</strong> {data.parkFacing ? "Yes" : "No"}
@@ -535,21 +538,24 @@ export default function Details(props) {
                         </Grid>
                         <Divider className={divider} />
 
-                        <Grid container spacing={1}>
-                            <Grid item xs={12} sm={3}>
-                                <strong>Floors:</strong> {data.floors}
+                        {
+                            data.type.toLowerCase() !== "plot" &&
+                            <Grid container spacing={1}>
+                                <Grid item xs={12} sm={3}>
+                                    <strong>Floor (s):</strong> {data.floors ? data.floors : "Not specified"}
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <strong>Bedrooms:</strong> {data.bedrooms ? data.bedrooms : "Not specified"}
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <strong>Bathrooms:</strong> {data.bathrooms ? data.bathrooms : "Not specified"}
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <strong>Vehicle Space:</strong> {data.garage ? data.garage : "Not specified"}
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <strong>Bedrooms:</strong> {data.bedrooms}
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <strong>Bathrooms:</strong> {data.bathrooms}
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <strong>Vehicle Space:</strong> {data.garage}
-                            </Grid>
-                        </Grid>
-                        <Divider className={divider} />
+                        }
+                        {data.type.toLowerCase() !== "plot" && <Divider className={divider} />}
 
                         <Grid container spacing={1}>
                             <Grid item xs={12} sm={3}>

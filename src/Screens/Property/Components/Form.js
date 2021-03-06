@@ -717,7 +717,7 @@ class PropertyForm extends Component {
                                 </Fragment>
                             }
                             {
-                                (type === "house" || type === "House") &&
+                                (type && (type.toLowerCase() === "house" || type.toLowerCase() === "structure")) &&
                                 <Grid item xs={12} sm={12} md={4}>
                                     <InputLabel className={inputLabel}>Select Vehicle Space</InputLabel>
                                     <Autocomplete
