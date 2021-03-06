@@ -263,7 +263,7 @@ class SocietyForm extends Component {
                 this.setState({ submitLoader: false });
                 Swal.fire({
                     icon: "success",
-                    title: "Updated!",
+                    title: origin === "update" ? "Updated!" : "Saved!",
                     text: `${name} has been updated successfully.`
                 }).then(() => {
                     this.props.history.push("/societies");
