@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import baseUrl from '../../../Util/baseUrl';
 import Table from '../Components/Table';
 import Card from '../Components/Cards';
+import Search from '../Components/Search';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -42,6 +43,7 @@ export default function Property() {
     const { paper, divider } = classes;
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
+    const [properties, setProperties] = useState([]);
 
     useEffect(() => {
         handleGetProperties();
@@ -53,12 +55,12 @@ export default function Property() {
             url: `${baseUrl}/property/get-properties`,
             method: "GET",
             params: {
-                type: "category type area society sector subSector demand reference referrer contact"
+                type: "category type area society sector subSector demand reference referrer contact createdAt"
             }
         })
             .then(res => {
-                // console.log(res.data);
-                setData(res.data.properties)
+                setProperties(res.data.properties);
+                setData(res.data.properties);
                 setLoader(false)
             })
             .catch(err => {
@@ -74,12 +76,63 @@ export default function Property() {
             })
     }
 
+    const handleSearch = query => {
+        const filteredDataByCategory = properties.filter(property => {
+            return property.category.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataByPropertyType = properties.filter(property => {
+            return property.type.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataBySocities = properties.filter(property => {
+            return property.society.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataBySectors = properties.filter(property => {
+            return property.sector.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataBySubSectors = properties.filter(property => {
+            return property.subSector.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataByReferrer = properties.filter(property => {
+            return property.referrer.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataByArea = properties.filter(property => {
+            return property.area.toLowerCase().includes(query.toLowerCase());
+        });
+        const filteredDataByDemand = properties.filter(property => {
+            return property.demand.toString().toLowerCase().includes(parseInt(query));
+        });
+
+        const tempArr = [
+            ...filteredDataByCategory,
+            ...filteredDataByPropertyType,
+            ...filteredDataBySocities,
+            ...filteredDataBySectors,
+            ...filteredDataBySubSectors,
+            ...filteredDataByReferrer,
+            ...filteredDataByArea,
+            ...filteredDataByDemand
+        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
+
+        if (tempArr.length > 0)
+            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+        else
+            setData([]);
+
+    };
+
+   const handleClearSearch = () => {
+        setData([...properties]);
+    }
+
     if (isDesktop) {
         return (
             <Container maxWidth="lg">
                 <Paper elevation={3} className={paper}>
                     <h1>Property List</h1>
                     <Divider className={divider} />
+
+                    <Search searchHandler={handleSearch} clearHandler={handleClearSearch} />
+
                     {
                         loader ?
                             <div className={classes.centerContainer}>
