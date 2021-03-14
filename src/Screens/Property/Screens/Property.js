@@ -77,50 +77,52 @@ export default function Property() {
     }
 
     const handleSearch = query => {
-        const filteredDataByCategory = properties.filter(property => {
-            return property.category.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataByPropertyType = properties.filter(property => {
-            return property.type.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataBySocities = properties.filter(property => {
-            return property.society.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataBySectors = properties.filter(property => {
-            return property.sector.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataBySubSectors = properties.filter(property => {
-            return property.subSector.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataByReferrer = properties.filter(property => {
-            return property.referrer.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataByArea = properties.filter(property => {
-            return property.area.toLowerCase().includes(query.toLowerCase());
-        });
-        const filteredDataByDemand = properties.filter(property => {
-            return property.demand.toString().toLowerCase().includes(parseInt(query));
-        });
 
-        const tempArr = [
-            ...filteredDataByCategory,
-            ...filteredDataByPropertyType,
-            ...filteredDataBySocities,
-            ...filteredDataBySectors,
-            ...filteredDataBySubSectors,
-            ...filteredDataByReferrer,
-            ...filteredDataByArea,
-            ...filteredDataByDemand
-        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
+        if (query) {
+            const filteredDataByCategory = properties.filter(property => {
+                return property.category.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataByPropertyType = properties.filter(property => {
+                return property.type.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataBySocities = properties.filter(property => {
+                return property.society.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataBySectors = properties.filter(property => {
+                return property.sector.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataBySubSectors = properties.filter(property => {
+                return property.subSector.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataByReferrer = properties.filter(property => {
+                return property.referrer.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataByArea = properties.filter(property => {
+                return property.area.toLowerCase().includes(query.toLowerCase());
+            });
+            const filteredDataByDemand = properties.filter(property => {
+                return property.demand.toString().toLowerCase().includes(parseInt(query));
+            });
 
-        if (tempArr.length > 0)
-            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
-        else
-            setData([]);
+            const tempArr = [
+                ...filteredDataByCategory,
+                ...filteredDataByPropertyType,
+                ...filteredDataBySocities,
+                ...filteredDataBySectors,
+                ...filteredDataBySubSectors,
+                ...filteredDataByReferrer,
+                ...filteredDataByArea,
+                ...filteredDataByDemand
+            ].sort((a, b) => { return (b.createdAt - a.createdAt) });
 
-    };
+            if (tempArr.length > 0)
+                setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+            else
+                setData([]);
+        }
+    }
 
-   const handleClearSearch = () => {
+    const handleClearSearch = () => {
         setData([...properties]);
     }
 
@@ -149,6 +151,9 @@ export default function Property() {
             <Container maxWidth="md">
                 <h1>Property List</h1>
                 <Divider className={divider} />
+
+                <Search searchHandler={handleSearch} clearHandler={handleClearSearch} />
+
                 {
                     data.map((el, i) => (
                         <Fragment key={i}>

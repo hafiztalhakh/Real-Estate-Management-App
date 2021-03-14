@@ -1,8 +1,12 @@
 import React, { Fragment } from 'react';
-import { Grid, makeStyles, Divider, InputLabel, TextField, Button, CircularProgress } from '@material-ui/core';
+import { Grid, makeStyles, Divider, InputLabel, TextField, Button, CircularProgress, Container } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        width: 300,
+        padding: 10
+    },
     inputLabel: {
         fontWeight: "bold",
         marginBottom: 5
@@ -85,7 +89,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CustomCard(props) {
     const classes = useStyles();
-    const { inputLabel,
+    const {
+        root,
+        inputLabel,
         textField,
         multilineTextField,
         notchedOutline,
@@ -96,55 +102,51 @@ export default function CustomCard(props) {
     const { data, getData } = props;
 
     return (
-        <Fragment>
-            <Grid container spacing={12}>
-                <Grid item xs={12} sm={12} md={4}>
-                    <InputLabel className={inputLabel}>Select Type*</InputLabel>
-                    <Autocomplete
-                        className={autoCompleteTextField}
-                        options={["Plot", "House", "Flat", "Building", "Structure"]}
-                        // value={type}
-                        onChange={(e, value) => {
-                            this.setState({ type: value });
+        <div className={root}>
+
+            <InputLabel className={inputLabel}>Select Type*</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={["Plot", "House", "Flat", "Building", "Structure"]}
+                // value={type}
+                onChange={(e, value) => {
+                    this.setState({ type: value });
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select Type"
+                        size="small"
+                        onChange={(e) => {
+                            this.setState({ type: e.target.value });
                         }}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                className={textField}
-                                variant="outlined"
-                                placeholder="Select Type"
-                                size="small"
-                                onChange={(e) => {
-                                    this.setState({ type: e.target.value });
-                                }}
-                            />
-                        )}
                     />
-                </Grid>
-                <Grid item xs={12} sm={12} md={4}>
-                    <InputLabel className={inputLabel}>Select Sector*</InputLabel>
-                    <Autocomplete
-                        className={autoCompleteTextField}
-                        options={["Lease", "Transfer", "Open Transfer"]}
-                        // value={fileType}
-                        onChange={(e, value) => {
-                            this.setState({ fileType: value });
+                )}
+            />
+
+            <InputLabel className={inputLabel}>Select Sector*</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={["Lease", "Transfer", "Open Transfer"]}
+                // value={fileType}
+                onChange={(e, value) => {
+                    this.setState({ fileType: value });
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select File Type"
+                        size="small"
+                        onChange={(e) => {
+                            this.setState({ fileType: e.target.value });
                         }}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                className={textField}
-                                variant="outlined"
-                                placeholder="Select File Type"
-                                size="small"
-                                onChange={(e) => {
-                                    this.setState({ fileType: e.target.value });
-                                }}
-                            />
-                        )}
                     />
-                </Grid>
-            </Grid>
-        </Fragment>
+                )}
+            />
+        </div>
     )
 }
