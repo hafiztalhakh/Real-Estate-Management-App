@@ -72,15 +72,31 @@ export default function CustomCard(props) {
         autoCompleteTextField,
         btn
     } = classes;
-    const { societies, getData } = props;
+    const { societies, filterHandler } = props;
     const [type, setType] = useState("");
     const [fileType, setFileType] = useState("");
     const [areaCategory, setAreaCatergory] = useState("");
     const [sectors, setSectors] = useState([]);
     const [society, setSociety] = useState("");
     const [sector, setSector] = useState("");
+    const [minDemand, setMinDemand] = useState("");
+    const [maxDemand, setMaxDemand] = useState("");
 
-    console.log(societies);
+    const handleApplyFilter = () => {
+
+        if (type || fileType || areaCategory || sector || society || (minDemand && maxDemand)) {
+            const filter = {
+                type,
+                fileType,
+                areaCategory,
+                society,
+                sector,
+                minDemand,
+                maxDemand
+            };
+            filterHandler(filter);
+        }
+    }
 
     return (
         <div className={root}>
@@ -91,7 +107,7 @@ export default function CustomCard(props) {
                 options={["Plot", "House", "Flat", "Building", "Structure"]}
                 value={type}
                 onChange={(e, value) => {
-                    this.setState({ type: value });
+                    setType(value)
                 }}
                 renderInput={(params) => (
                     <TextField
@@ -113,7 +129,7 @@ export default function CustomCard(props) {
                 options={["Lease", "Transfer", "Open Transfer"]}
                 value={fileType}
                 onChange={(e, value) => {
-                    this.setState({ fileType: value });
+                    setFileType(value)
                 }}
                 renderInput={(params) => (
                     <TextField
@@ -135,7 +151,7 @@ export default function CustomCard(props) {
                 options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
                 value={areaCategory}
                 onChange={(e, value) => {
-                    this.setState({ fileType: value });
+                    setAreaCatergory(value)
                 }}
                 renderInput={(params) => (
                     <TextField
@@ -222,43 +238,43 @@ export default function CustomCard(props) {
 
             <Divider style={{ margin: "10px 0" }} />
 
-            <InputLabel className={inputLabel}>Sectors</InputLabel>
+            <InputLabel className={inputLabel}>Amount Range</InputLabel>
             <Autocomplete
                 className={autoCompleteTextField}
-                options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
-                value={areaCategory}
+                options={["100000", "1000000", "5000000", "10000000", "20000000", "30000000", "40000000", "50000000"]}
+                value={minDemand}
                 onChange={(e, value) => {
-                    this.setState({ fileType: value });
+                    setMinDemand(value)
                 }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
                         className={textField}
                         variant="outlined"
-                        placeholder="Select File Type"
+                        placeholder="Select Minimum Amount"
                         size="small"
                         onChange={(e) => {
-                            setAreaCatergory(e.target.value);
+                            setMinDemand(e.target.value)
                         }}
                     />
                 )}
             />
             <Autocomplete
                 className={autoCompleteTextField}
-                options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
-                value={areaCategory}
+                options={["1000000", "5000000", "10000000", "20000000", "30000000", "40000000", "50000000", "100000000"]}
+                value={maxDemand}
                 onChange={(e, value) => {
-                    this.setState({ fileType: value });
+                    setMaxDemand(value)
                 }}
                 renderInput={(params) => (
                     <TextField
                         {...params}
                         className={textField}
                         variant="outlined"
-                        placeholder="Select File Type"
+                        placeholder="Select Maximum Amount"
                         size="small"
                         onChange={(e) => {
-                            setAreaCatergory(e.target.value);
+                            setMaxDemand(e.target.value);
                         }}
                     />
                 )}
@@ -267,7 +283,7 @@ export default function CustomCard(props) {
             <Button
                 variant="contained"
                 className={btn}
-            // onClick={this.handleSave}
+                onClick={handleApplyFilter}
             >
                 Apply Filters
             </Button>

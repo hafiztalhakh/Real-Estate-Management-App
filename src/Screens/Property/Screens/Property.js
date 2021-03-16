@@ -57,7 +57,7 @@ export default function Property() {
             url: `${baseUrl}/property/get-properties`,
             method: "GET",
             params: {
-                type: "category type area society sector subSector demand reference referrer contact createdAt"
+                type: "category type fileType area areaCategory society sector subSector demand reference referrer contact createdAt"
             }
         })
             .then(res => {
@@ -148,6 +148,55 @@ export default function Property() {
         }
     }
 
+    const handleFilter = filter => {
+
+        let filteredDataByType = [];
+        let filteredDataByFileType = [];
+        let filteredDataBySocities = [];
+        let filteredDataBySectors = [];
+        let filteredDataByAreaCategory = [];
+
+        if (filter.type)
+            filteredDataByType = properties.filter(property => {
+                return property.type.toLowerCase().includes(filter.type.toLowerCase());
+            });
+        if (filter.fileType)
+            filteredDataByFileType = properties.filter(property => {
+                return property.fileType.toLowerCase().includes(filter.fileType.toLowerCase());
+            });
+        if (filter.areaCategory)
+            filteredDataByAreaCategory = properties.filter(property => {
+                return property.areaCategory.toLowerCase().includes(filter.areaCategory.toLowerCase());
+            });
+        if (filter.society)
+            filteredDataBySocities = properties.filter(property => {
+                return property.society.toLowerCase().includes(filter.society.toLowerCase());
+            });
+        if (filter.sector)
+            filteredDataBySectors = properties.filter(property => {
+                return property.sector.toLowerCase().includes(filter.sector.toLowerCase());
+            });
+        // if (filter.minDemand && filter.maxDemand)
+        //     filteredDataByReferrer = properties.filter(property => {
+        //         return property.referrer.toLowerCase().includes(query.toLowerCase());
+        //     });
+
+        const tempArr = [
+            ...filteredDataByType,
+            ...filteredDataByFileType,
+            ...filteredDataBySocities,
+            ...filteredDataBySectors,
+            ...filteredDataByAreaCategory,
+        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
+
+        console.log(tempArr)
+
+        if (tempArr.length > 0)
+            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+        else
+            setData([]);
+    }
+
     const handleClearSearch = () => {
         setData([...properties]);
     }
@@ -163,6 +212,7 @@ export default function Property() {
                         searchHandler={handleSearch}
                         clearHandler={handleClearSearch}
                         societies={societies}
+                        filterHandler={handleFilter}
                     />
 
                     {
@@ -186,6 +236,7 @@ export default function Property() {
                     searchHandler={handleSearch}
                     clearHandler={handleClearSearch}
                     societies={societies}
+                    filterHandler={handleFilter}
                 />
 
                 {

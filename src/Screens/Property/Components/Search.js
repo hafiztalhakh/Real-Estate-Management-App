@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Search(props) {
-    const { searchHandler, clearHandler, societies } = props;
+    const { searchHandler, clearHandler, societies, filterHandler } = props;
     const [query, setQuery] = useState("");
     const [showClear, setShowClear] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,7 +40,7 @@ export default function Search(props) {
         root,
         iconButton,
         input,
-        divider
+        // divider
     } = classes;
 
     const handleChangeSearch = (e) => {
@@ -86,7 +86,7 @@ export default function Search(props) {
                     horizontal: 'center',
                 }}
             >
-                <FilterOptions societies={societies} />
+                <FilterOptions societies={societies} filterHandler={filterHandler} />
             </Menu>
 
             <InputBase
