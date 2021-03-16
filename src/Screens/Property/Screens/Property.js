@@ -150,89 +150,93 @@ export default function Property() {
 
     const handleFilter = filter => {
         let { type, fileType, areaCategory, society, sector } = filter;
-        let filteredData = [];
 
-        type = type && type.toLowerCase();
-        fileType = fileType && fileType.toLowerCase();
-        areaCategory = areaCategory && areaCategory.toLowerCase();
-        society = society && society.toLowerCase();
-        sector = sector && sector.toLowerCase();
+        const filteredByType = properties.filter(el => type ? el.type.toLowerCase() === type.toLowerCase() : null);
+        const filteredByFileType = properties.filter(el => fileType ? el.fileType.toLowerCase() === fileType.toLowerCase() : null);
+        const filteredByAreaCategory = properties.filter(el => areaCategory ? el.areaCategory.toLowerCase() === areaCategory.toLowerCase() : null);
+        const filteredBySociety = properties.filter(el => society ? el.society.toLowerCase() === society.toLowerCase() : null);
+        const filteredBySector = properties.filter(el => sector ? el.sector.toLowerCase() === sector.toLowerCase() : null);
 
-        if (type && fileType && areaCategory && society) {
-            filteredData = properties.filter(el => {
-                return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society);
-            });
-        }
-        else if (type && fileType && areaCategory && sector) {
-            filteredData = properties.filter(el => {
-                return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.sector.toLowerCase().includes(sector);
-            });
-        }
+        const tempArr = [
+            ...filteredByType,
+            ...filteredByFileType,
+            ...filteredByAreaCategory,
+            ...filteredBySociety,
+            ...filteredBySector
+        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
 
+        console.log("test", [...new Set(tempArr)])
 
-
-        
-
-
-
-
-        else if (!test && !department && !patientCategory && center) {
-
-        } else if (!test && !department && patientCategory && center) {
-
-        } else if (!test && department && !patientCategory && center) {
-
-
-        } else if (!test && department && patientCategory && !center) {
-
-        } else if (!test && !department && !patientCategory && !center && startDate && endDate) {
-
-        }
-
-
-
-
-
-
-
-
-
-        if (test && department && patientCategory && center) {
-
-        } else if (test && department && !patientCategory && !center) {
-
-        } else if (test && patientCategory && !department && !center) {
-
-        } else if (test && center && patientCategory && !department) {
-
-        } else if (test && !department && !patientCategory && !center) {
-
-        } else if (!test && department && !patientCategory && !center) {
-
-        } else if (!test && !department && patientCategory && !center) {
-
-        } else if (!test && !department && patientCategory && center) {
-
-        } else if (!test && department && patientCategory && center) {
-
-
-        } else if (!test && department && patientCategory && !center) {
-
-        } else if (!test && !department && !patientCategory && !center && startDate && endDate) {
-
-        }
-
-
-
-
-        filteredData.sort((a, b) => { return (b.createdAt - a.createdAt) });
-
-        console.log(filteredData)
-
-        if (filteredData.length > 0)
-            setData([...new Set(filteredData)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+        if (tempArr.length > 0)
+            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
         else
             setData([]);
+
+
+        // if (type && fileType && areaCategory && society) {
+        //     filteredData = properties.filter(el => {
+        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society);
+        //     });
+        // }
+        // else if (type && fileType && areaCategory && sector) {
+        //     filteredData = properties.filter(el => {
+        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.sector.toLowerCase().includes(sector);
+        //     });
+        // }
+
+
+        // if (type) {
+        //     filteredData = properties.filter(el => {
+        //         return el.type.toLowerCase().includes(type)
+        //     });
+        // }
+        // else if (fileType) {
+
+        // }
+        // else if (areaCategory) {
+
+        // }
+        // else if (society) {
+
+        // }
+        // else if (sector) {
+
+        // }
+        // else if (type && fileType) {
+
+        // }
+        // else if (type && areaCategory) {
+
+        // }
+        // else if (type && society) {
+
+        // }
+        // else if (type && sector) {
+
+        // }
+        // else if (fileType && areaCategory) {
+
+        // }
+        // else if (fileType && society) {
+
+        // }
+        // else if (fileType && sector) {
+
+        // }
+        // else if (areaCategory && society) {
+
+        // }
+        // else if (areaCategory && sector) {
+
+        // }
+
+
+
+        // if (type && fileType && areaCategory && society && sector) {
+        //     filteredData = properties.filter(el => {
+        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society) && el.sector.toLowerCase().includes(sector);
+        //     });
+        // }
     }
 
     const handleClearSearch = () => {
