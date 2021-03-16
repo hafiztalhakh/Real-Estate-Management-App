@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Search(props) {
-    const { searchHandler, clearHandler } = props;
+    const { searchHandler, clearHandler, societies } = props;
     const [query, setQuery] = useState("");
     const [showClear, setShowClear] = useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -86,7 +86,7 @@ export default function Search(props) {
                     horizontal: 'center',
                 }}
             >
-                <FilterOptions />
+                <FilterOptions societies={societies} />
             </Menu>
 
             <InputBase

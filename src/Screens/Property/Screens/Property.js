@@ -44,9 +44,11 @@ export default function Property() {
     const [loader, setLoader] = useState(true);
     const [data, setData] = useState([]);
     const [properties, setProperties] = useState([]);
+    const [societies, setSocieties] = useState([]);
 
     useEffect(() => {
         handleGetProperties();
+        handleGetSocities();
     }, []);
 
     const handleGetProperties = () => {
@@ -71,6 +73,30 @@ export default function Property() {
                         icon: "error",
                         title: "Error!",
                         text: `${err.response.data.message}`
+                    })
+                }
+            })
+    }
+
+    const handleGetSocities = () => {
+
+        Axios({
+            url: `${baseUrl}/society/get-societies`,
+            method: "GET",
+            params: {
+                type: "name sectors"
+            }
+        })
+            .then(res => {
+                setSocieties(res.data.societies);
+            })
+            .catch(err => {
+                console.log(err);
+                if (err && err.response) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Internal server error while fetching socities"
                     })
                 }
             })
@@ -133,7 +159,11 @@ export default function Property() {
                     <h1>Property List</h1>
                     <Divider className={divider} />
 
-                    <Search searchHandler={handleSearch} clearHandler={handleClearSearch} />
+                    <Search
+                        searchHandler={handleSearch}
+                        clearHandler={handleClearSearch}
+                        societies={societies}
+                    />
 
                     {
                         loader ?
@@ -152,7 +182,11 @@ export default function Property() {
                 <h1>Property List</h1>
                 <Divider className={divider} />
 
-                <Search searchHandler={handleSearch} clearHandler={handleClearSearch} />
+                <Search
+                    searchHandler={handleSearch}
+                    clearHandler={handleClearSearch}
+                    societies={societies}
+                />
 
                 {
                     data.map((el, i) => (

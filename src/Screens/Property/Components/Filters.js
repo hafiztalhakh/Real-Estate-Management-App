@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Grid, makeStyles, Divider, InputLabel, TextField, Button, CircularProgress, Container } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -99,16 +99,24 @@ export default function CustomCard(props) {
         autoCompleteTextField,
         btn
     } = classes;
-    const { data, getData } = props;
+    const { societies, getData } = props;
+    const [type, setType] = useState("");
+    const [fileType, setFileType] = useState("");
+    const [areaCategory, setAreaCatergory] = useState("");
+    const [sectors, setSectors] = useState([]);
+    const [society, setSociety] = useState("");
+    const [sector, setSector] = useState("");
+
+    console.log(societies);
 
     return (
         <div className={root}>
 
-            <InputLabel className={inputLabel}>Select Type*</InputLabel>
+            <InputLabel className={inputLabel}>Type</InputLabel>
             <Autocomplete
                 className={autoCompleteTextField}
                 options={["Plot", "House", "Flat", "Building", "Structure"]}
-                // value={type}
+                value={type}
                 onChange={(e, value) => {
                     this.setState({ type: value });
                 }}
@@ -120,17 +128,17 @@ export default function CustomCard(props) {
                         placeholder="Select Type"
                         size="small"
                         onChange={(e) => {
-                            this.setState({ type: e.target.value });
+                            setType(e.target.value);
                         }}
                     />
                 )}
             />
 
-            <InputLabel className={inputLabel}>Select Sector*</InputLabel>
+            <InputLabel className={inputLabel}>File Type</InputLabel>
             <Autocomplete
                 className={autoCompleteTextField}
                 options={["Lease", "Transfer", "Open Transfer"]}
-                // value={fileType}
+                value={fileType}
                 onChange={(e, value) => {
                     this.setState({ fileType: value });
                 }}
@@ -142,7 +150,98 @@ export default function CustomCard(props) {
                         placeholder="Select File Type"
                         size="small"
                         onChange={(e) => {
-                            this.setState({ fileType: e.target.value });
+                            setFileType(e.target.value);
+                        }}
+                    />
+                )}
+            />
+
+            <InputLabel className={inputLabel}>Area Category</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
+                value={areaCategory}
+                onChange={(e, value) => {
+                    this.setState({ fileType: value });
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select File Type"
+                        size="small"
+                        onChange={(e) => {
+                            setAreaCatergory(e.target.value);
+                        }}
+                    />
+                )}
+            />
+
+            <InputLabel className={inputLabel}>Society</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={
+                    societies.length > 0 ? societies.map(el => el.name) : []
+                }
+                value={society}
+                onChange={(e, value) => {
+                    let tempArr = [];
+                    societies.forEach(el => {
+                        if (el.name === value) {
+                            tempArr = el.sectors;
+                        }
+                    });
+                    setSociety(value)
+                    if (tempArr.length > 0) {
+                        setSectors(tempArr);
+                    }
+                    setSector("");
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Society"
+                        size="small"
+                        onChange={(e) => {
+                            let tempArr = [];
+                            societies.forEach(el => {
+                                if (el.name === e.target.value) {
+                                    tempArr = el.sectors;
+                                }
+                            });
+                            setSociety(e.target.value)
+                            if (tempArr.length > 0) {
+                                setSectors(tempArr);
+                            }
+                            setSector("");
+                        }}
+                    />
+                )}
+            />
+
+            <InputLabel className={inputLabel}>Sectors</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={
+                    sectors.length > 0 ? sectors.map(el => el.name) : []
+                }
+                disabled={sectors.length <= 0}
+                value={sector}
+                onChange={(e, value) => {
+                    setSector(value);
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select Sector/Block"
+                        size="small"
+                        onChange={(e) => {
+                            setSector(e.target.value)
                         }}
                     />
                 )}
