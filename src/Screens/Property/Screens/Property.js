@@ -149,50 +149,33 @@ export default function Property() {
     }
 
     const handleFilter = filter => {
+        let { type, fileType, areaCategory, society, sector } = filter;
+        let filteredData = [];
 
-        let filteredDataByType = [];
-        let filteredDataByFileType = [];
-        let filteredDataBySocities = [];
-        let filteredDataBySectors = [];
-        let filteredDataByAreaCategory = [];
+        type = type && type.toLowerCase();
+        fileType = fileType && fileType.toLowerCase();
+        areaCategory = areaCategory && areaCategory.toLowerCase();
+        society = society && society.toLowerCase();
+        sector = sector && sector.toLowerCase();
 
-        if (filter.type)
-            filteredDataByType = properties.filter(property => {
-                return property.type.toLowerCase().includes(filter.type.toLowerCase());
+        if (type && fileType && areaCategory && society) {
+            filteredData = properties.filter(el => {
+                return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society);
             });
-        if (filter.fileType)
-            filteredDataByFileType = properties.filter(property => {
-                return property.fileType.toLowerCase().includes(filter.fileType.toLowerCase());
+        }
+        else if (type && fileType && areaCategory && sector) {
+            filteredData = properties.filter(el => {
+                return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.sector.toLowerCase().includes(sector);
             });
-        if (filter.areaCategory)
-            filteredDataByAreaCategory = properties.filter(property => {
-                return property.areaCategory.toLowerCase().includes(filter.areaCategory.toLowerCase());
-            });
-        if (filter.society)
-            filteredDataBySocities = properties.filter(property => {
-                return property.society.toLowerCase().includes(filter.society.toLowerCase());
-            });
-        if (filter.sector)
-            filteredDataBySectors = properties.filter(property => {
-                return property.sector.toLowerCase().includes(filter.sector.toLowerCase());
-            });
-        // if (filter.minDemand && filter.maxDemand)
-        //     filteredDataByReferrer = properties.filter(property => {
-        //         return property.referrer.toLowerCase().includes(query.toLowerCase());
-        //     });
+        }
+        else if (type)
 
-        const tempArr = [
-            ...filteredDataByType,
-            ...filteredDataByFileType,
-            ...filteredDataBySocities,
-            ...filteredDataBySectors,
-            ...filteredDataByAreaCategory,
-        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
+            filteredData.sort((a, b) => { return (b.createdAt - a.createdAt) });
 
-        console.log(tempArr)
+        console.log(filteredData)
 
-        if (tempArr.length > 0)
-            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+        if (filteredData.length > 0)
+            setData([...new Set(filteredData)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
         else
             setData([]);
     }
