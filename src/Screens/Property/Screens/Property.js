@@ -168,9 +168,64 @@ export default function Property() {
                 return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.sector.toLowerCase().includes(sector);
             });
         }
-        else if (type)
 
-            filteredData.sort((a, b) => { return (b.createdAt - a.createdAt) });
+
+
+        
+
+
+
+
+        else if (!test && !department && !patientCategory && center) {
+
+        } else if (!test && !department && patientCategory && center) {
+
+        } else if (!test && department && !patientCategory && center) {
+
+
+        } else if (!test && department && patientCategory && !center) {
+
+        } else if (!test && !department && !patientCategory && !center && startDate && endDate) {
+
+        }
+
+
+
+
+
+
+
+
+
+        if (test && department && patientCategory && center) {
+
+        } else if (test && department && !patientCategory && !center) {
+
+        } else if (test && patientCategory && !department && !center) {
+
+        } else if (test && center && patientCategory && !department) {
+
+        } else if (test && !department && !patientCategory && !center) {
+
+        } else if (!test && department && !patientCategory && !center) {
+
+        } else if (!test && !department && patientCategory && !center) {
+
+        } else if (!test && !department && patientCategory && center) {
+
+        } else if (!test && department && patientCategory && center) {
+
+
+        } else if (!test && department && patientCategory && !center) {
+
+        } else if (!test && !department && !patientCategory && !center && startDate && endDate) {
+
+        }
+
+
+
+
+        filteredData.sort((a, b) => { return (b.createdAt - a.createdAt) });
 
         console.log(filteredData)
 
