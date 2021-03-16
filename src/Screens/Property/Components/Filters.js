@@ -27,30 +27,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#f5f5f5",
         }
     },
-    multilineTextField: {
-        backgroundColor: "transparent",
-        marginBottom: 5,
-        width: "100%",
-        "&:hover": {
-            "& $notchedOutline": {
-                borderColor: "#a9a8a8 !important",
-                border: "2px solid",
-            },
-        },
-        "& .MuiOutlinedInput-root": {
-            backgroundColor: "#f5f5f5",
-        }
-    },
-    notchedOutline: {
-        "&:hover": {
-            borderColor: "#a9a8a8",
-        },
-    },
-    focused: {
-        "& $notchedOutline": {
-            borderColor: "#a9a8a8 !important",
-        },
-    },
     autoCompleteTextField: {
         "& .MuiOutlinedInput-notchedOutline": {
             // border: 'none',
@@ -75,14 +51,14 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "flex-end"
     },
     btn: {
-        width: 200,
+        width: "100%",
         height: 45,
-        backgroundColor: "#f5f5f5",
-        color: "#000",
+        backgroundColor: "#33c4ff",
+        color: "#fff",
         fontWeight: "bold",
         "&:hover": {
-            backgroundColor: "#f5f5f5",
-            color: "#000",
+            backgroundColor: "#33c4ff",
+            color: "#fff",
         },
     },
 }));
@@ -93,9 +69,6 @@ export default function CustomCard(props) {
         root,
         inputLabel,
         textField,
-        multilineTextField,
-        notchedOutline,
-        focused,
         autoCompleteTextField,
         btn
     } = classes;
@@ -246,6 +219,59 @@ export default function CustomCard(props) {
                     />
                 )}
             />
-        </div>
+
+            <Divider style={{ margin: "10px 0" }} />
+
+            <InputLabel className={inputLabel}>Sectors</InputLabel>
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
+                value={areaCategory}
+                onChange={(e, value) => {
+                    this.setState({ fileType: value });
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select File Type"
+                        size="small"
+                        onChange={(e) => {
+                            setAreaCatergory(e.target.value);
+                        }}
+                    />
+                )}
+            />
+            <Autocomplete
+                className={autoCompleteTextField}
+                options={["80 yards", "120 yards", "200 yards", "240 yards", "400 yards", "600 yards"]}
+                value={areaCategory}
+                onChange={(e, value) => {
+                    this.setState({ fileType: value });
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        className={textField}
+                        variant="outlined"
+                        placeholder="Select File Type"
+                        size="small"
+                        onChange={(e) => {
+                            setAreaCatergory(e.target.value);
+                        }}
+                    />
+                )}
+            />
+
+            <Button
+                variant="contained"
+                className={btn}
+            // onClick={this.handleSave}
+            >
+                Apply Filters
+            </Button>
+
+        </div >
     )
 }
