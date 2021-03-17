@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 
 import baseUrl from '../../../Util/baseUrl';
 import Table from '../Components/Table';
-import Modal from '../Components/Modal';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Society() {
+export default function Message(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
@@ -51,15 +50,12 @@ export default function Society() {
     const handleGetSocieties = () => {
 
         Axios({
-            url: `${baseUrl}/society/get-societies`,
-            method: "GET",
-            params: {
-                type: "name town city category"
-            }
+            url: `${baseUrl}/message/get-messages`,
+            method: "GET"
         })
             .then(res => {
                 console.log(res.data);
-                setData(res.data.societies)
+                setData(res.data.messages)
                 setLoader(false)
             })
             .catch(err => {
@@ -75,54 +71,54 @@ export default function Society() {
             })
     }
 
-    if (isDesktop) {
-        return (
-            <Container maxWidth="lg">
-                <Paper elevation={3} className={paper}>
-                    <h1>Societies List</h1>
-                    <Divider className={divider} />
-                    {
-                        loader ?
-                            <div className={classes.centerContainer}>
-                                <CircularProgress className={classes.circularProgress} />
-                            </div>
-                            :
-                            <Table property={data} getData={handleGetSocieties} />
-                    }
-                </Paper>
-            </Container>
-        )
-    } else {
-        return (
-            <Container maxWidth="md">
-                <h1>Societies List</h1>
-                <Divider className={divider} />
+    // if (isDesktop) {
+    return (
+        <Container maxWidth="lg">
+            <Paper elevation={3} className={paper}>
+                <h1>Emails</h1>
+                {/* <Divider className={divider} /> */}
                 {
                     loader ?
                         <div className={classes.centerContainer}>
                             <CircularProgress className={classes.circularProgress} />
                         </div>
                         :
-                        data.length > 0 ? data.map((el, i) => (
-                            <Modal societyId={el._id} getData={handleGetSocieties}>
-                                <ListItem key={i} disableGutters>
-                                    <ListItemIcon>
-                                        <ApartmentIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={
-                                        <strong>{el.name}</strong>
-                                    }
-                                    />
-                                </ListItem>
-                            </Modal>
-                        ))
-                            :
-                            <div className={classes.centerContainer}>
-                                <h1 align="center">No data found</h1>
-                            </div>
+                        <Table messages={data} getData={handleGetSocieties} {...props} />
                 }
-            </Container>
-        )
-    }
+            </Paper>
+        </Container>
+    )
+    // } else {
+    //     return (
+    //         <Container maxWidth="md">
+    //             <h1>Societies List</h1>
+    //             <Divider className={divider} />
+    //             {
+    //                 loader ?
+    //                     <div className={classes.centerContainer}>
+    //                         <CircularProgress className={classes.circularProgress} />
+    //                     </div>
+    //                     :
+    //                     data.length > 0 ? data.map((el, i) => (
+    //                         <Modal societyId={el._id} getData={handleGetSocieties}>
+    //                             <ListItem key={i} disableGutters>
+    //                                 <ListItemIcon>
+    //                                     <ApartmentIcon />
+    //                                 </ListItemIcon>
+    //                                 <ListItemText primary={
+    //                                     <strong>{el.name}</strong>
+    //                                 }
+    //                                 />
+    //                             </ListItem>
+    //                         </Modal>
+    //                     ))
+    //                         :
+    //                         <div className={classes.centerContainer}>
+    //                             <h1 align="center">No data found</h1>
+    //                         </div>
+    //             }
+    //         </Container>
+    //     )
+    // }
 }
 
