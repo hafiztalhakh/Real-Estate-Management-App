@@ -86,7 +86,11 @@ export default function Search(props) {
                     horizontal: 'center',
                 }}
             >
-                <FilterOptions societies={societies} filterHandler={filterHandler} />
+                <FilterOptions
+                    societies={societies}
+                    filterHandler={filterHandler}
+                    menuCloseHandler={handleCloseMenu}
+                />
             </Menu>
 
             <InputBase

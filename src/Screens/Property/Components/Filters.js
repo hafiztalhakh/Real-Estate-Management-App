@@ -72,7 +72,7 @@ export default function CustomCard(props) {
         autoCompleteTextField,
         btn
     } = classes;
-    const { societies, filterHandler } = props;
+    const { societies, filterHandler, menuCloseHandler } = props;
     const [type, setType] = useState("");
     const [fileType, setFileType] = useState("");
     const [areaCategory, setAreaCatergory] = useState("");
@@ -95,6 +95,7 @@ export default function CustomCard(props) {
                 maxDemand
             };
             filterHandler(filter);
+            menuCloseHandler();
         }
     }
 
