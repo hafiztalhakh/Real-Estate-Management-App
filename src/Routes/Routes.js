@@ -9,6 +9,7 @@ import PropertyDetails from '../Screens/Property/Screens/PropertyDetail';
 import WebsiteListings from '../Screens/Property/Screens/WebsiteListings';
 import FeaturedProperties from '../Screens/Property/Screens/FeaturedProperties';
 import SoldOutProperties from '../Screens/Property/Screens/SoldOutProperties';
+import Inbox from '../Screens/Emails/Screens/Inbox';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
 import Society from '../Screens/Society/Screens/Society';
@@ -71,6 +72,13 @@ const routes = () => {
                 path='/property/sold-out'
                 render={props => (
                     <SoldOutProperties {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/inbox'
+                render={props => (
+                    <Inbox {...props} />
                 )}
             />
             <Route
