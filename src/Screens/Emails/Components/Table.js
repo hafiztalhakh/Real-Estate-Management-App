@@ -33,19 +33,19 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'inherit'
 
     },
-    // tableCell2: {
-    //     textAlign: 'left',
-    //     padding: 10,
-    //     fontWeight: 'inherit',
-    //     overflow: "hidden",
-    //     textOverflow: "ellipsis",
-    //     whiteSpace: "nowrap",
-    //     width: "60%"
-    // }
+    tableCell2: {
+        textAlign: 'left',
+        padding: 10,
+        fontWeight: 'inherit',
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "no-wrap",
+        // width: "60%"
+    }
 }));
 
 export default function CustomTable(props) {
-    const { messages, getData } = props;
+    const { messages, history } = props;
     const classes = useStyles();
     const { tableRow, tableRowUnRead, tableCell, tableCell2 } = classes;
     const [page, setPage] = useState(0);
@@ -85,7 +85,7 @@ export default function CustomTable(props) {
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
-                                <TableRow key={index} className={row.isRead ? tableRow : tableRowUnRead}>
+                                <TableRow key={index} className={row.isRead ? tableRow : tableRowUnRead} onClick={() => history.push(`/mail/${row._id}`)}>
                                     <TableCell className={tableCell} style={{ width: 170 }}>
                                         {
                                             row.name.length > 15 ?
@@ -96,8 +96,8 @@ export default function CustomTable(props) {
                                     </TableCell>
                                     <TableCell className={tableCell}>
                                         {
-                                            row.message.length > 120 ?
-                                                `${row.message.slice(0, 120)}...`
+                                            row.message.length > 100 ?
+                                                `${row.message.slice(0, 100)}...`
                                                 :
                                                 row.message
                                         }

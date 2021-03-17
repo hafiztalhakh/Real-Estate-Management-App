@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Property() {
+export default function Message(props) {
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
@@ -83,7 +83,7 @@ export default function Property() {
                             <CircularProgress className={classes.circularProgress} />
                         </div>
                         :
-                        <Table messages={data} getData={handleGetSocieties} />
+                        <Table messages={data} getData={handleGetSocieties} {...props} />
                 }
             </Paper>
         </Container>

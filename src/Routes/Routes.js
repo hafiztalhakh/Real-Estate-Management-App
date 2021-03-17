@@ -10,6 +10,7 @@ import WebsiteListings from '../Screens/Property/Screens/WebsiteListings';
 import FeaturedProperties from '../Screens/Property/Screens/FeaturedProperties';
 import SoldOutProperties from '../Screens/Property/Screens/SoldOutProperties';
 import Inbox from '../Screens/Emails/Screens/Inbox';
+import MessageBody from '../Screens/Emails/Screens/MessageBody';
 import AddSociety from '../Screens/Society/Screens/AddSociety';
 import UpdateSociety from '../Screens/Society/Screens/UpdateSociety';
 import Society from '../Screens/Society/Screens/Society';
@@ -79,6 +80,13 @@ const routes = () => {
                 path='/inbox'
                 render={props => (
                     <Inbox {...props} />
+                )}
+            />
+            <Route
+                exact
+                path='/mail/:id'
+                render={props => (
+                    <MessageBody {...props} />
                 )}
             />
             <Route
