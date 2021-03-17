@@ -90,6 +90,7 @@ export default function Search(props) {
                     societies={societies}
                     filterHandler={filterHandler}
                     menuCloseHandler={handleCloseMenu}
+                    clearHandler={clearHandler}
                 />
             </Menu>
 

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Grid, makeStyles, Divider, InputLabel, TextField, Button, CircularProgress, Container } from '@material-ui/core';
+import { Grid, makeStyles, Divider, InputLabel, TextField, Button, CircularProgress, Container, Typography } from '@material-ui/core';
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +61,12 @@ const useStyles = makeStyles((theme) => ({
             color: "#fff",
         },
     },
+    clearFilter: {
+        color: "red",
+        cursor: "pointer",
+        textAlign: "right",
+        margin: "-10px 0 8px 0"
+    }
 }));
 
 export default function CustomCard(props) {
@@ -70,9 +76,10 @@ export default function CustomCard(props) {
         inputLabel,
         textField,
         autoCompleteTextField,
-        btn
+        btn,
+        clearFilter
     } = classes;
-    const { societies, filterHandler, menuCloseHandler } = props;
+    const { societies, filterHandler, menuCloseHandler, clearHandler } = props;
     const [type, setType] = useState("");
     const [fileType, setFileType] = useState("");
     const [areaCategory, setAreaCatergory] = useState("");
@@ -97,6 +104,19 @@ export default function CustomCard(props) {
             filterHandler(filter);
             menuCloseHandler();
         }
+    }
+
+    const handleClearFilter = () => {
+
+        setType("");
+        setFileType("");
+        setAreaCatergory("");
+        setSociety("");
+        setSector("");
+        setMinDemand("");
+        setMaxDemand("");
+        clearHandler();
+        menuCloseHandler();
     }
 
     return (
@@ -280,6 +300,8 @@ export default function CustomCard(props) {
                     />
                 )}
             />
+
+            <Typography onClick={handleClearFilter} className={clearFilter}>Clear all filters</Typography>
 
             <Button
                 variant="contained"

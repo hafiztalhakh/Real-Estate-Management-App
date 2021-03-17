@@ -133,7 +133,7 @@ export default function Property() {
                 return property.area.toLowerCase().includes(query.toLowerCase());
             });
             const filteredDataByDemand = properties.filter(property => {
-                return property.demand.toString().toLowerCase().includes(parseInt(query));
+                return property.demand.includes(parseInt(query));
             });
 
             const tempArr = [
@@ -155,7 +155,7 @@ export default function Property() {
     }
 
     const handleFilter = filter => {
-        let { type, fileType, areaCategory, society, sector } = filter;
+        let { type, fileType, areaCategory, society, sector, minDemand, maxDemand } = filter;
         let filteredArr = [...properties];
 
         // Axios({
@@ -208,8 +208,18 @@ export default function Property() {
         if (sector) {
             filteredArr = filteredArr.filter(el => el.sector.toLowerCase() === sector.toLowerCase());
         }
-        if (type) {
-            filteredArr = filteredArr.filter(el => el.demand.toLowerCase() > type.toLowerCase()); price: { $lte: maxPrice || 1000000000, $gte: minPrice || 0 }
+        if (minDemand && maxDemand) {
+            filteredArr = filteredArr.filter(el => el.demand >= parseInt(minDemand) && el.demand <= parseInt(maxDemand));
+        } else if (minDemand) {
+            Swal.fire({
+                icon: "warning",
+                title: "please enter maximum demand also"
+            })
+        } else if (maxDemand) {
+            Swal.fire({
+                icon: "warning",
+                title: "please enter minimum demand also"
+            })
         }
 
         const tempArr = filteredArr.sort((a, b) => { return (b.createdAt - a.createdAt) });
