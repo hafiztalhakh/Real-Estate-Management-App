@@ -100,7 +100,7 @@ function CustomTable(props) {
                                     <TableCell className={tableCellBody}>{row.category} {row.type}</TableCell>
                                     <TableCell className={tableCellBody}>
                                         {
-                                            row.subSector ? `${row.subSector}, ${row.society}` : `${row.sector}, ${row.society}`
+                                            row.subSector ? `${row.subSector}, ${row.society}` : row.sector ? `${row.sector}, ${row.society}` : `${row.society}`
                                         }
                                     </TableCell>
                                     <TableCell className={tableCellBody}>{row.area} yds</TableCell>
@@ -110,7 +110,7 @@ function CustomTable(props) {
                                     <TableCell className={tableCellBody}>{row.contact}</TableCell>
                                     <TableCell className={tableCellBody}>
                                         <Link to={`/property/detail/${row._id}`} className={btn}>View</Link>
-                                            {/* <span className={btn}>View</span> */}
+                                        {/* <span className={btn}>View</span> */}
                                     </TableCell>
                                 </TableRow>
                             )
