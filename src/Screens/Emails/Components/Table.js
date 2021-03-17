@@ -1,11 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Button, CircularProgress, IconButton, Divider } from '@material-ui/core';
 import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '100%',
+        width: '99%',
     },
     tableContainer: {
         fontFamily: 'inherit',
@@ -13,16 +13,17 @@ const useStyles = makeStyles(theme => ({
     },
     tableRow: {
         cursor: "pointer",
-        backgroundColor: '#f5f5f5',
         "&:hover": {
+            backgroundColor: '#f5f5f5',
             boxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)"
         }
     },
     tableRowUnRead: {
         fontWeight: "bold",
         cursor: "pointer",
-        backgroundColor: '#fff',
+        width: "100%",
         "&:hover": {
+            backgroundColor: '#f5f5f5',
             boxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)"
         }
     },
@@ -31,20 +32,40 @@ const useStyles = makeStyles(theme => ({
         padding: 10,
         fontWeight: 'inherit'
 
-    }
+    },
+    // tableCell2: {
+    //     textAlign: 'left',
+    //     padding: 10,
+    //     fontWeight: 'inherit',
+    //     overflow: "hidden",
+    //     textOverflow: "ellipsis",
+    //     whiteSpace: "nowrap",
+    //     width: "60%"
+    // }
 }));
 
 export default function CustomTable(props) {
     const { messages, getData } = props;
     const classes = useStyles();
-    const { tableRow, tableRowUnRead, tableCell } = classes;
+    const { tableRow, tableRowUnRead, tableCell, tableCell2 } = classes;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rows, setrows] = useState([]);
-
-    React.useEffect(() => {
+    const [width, setWidth] = useState(window.innerWidth);
+    const [height, setHeight] = useState(window.innerHeight);
+    useEffect(() => {
         setrows(messages);
     }, [messages]);
+
+    // useEffect(() => {
+    //     window.addEventListener("resize", updateDimensions);
+    //     return () => window.removeEventListener("resize", updateDimensions);
+    // }, []);
+
+    // const updateDimensions = () => {
+    //     setWidth(window.innerWidth);
+    //     setHeight(window.innerHeight);
+    // }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
