@@ -103,6 +103,7 @@ export default function Property() {
     }
 
     const handleSearch = query => {
+        setLoader(true);
 
         if (query) {
             query = query.toLowerCase();
@@ -125,10 +126,14 @@ export default function Property() {
                 ...filteredDataByDemand
             ].sort((a, b) => { return (b.createdAt - a.createdAt) });
 
-            if (tempArr.length > 0)
+            if (tempArr.length > 0) {
                 setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
-            else
+                setLoader(false);
+            } else {
                 setData([]);
+                setLoader(false);
+            }
+
         }
     }
 
@@ -136,33 +141,7 @@ export default function Property() {
         let { type, fileType, areaCategory, society, sector, minDemand, maxDemand } = filter;
         let filteredArr = [...properties];
 
-        // Axios({
-        //     url: `${baseUrl}/property/get-filtered-property`,
-        //     method: "GET",
-        //     params: {
-        //         selectThese: "category type fileType area areaCategory society sector subSector demand reference referrer contact createdAt",
-        //         type,
-        //         fileType,
-        //         areaCategory,
-        //         society,
-        //         sector
-        //     }
-        // })
-        //     .then(res => {
-        //         setData(res.data.properties);
-        //         setLoader(false)
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //         setLoader(false);
-        //         if (err && err.response) {
-        //             Swal.fire({
-        //                 icon: "error",
-        //                 title: "Error!",
-        //                 text: `${err.response.data.message}`
-        //             })
-        //         }
-        //     })
+        setLoader(true);
 
         if (type) {
             filteredArr = filteredArr.filter(el => el.type.toLowerCase() === type.toLowerCase());
@@ -195,10 +174,13 @@ export default function Property() {
 
         const tempArr = filteredArr.sort((a, b) => { return (b.createdAt - a.createdAt) });
 
-        if (tempArr.length > 0)
-            setData([...new Set(tempArr)]);  
-        else
+        if (tempArr.length > 0) {
+            setData([...new Set(tempArr)]);
+            setLoader(false);
+        } else {
             setData([]);
+            setLoader(false);
+        }
 
     }
 
