@@ -105,6 +105,12 @@ export default function Property() {
     const handleSearch = query => {
 
         if (query) {
+            //     const filteredByType = properties.filter(el => type ? el.type.toLowerCase() === type.toLowerCase() : null);
+            // const filteredByFileType = properties.filter(el => fileType ? el.fileType.toLowerCase() === fileType.toLowerCase() : null);
+            // const filteredByAreaCategory = properties.filter(el => areaCategory ? el.areaCategory.toLowerCase() === areaCategory.toLowerCase() : null);
+            // const filteredBySociety = properties.filter(el => society ? el.society.toLowerCase() === society.toLowerCase() : null);
+            // const filteredBySector = properties.filter(el => sector ? el.sector.toLowerCase() === sector.toLowerCase() : null);
+
             const filteredDataByCategory = properties.filter(property => {
                 return property.category.toLowerCase().includes(query.toLowerCase());
             });
@@ -150,6 +156,36 @@ export default function Property() {
 
     const handleFilter = filter => {
         let { type, fileType, areaCategory, society, sector } = filter;
+        let filteredArr = [...properties];
+
+        // Axios({
+        //     url: `${baseUrl}/property/get-filtered-property`,
+        //     method: "GET",
+        //     params: {
+        //         selectThese: "category type fileType area areaCategory society sector subSector demand reference referrer contact createdAt",
+        //         type,
+        //         fileType,
+        //         areaCategory,
+        //         society,
+        //         sector
+        //     }
+        // })
+        //     .then(res => {
+        //         setData(res.data.properties);
+        //         setLoader(false)
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //         setLoader(false);
+        //         if (err && err.response) {
+        //             Swal.fire({
+        //                 icon: "error",
+        //                 title: "Error!",
+        //                 text: `${err.response.data.message}`
+        //             })
+        //         }
+        //     })
+
 
         const filteredByType = properties.filter(el => type ? el.type.toLowerCase() === type.toLowerCase() : null);
         const filteredByFileType = properties.filter(el => fileType ? el.fileType.toLowerCase() === fileType.toLowerCase() : null);
@@ -157,13 +193,26 @@ export default function Property() {
         const filteredBySociety = properties.filter(el => society ? el.society.toLowerCase() === society.toLowerCase() : null);
         const filteredBySector = properties.filter(el => sector ? el.sector.toLowerCase() === sector.toLowerCase() : null);
 
-        const tempArr = [
-            ...filteredByType,
-            ...filteredByFileType,
-            ...filteredByAreaCategory,
-            ...filteredBySociety,
-            ...filteredBySector
-        ].sort((a, b) => { return (b.createdAt - a.createdAt) });
+        if (type) {
+            filteredArr = filteredArr.filter(el => el.type.toLowerCase() === type.toLowerCase());
+        }
+        if (fileType) {
+            filteredArr = filteredArr.filter(el => el.fileType.toLowerCase() === fileType.toLowerCase());
+        }
+        if (areaCategory) {
+            filteredArr = filteredArr.filter(el => el.areaCategory.toLowerCase() === areaCategory.toLowerCase());
+        }
+        if (society) {
+            filteredArr = filteredArr.filter(el => el.society.toLowerCase() === society.toLowerCase());
+        }
+        if (sector) {
+            filteredArr = filteredArr.filter(el => el.sector.toLowerCase() === sector.toLowerCase());
+        }
+        if (type) {
+            filteredArr = filteredArr.filter(el => el.demand.toLowerCase() > type.toLowerCase()); price: { $lte: maxPrice || 1000000000, $gte: minPrice || 0 }
+        }
+
+        const tempArr = filteredArr.sort((a, b) => { return (b.createdAt - a.createdAt) });
 
         console.log("test", [...new Set(tempArr)])
 
@@ -172,71 +221,6 @@ export default function Property() {
         else
             setData([]);
 
-
-        // if (type && fileType && areaCategory && society) {
-        //     filteredData = properties.filter(el => {
-        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society);
-        //     });
-        // }
-        // else if (type && fileType && areaCategory && sector) {
-        //     filteredData = properties.filter(el => {
-        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.sector.toLowerCase().includes(sector);
-        //     });
-        // }
-
-
-        // if (type) {
-        //     filteredData = properties.filter(el => {
-        //         return el.type.toLowerCase().includes(type)
-        //     });
-        // }
-        // else if (fileType) {
-
-        // }
-        // else if (areaCategory) {
-
-        // }
-        // else if (society) {
-
-        // }
-        // else if (sector) {
-
-        // }
-        // else if (type && fileType) {
-
-        // }
-        // else if (type && areaCategory) {
-
-        // }
-        // else if (type && society) {
-
-        // }
-        // else if (type && sector) {
-
-        // }
-        // else if (fileType && areaCategory) {
-
-        // }
-        // else if (fileType && society) {
-
-        // }
-        // else if (fileType && sector) {
-
-        // }
-        // else if (areaCategory && society) {
-
-        // }
-        // else if (areaCategory && sector) {
-
-        // }
-
-
-
-        // if (type && fileType && areaCategory && society && sector) {
-        //     filteredData = properties.filter(el => {
-        //         return el.type.toLowerCase().includes(type) && el.fileType.toLowerCase().includes(fileType) && el.areaCategory.toLowerCase().includes(areaCategory) && el.society.toLowerCase().includes(society) && el.sector.toLowerCase().includes(sector);
-        //     });
-        // }
     }
 
     const handleClearSearch = () => {
