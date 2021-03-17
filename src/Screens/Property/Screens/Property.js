@@ -105,37 +105,15 @@ export default function Property() {
     const handleSearch = query => {
 
         if (query) {
-            //     const filteredByType = properties.filter(el => type ? el.type.toLowerCase() === type.toLowerCase() : null);
-            // const filteredByFileType = properties.filter(el => fileType ? el.fileType.toLowerCase() === fileType.toLowerCase() : null);
-            // const filteredByAreaCategory = properties.filter(el => areaCategory ? el.areaCategory.toLowerCase() === areaCategory.toLowerCase() : null);
-            // const filteredBySociety = properties.filter(el => society ? el.society.toLowerCase() === society.toLowerCase() : null);
-            // const filteredBySector = properties.filter(el => sector ? el.sector.toLowerCase() === sector.toLowerCase() : null);
-
-            const filteredDataByCategory = properties.filter(property => {
-                return property.category.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataByPropertyType = properties.filter(property => {
-                return property.type.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataBySocities = properties.filter(property => {
-                return property.society.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataBySectors = properties.filter(property => {
-                return property.sector.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataBySubSectors = properties.filter(property => {
-                return property.subSector.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataByReferrer = properties.filter(property => {
-                return property.referrer.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataByArea = properties.filter(property => {
-                return property.area.toLowerCase().includes(query.toLowerCase());
-            });
-            const filteredDataByDemand = properties.filter(property => {
-                return property.demand.includes(parseInt(query));
-            });
-
+            query = query.toLowerCase();
+            const filteredDataByCategory = properties.filter(property => property.category.toLowerCase().includes(query));
+            const filteredDataByPropertyType = properties.filter(property => property.type.toLowerCase().includes(query));
+            const filteredDataBySocities = properties.filter(property => property.society.toLowerCase().includes(query));
+            const filteredDataBySectors = properties.filter(property => property.sector.toLowerCase().includes(query));
+            const filteredDataBySubSectors = properties.filter(property => property.subSector.toLowerCase().includes(query));
+            const filteredDataByReferrer = properties.filter(property => property.referrer.toLowerCase().includes(query));
+            const filteredDataByArea = properties.filter(property => property.area.toLowerCase().includes(query));
+            const filteredDataByDemand = properties.filter(property => property.demand === parseInt(query));
             const tempArr = [
                 ...filteredDataByCategory,
                 ...filteredDataByPropertyType,
@@ -186,13 +164,6 @@ export default function Property() {
         //         }
         //     })
 
-
-        const filteredByType = properties.filter(el => type ? el.type.toLowerCase() === type.toLowerCase() : null);
-        const filteredByFileType = properties.filter(el => fileType ? el.fileType.toLowerCase() === fileType.toLowerCase() : null);
-        const filteredByAreaCategory = properties.filter(el => areaCategory ? el.areaCategory.toLowerCase() === areaCategory.toLowerCase() : null);
-        const filteredBySociety = properties.filter(el => society ? el.society.toLowerCase() === society.toLowerCase() : null);
-        const filteredBySector = properties.filter(el => sector ? el.sector.toLowerCase() === sector.toLowerCase() : null);
-
         if (type) {
             filteredArr = filteredArr.filter(el => el.type.toLowerCase() === type.toLowerCase());
         }
@@ -224,10 +195,8 @@ export default function Property() {
 
         const tempArr = filteredArr.sort((a, b) => { return (b.createdAt - a.createdAt) });
 
-        console.log("test", [...new Set(tempArr)])
-
         if (tempArr.length > 0)
-            setData([...new Set(tempArr)]);   /* [...new Set(tempArr)] ==> "Reduces repeating values in array" */
+            setData([...new Set(tempArr)]);  
         else
             setData([]);
 
