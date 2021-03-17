@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Chip, Button, CircularProgress, IconButton, Divider } from '@material-ui/core';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -12,35 +13,38 @@ const useStyles = makeStyles(theme => ({
     },
     tableRow: {
         cursor: "pointer",
+        backgroundColor: '#f5f5f5',
         "&:hover": {
-            color: '#09926E',
-            backgroundColor: '#f5f5f5',
+            boxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)"
+        }
+    },
+    tableRowUnRead: {
+        fontWeight: "bold",
+        cursor: "pointer",
+        backgroundColor: '#fff',
+        "&:hover": {
+            boxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)"
         }
     },
     tableCell: {
-        fontFamily: 'inherit',
-        backgroundColor: '#33c4ff',
-        color: 'white',
         textAlign: 'left',
-        fontWeight: 'bold',
+        padding: 10,
+        fontWeight: 'inherit'
 
-    },
-    tableCellBody: {
-        textAlign: 'left',
     }
 }));
 
 export default function CustomTable(props) {
-    const { property, getData } = props;
+    const { messages, getData } = props;
     const classes = useStyles();
-    const { tableCell, tableCellBody } = classes;
+    const { tableRow, tableRowUnRead, tableCell } = classes;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rows, setrows] = useState([]);
 
     React.useEffect(() => {
-        setrows(property);
-    }, [property]);
+        setrows(messages);
+    }, [messages]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -52,7 +56,7 @@ export default function CustomTable(props) {
     };
 
     return (
-        <Paper elevation={0} className={classes.root}>
+        <div className={classes.root}>
 
             <TableContainer className={classes.tableContainer}>
                 <Divider />
@@ -60,11 +64,31 @@ export default function CustomTable(props) {
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
-                                <TableRow key={index} className={classes.tableRow}>
-                                    <TableCell className={tableCellBody}>{row.name}</TableCell>
-                                    <TableCell className={tableCellBody}>{row.category}</TableCell>
-                                    <TableCell className={tableCellBody}>{row.town}</TableCell>
-                                    <TableCell className={tableCellBody}>{row.city}</TableCell>
+                                <TableRow key={index} className={row.isRead ? tableRow : tableRowUnRead}>
+                                    <TableCell className={tableCell} style={{ width: 170 }}>
+                                        {
+                                            row.name.length > 15 ?
+                                                `${row.name.slice(0, 16)}...`
+                                                :
+                                                row.name
+                                        }
+                                    </TableCell>
+                                    <TableCell className={tableCell}>
+                                        {
+                                            row.message.length > 120 ?
+                                                `${row.message.slice(0, 120)}...`
+                                                :
+                                                row.message
+                                        }
+                                    </TableCell>
+                                    <TableCell className={tableCell}>
+                                        {
+                                            moment().format("DD-MM-YYYY") === moment(row.createdAt).format("DD-MM-YYYY") ?
+                                                moment(row.createdAt).format("hh:mm")
+                                                :
+                                                moment(row.createdAt).format("DD MMM")
+                                        }
+                                    </TableCell>
                                 </TableRow>
                             )
                         }
@@ -81,6 +105,6 @@ export default function CustomTable(props) {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-        </Paper >
+        </div>
     );
 }

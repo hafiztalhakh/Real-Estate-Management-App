@@ -50,15 +50,12 @@ export default function Property() {
     const handleGetSocieties = () => {
 
         Axios({
-            url: `${baseUrl}/society/get-societies`,
-            method: "GET",
-            params: {
-                type: "name town city category"
-            }
+            url: `${baseUrl}/message/get-messages`,
+            method: "GET"
         })
             .then(res => {
                 console.log(res.data);
-                setData(res.data.societies)
+                setData(res.data.messages)
                 setLoader(false)
             })
             .catch(err => {
@@ -79,14 +76,14 @@ export default function Property() {
         <Container maxWidth="lg">
             <Paper elevation={3} className={paper}>
                 <h1>Emails</h1>
-                <Divider className={divider} />
+                {/* <Divider className={divider} /> */}
                 {
                     loader ?
                         <div className={classes.centerContainer}>
                             <CircularProgress className={classes.circularProgress} />
                         </div>
                         :
-                        <Table property={data} getData={handleGetSocieties} />
+                        <Table messages={data} getData={handleGetSocieties} />
                 }
             </Paper>
         </Container>
