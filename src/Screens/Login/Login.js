@@ -111,7 +111,24 @@ export default function Login(props) {
         const { username, password } = credentials;
 
         setLoader(true);
-        console.log()
+
+        Axios({
+            url: `${baseUrl}/auth/admin-login`,
+            method: "POST",
+            data: credentials
+        }).then(res => {
+            setLoader(false);
+            
+        }).catch(err => {
+            if (err && err.response.data) {
+                console.log(err);
+                setLoader(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: `${err.response.data.message}`
+                });
+            }
+        })
 
     }
 
