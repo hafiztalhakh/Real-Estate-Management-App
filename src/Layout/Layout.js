@@ -59,7 +59,7 @@ class App extends Component {
 
             return (
                 <Fragment>
-                    {token ?
+                    {!token ?
                         <Login loginHandler={this.handleGetUser} />
                         :
                         <MyContextAPI.Provider
