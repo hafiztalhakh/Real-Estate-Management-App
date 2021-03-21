@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
     title: {
         marginTop: 0,
         textDecoration: 'underline',
-        fontFamily: '"Fondamento",cursive'
+        fontFamily: '"Fondamento",cursive',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: 24
+         }
     },
     text: {
         marginTop: 0,
@@ -174,6 +177,10 @@ export default function Login(props) {
                                 notchedOutline: notchedOutline,
                                 focused: focused,
                             }
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.charCode === 13)
+                                handleLogin()
                         }}
                     />
                     <div className={btnContainer}>

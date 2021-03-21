@@ -34,7 +34,7 @@ class App extends Component {
         token: null,
         user: {},
         open: true,
-        isLoading: true,
+        isLoading: false,
     }
 
     componentDidMount() {
@@ -61,30 +61,17 @@ class App extends Component {
             }
         })
             .then(res => {
-
-                // const userData = {
-                //     userId: res.data.employee._id,
-                //     username: res.data.employee.username,
-                //     fullName: res.data.employee.fullName,
-                // };
-
-                // this.setState(
-                //     {
-                //         isLoading: false,
-                //         isAuth: true,
-                //         token: res.data.token,
-                //         user: userData,
-                //     },
-                //     () => {
-                //         // const remainingTime = 3600000;
-                //         const expiry = new Date(new Date().getTime() + 3600000);
-                //         localStorage.setItem("expiry", expiry.toISOString());
-                //         localStorage.setItem("userData", JSON.stringify(userData));
-                //         localStorage.setItem("isUser", true);
-                //         localStorage.setItem("token", res.data.token);
-                //         this.setAutoLogout(3600000);
-                //     }
-                // );
+                this.setState({
+                    token: token,
+                    user: res.data.admin,
+                    isLoading: false
+                },
+                    () => {
+                        const expiry = new Date(new Date().getTime() + 3600000);
+                        localStorage.setItem("expiry", expiry.toISOString());
+                        localStorage.setItem("token", token);
+                        this.setAutoLogout(3600000);
+                    });
             })
             .catch((err) => {
                 console.log(err);
@@ -103,12 +90,17 @@ class App extends Component {
     };
 
     handleSaveUser = data => {
-        console.log(data);
+
         this.setState({
             token: data.token,
             user: data.user
-        });
-        console.log(data);
+        },
+            () => {
+                const expiry = new Date(new Date().getTime() + 3600000);
+                localStorage.setItem("expiry", expiry.toISOString());
+                localStorage.setItem("token", data.token);
+                this.setAutoLogout(3600000);
+            });
     }
 
     handleLogout = () => {
@@ -116,7 +108,7 @@ class App extends Component {
             token: null,
             user: {}
         }, () => {
-            window.location.replace("/");
+            this.props.history.push("/");
             localStorage.removeItem("token");
             localStorage.removeItem("expiry");
         });
@@ -131,7 +123,7 @@ class App extends Component {
         const { open, isLoading, user, token } = this.state;
         const { classes, desktop } = this.props;
 
-        if (!isLoading) {
+        if (isLoading) {
             return (
                 <div style={{
                     display: 'flex',
