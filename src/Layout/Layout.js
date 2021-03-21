@@ -103,6 +103,7 @@ class App extends Component {
     };
 
     handleSaveUser = data => {
+        console.log(data);
         this.setState({
             token: data.token,
             user: data.user
@@ -147,7 +148,7 @@ class App extends Component {
             return (
                 <Fragment>
                     {!token ?
-                        <Login loginHandler={this.handleGetUser} />
+                        <Login loginHandler={this.handleSaveUser} />
                         :
                         <MyContextAPI.Provider
                             value={{

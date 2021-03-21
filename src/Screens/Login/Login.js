@@ -3,7 +3,6 @@ import { Container, Grid, makeStyles, TextField, InputLabel, Button, CircularPro
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 
-import ContextAPI from '../../ContextAPI/ContextAPI';
 import baseUrl from '../../Util/baseUrl';
 import logo from '../../Assets/Images/logo1.png';
 
@@ -103,7 +102,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Login(props) {
-    const { saveUserHandler } = useContext(ContextAPI);
+    const { loginHandler } = props;
     const { root, paper, imgContainer, img, form, title, text, inputLabel, textField, notchedOutline, focused, btnContainer, btn, circularProgress } = useStyles();
     const [credentials, setCredentials] = useState({});
     const [loader, setLoader] = useState(false);
@@ -117,15 +116,14 @@ export default function Login(props) {
             data: credentials
         }).then(res => {
             setLoader(false);
-            console.log(res.data);
-            if (res.data.message === "Admin logged in successfully") {
-                saveUserHandler({
+            if (res.status === 200) {
+                loginHandler({
                     token: res.data.token,
                     user: res.data.admin
                 });
             }
         }).catch(err => {
-            if (err && err.response.data) {
+            if (err && err.response) {
                 console.log(err);
                 setLoader(false);
                 Swal.fire({
