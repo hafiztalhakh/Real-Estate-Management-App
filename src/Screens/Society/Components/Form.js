@@ -257,6 +257,9 @@ class SocietyForm extends Component {
         Axios({
             url: tempUrl,
             method: "POST",
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
             data: tempData
         })
             .then(res => {
