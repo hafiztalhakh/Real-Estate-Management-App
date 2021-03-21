@@ -39,71 +39,64 @@ class App extends Component {
 
     componentDidMount() {
         const token = localStorage.getItem("token");
-        const userData = JSON.parse(localStorage.getItem("userData"));
 
         if (token) {
+            this.handleGetUser(token);
+        } else {
             this.setState({
-                isAuth: true,
-                token,
-                user: userData,
-            });
+                token: null,
+                user: {}
+            })
         }
     }
 
-    handleDrawerToggle = val => {
-        this.setState({ open: val });
-    }
-
-    handleLogin = (credentials) => {
+    handleGetUser = token => {
         this.setState({ isLoading: true });
 
         Axios({
-            url: `${baseUrl}/autn/`,
-            method: "POST",
-            data: credentials,
+            url: `${baseUrl}/admin/details`,
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
-            .then((res) => {
-                // console.log(res.data.employee.department)
-                const userData = {
-                    userId: res.data.employee._id,
-                    username: res.data.employee.username,
-                    role: res.data.employee.role,
-                    department: res.data.employee.department,
-                    center: res.data.employee.center,
-                    centerId: res.data.employee.centerId,
-                    fullName: res.data.employee.fullName,
-                };
+            .then(res => {
 
-                this.setState(
-                    {
-                        isLoading: false,
-                        isAuth: true,
-                        token: res.data.token,
-                        user: userData,
-                    },
-                    () => {
-                        // const remainingTime = 3600000;
-                        const expiry = new Date(new Date().getTime() + 3600000);
-                        localStorage.setItem("expiry", expiry.toISOString());
-                        localStorage.setItem("userData", JSON.stringify(userData));
-                        localStorage.setItem("isUser", true);
-                        localStorage.setItem("token", res.data.token);
-                        this.setAutoLogout(3600000);
-                    }
-                );
+                // const userData = {
+                //     userId: res.data.employee._id,
+                //     username: res.data.employee.username,
+                //     fullName: res.data.employee.fullName,
+                // };
+
+                // this.setState(
+                //     {
+                //         isLoading: false,
+                //         isAuth: true,
+                //         token: res.data.token,
+                //         user: userData,
+                //     },
+                //     () => {
+                //         // const remainingTime = 3600000;
+                //         const expiry = new Date(new Date().getTime() + 3600000);
+                //         localStorage.setItem("expiry", expiry.toISOString());
+                //         localStorage.setItem("userData", JSON.stringify(userData));
+                //         localStorage.setItem("isUser", true);
+                //         localStorage.setItem("token", res.data.token);
+                //         this.setAutoLogout(3600000);
+                //     }
+                // );
             })
             .catch((err) => {
-                this.setState({ isLoading: false, isAuth: false });
-                swal.fire({
-                    icon: "error",
-                    title: "Laboratory Information System",
-                    html:
-                        '<strong><font color="red">Invalid Username or Password</font></strong>',
+                console.log(err);
+                this.setState({
+                    isLoading: false,
+                    token: null,
+                    user: {}
                 });
             });
     };
 
-    setAutoLogout = (time) => {
+    setAutoLogout = time => {
         setTimeout(() => {
             this.handleLogout();
         }, time);
@@ -112,19 +105,24 @@ class App extends Component {
     handleSaveUser = data => {
         this.setState({
             token: data.token,
-            user: data.admin
+            user: data.user
         });
+        console.log(data);
     }
 
-    handleLogout = data => {
+    handleLogout = () => {
         this.setState({
             token: null,
-            user: null
+            user: {}
         }, () => {
             window.location.replace("/");
             localStorage.removeItem("token");
             localStorage.removeItem("expiry");
         });
+    }
+
+    handleDrawerToggle = val => {
+        this.setState({ open: val });
     }
 
     render() {

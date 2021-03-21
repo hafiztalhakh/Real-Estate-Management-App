@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { Container, Grid, makeStyles, TextField, InputLabel, Button, CircularProgress, Paper } from '@material-ui/core';
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 
+import ContextAPI from '../../ContextAPI/ContextAPI';
 import baseUrl from '../../Util/baseUrl';
 import logo from '../../Assets/Images/logo1.png';
 
@@ -85,7 +86,7 @@ const useStyles = makeStyles(theme => ({
         color: 'white',
         backgroundColor: '#33c4ff',
         width: '90%',
-        height: 45,
+        padding: '10px 15px',
         borderRadius: 25,
         "&:hover": {
             color: 'white',
@@ -102,14 +103,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Login(props) {
-    const { loginHandler } = props;
+    const { saveUserHandler } = useContext(ContextAPI);
     const { root, paper, imgContainer, img, form, title, text, inputLabel, textField, notchedOutline, focused, btnContainer, btn, circularProgress } = useStyles();
     const [credentials, setCredentials] = useState({});
     const [loader, setLoader] = useState(false);
 
     const handleLogin = () => {
-        const { username, password } = credentials;
-
         setLoader(true);
 
         Axios({
@@ -118,7 +117,13 @@ export default function Login(props) {
             data: credentials
         }).then(res => {
             setLoader(false);
-            
+            console.log(res.data);
+            if (res.data.message === "Admin logged in successfully") {
+                saveUserHandler({
+                    token: res.data.token,
+                    user: res.data.admin
+                });
+            }
         }).catch(err => {
             if (err && err.response.data) {
                 console.log(err);
@@ -129,7 +134,6 @@ export default function Login(props) {
                 });
             }
         })
-
     }
 
     return (
