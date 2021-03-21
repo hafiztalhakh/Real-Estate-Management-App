@@ -9,7 +9,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Swal from 'sweetalert2';
 import Axios from 'axios';
+
 import baseUrl from '../../../Util/baseUrl';
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const styles = theme => ({
     paper: {
@@ -140,6 +142,8 @@ class SocietyForm extends Component {
 
     }
 
+    static contextType = ContextAPI;
+
     componentDidMount() {
         this.getData();
     }
@@ -222,6 +226,7 @@ class SocietyForm extends Component {
     }
 
     handleSave = () => {
+        const { origin, data } = this.props;
         const {
             name,
             category,
@@ -232,7 +237,6 @@ class SocietyForm extends Component {
             province,
             description
         } = this.state;
-        const { origin, data } = this.props;
         let tempUrl = "";
         let tempData = {
             name,
@@ -244,6 +248,7 @@ class SocietyForm extends Component {
             province,
             description
         };
+        const { token } = this.context;
 
         this.setState({ submitLoader: true });
 
@@ -258,7 +263,7 @@ class SocietyForm extends Component {
             url: tempUrl,
             method: "POST",
             headers: {
-                Authorization: 'Bearer ' + this.props.token
+                Authorization: `Bearer ${token}`
             },
             data: tempData
         })

@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import { useTheme, useMediaQuery, makeStyles, Container, Paper, Divider, CircularProgress } from '@material-ui/core';
 import Axios from 'axios';
 import Swal from 'sweetalert2';
 
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 import baseUrl from '../../../Util/baseUrl';
 import Table from '../Components/Table';
 import Card from '../Components/Cards';
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Property() {
+    const { token } = useContext(ContextAPI);
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
@@ -56,6 +58,9 @@ export default function Property() {
         Axios({
             url: `${baseUrl}/property/get-properties`,
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 type: "category type fileType area areaCategory society sector subSector demand reference referrer contact createdAt"
             }
