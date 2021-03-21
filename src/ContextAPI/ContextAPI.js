@@ -2,13 +2,11 @@ import React from 'react';
 
 const employeeContext = React.createContext(
     {
-        userId: '',
-        username: '',
-        token: '',
-        role: '',
-        department: '',
-        center: '',
-        fullName: '',
+        token: null,
+        userId: null,
+        user: {},
+        saveUserHandler: () => { },
+        logoutHandler: () => { }
     }
 );
 
