@@ -71,7 +71,7 @@ export default function Property() {
                 setLoader(false)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
                 setLoader(false);
                 if (err && err.response) {
                     Swal.fire({
@@ -96,7 +96,7 @@ export default function Property() {
                 setSocieties(res.data.societies);
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
                 if (err && err.response) {
                     Swal.fire({
                         icon: "error",

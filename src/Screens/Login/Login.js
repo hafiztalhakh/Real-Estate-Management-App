@@ -127,7 +127,6 @@ export default function Login(props) {
             }
         }).catch(err => {
             if (err && err.response) {
-                console.log(err);
                 setLoader(false);
                 Swal.fire({
                     icon: 'error',
@@ -139,7 +138,6 @@ export default function Login(props) {
 
     return (
         <Container maxWidth="sm" className={root}>
-
             <Paper elevation={3} className={paper}>
                 <div className={imgContainer}>
                     <img src={logo} alt="logo" className={img} />
@@ -193,7 +191,6 @@ export default function Login(props) {
                     </div>
                 </div>
             </Paper>
-
         </Container>
     )
 }
