@@ -142,13 +142,17 @@ export default function Details(props) {
         Axios({
             url: `${baseUrl}/property/get-property`,
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 propertyId
             }
         })
             .then(res => {
                 // console.log(res.data);
-                setData(res.data.property);
+                if (res.data.property)
+                    setData(res.data.property);
                 setLoader(false);
             })
             .catch(err => {
