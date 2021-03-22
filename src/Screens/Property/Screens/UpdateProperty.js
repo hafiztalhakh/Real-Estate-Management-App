@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { makeStyles, CircularProgress } from '@material-ui/core';
 import Swal from 'sweetalert2';
 import Axios from 'axios';
 
 import baseUrl from '../../../Util/baseUrl';
 import Form from '../Components/Form';
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const useStyles = makeStyles((theme) => ({
     centerContainer: {
@@ -21,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function UpdateSociety(props) {
+export default function UpdateProperty(props) {
+    const { token } = useContext(ContextAPI);
     const propertyId = props.match.params.id;
     const classes = useStyles();
     const [data, setData] = useState(null);
@@ -32,6 +34,9 @@ export default function UpdateSociety(props) {
         Axios({
             url: `${baseUrl}/property/get-property`,
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 propertyId
             }
@@ -41,7 +46,7 @@ export default function UpdateSociety(props) {
                 setLoader(false);
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
                 setLoader(false);
                 if (err && err.response) {
                     Swal.fire({

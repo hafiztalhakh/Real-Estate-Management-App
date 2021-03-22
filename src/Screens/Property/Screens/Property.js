@@ -60,9 +60,6 @@ export default function Property() {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
-            },
-            params: {
-                type: "category type fileType area areaCategory society sector subSector demand reference referrer contact createdAt"
             }
         })
             .then(res => {

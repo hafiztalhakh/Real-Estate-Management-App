@@ -56,9 +56,6 @@ export default function Property() {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
-            },
-            params: {
-                type: "category type area society sector subSector demand reference referrer contact"
             }
         })
             .then(res => {

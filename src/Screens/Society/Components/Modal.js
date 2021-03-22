@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, Dialog, IconButton, Grid, CircularProgress, Divider } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Axios from 'axios';
 import baseUrl from '../../../Util/baseUrl';
 import Swal from 'sweetalert2';
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const useStles = makeStyles(theme => ({
     closeButton: {
@@ -48,6 +49,7 @@ const useStles = makeStyles(theme => ({
 }));
 
 export default function Modal(props) {
+    const { token } = useContext(ContextAPI);
     const classes = useStles();
     const { centerContainer, circularProgress, divider, root, link } = classes;
     const { children, societyId, getData } = props;
@@ -84,6 +86,9 @@ export default function Modal(props) {
         Axios({
             url: `${baseUrl}/society/delete-society`,
             method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 societyId
             }

@@ -278,7 +278,7 @@ class SocietyForm extends Component {
                 })
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
                 this.setState({ submitLoader: false });
                 if (err && err.response) {
                     Swal.fire({

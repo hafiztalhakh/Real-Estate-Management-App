@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTheme, useMediaQuery, makeStyles, Container, Paper, Divider, CircularProgress, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import Axios from 'axios';
 import ApartmentIcon from '@material-ui/icons/Apartment';
@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import baseUrl from '../../../Util/baseUrl';
 import Table from '../Components/Table';
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Message(props) {
+    const { token } = useContext(ContextAPI);
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
@@ -51,7 +53,10 @@ export default function Message(props) {
 
         Axios({
             url: `${baseUrl}/message/get-messages`,
-            method: "GET"
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
         })
             .then(res => {
                 console.log(res.data);
