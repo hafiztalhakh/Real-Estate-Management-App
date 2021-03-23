@@ -8,6 +8,7 @@ import ForwardIcon from '@material-ui/icons/Forward';
 
 import ContextAPI from '../../../ContextAPI/ContextAPI';
 import baseUrl from '../../../Util/baseUrl';
+import Reply from '../Components/Reply';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -63,8 +64,9 @@ export default function MessageBody(props) {
     const classes = useStyles();
     const { paper, subjectLine, messageHeader, senderName, senderEmail, messageBody, messageText, messageActions, icons } = classes;
     const [data, setData] = useState({});
-    const [dataTime, setDateTime] = useState(null);
+    // const [dataTime, setDateTime] = useState(null);
     const [noMessageScreen, setNoMessageScreen] = useState(false);
+    const [showReplyForm, setShowReply] = useState(false);
 
     useEffect(() => {
 
@@ -166,22 +168,30 @@ export default function MessageBody(props) {
                                 <p className={messageText}>{data.message}</p>
                             </div>
                             <Divider />
-                            <div className={messageActions}>
-                                <Button
-                                    variant="outlined"
-                                    color="default"
-                                    style={{ textTransform: "capitalize", fontWeight: "bold" }}
-                                >
-                                    <ReplyIcon className={icons} />   Reply
+
+                            {
+                                showReplyForm ?
+                                    < Reply email={data.email} />
+                                    : 
+                                    <div className={messageActions}>
+                                        <Button
+                                            variant="outlined"
+                                            color="default"
+                                            style={{ textTransform: "capitalize", fontWeight: "bold" }}
+                                            onClick={() => { setShowReply(true) }}
+                                        >
+                                            <ReplyIcon className={icons} />   Reply
                                 </Button>
-                                <Button
-                                    variant="outlined"
-                                    color="default"
-                                    style={{ textTransform: "capitalize", fontWeight: "bold", marginLeft: 10 }}
-                                >
-                                    <ForwardIcon className={icons} />   Forward
+                                        <Button
+                                            variant="outlined"
+                                            color="default"
+                                            style={{ textTransform: "capitalize", fontWeight: "bold", marginLeft: 10 }}
+                                        >
+                                            <ForwardIcon className={icons} />   Forward
                                 </Button>
-                            </div>
+                                    </div>
+                            }
+
                         </div>
                         :
                         <h1>No Message</h1>
