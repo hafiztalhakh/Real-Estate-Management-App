@@ -139,6 +139,9 @@ export default function MessageBody(props) {
         }
     }, [inbox]);
 
+    const handleHideForm = () => {
+        setShowReply(false);
+    }
     return (
         <Container maxWidth="lg">
             <Paper elevation={3} className={paper}>
@@ -167,13 +170,13 @@ export default function MessageBody(props) {
                             <div className={messageBody}>
                                 <p className={messageText}>{data.message}</p>
                             </div>
-                            <Divider />
 
                             {
                                 showReplyForm ?
-                                    < Reply email={data.email} />
-                                    : 
+                                    < Reply email={data.email} hideForm={handleHideForm} />
+                                    :
                                     <div className={messageActions}>
+                                        <Divider style={{ margin: "30px 0" }} />
                                         <Button
                                             variant="outlined"
                                             color="default"
@@ -181,14 +184,15 @@ export default function MessageBody(props) {
                                             onClick={() => { setShowReply(true) }}
                                         >
                                             <ReplyIcon className={icons} />   Reply
-                                </Button>
+                                        </Button>
                                         <Button
                                             variant="outlined"
                                             color="default"
                                             style={{ textTransform: "capitalize", fontWeight: "bold", marginLeft: 10 }}
                                         >
                                             <ForwardIcon className={icons} />   Forward
-                                </Button>
+                                        </Button>
+
                                     </div>
                             }
 

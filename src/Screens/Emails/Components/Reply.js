@@ -1,12 +1,7 @@
-import React, { Fragment, Component } from 'react';
-import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, IconButton, CircularProgress } from '@material-ui/core';
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import AddIcon from '@material-ui/icons/Add';
-import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ClearIcon from '@material-ui/icons/Clear';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
+import React, { Component } from 'react';
+import { Container, Paper, Grid, withStyles, Divider, InputLabel, TextField, Button, IconButton, CircularProgress, Typography } from '@material-ui/core';
+import SendIcon from '@material-ui/icons/Send';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Swal from 'sweetalert2';
 import Axios from 'axios';
 
@@ -15,13 +10,14 @@ import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const styles = theme => ({
     paper: {
-        padding: "30px 40px 40px 40px",
+        padding: "0 10px",
         backgroundColor: "#fff",
         borderRadius: 10,
-        [theme.breakpoints.down('sm')]: {
-            padding: 0,
-            boxShadow: "none",
-        }
+        // [theme.breakpoints.down('sm')]: {
+        //     padding: 0,
+        //     boxShadow: "none",
+        // },
+        marginTop: 50
     },
     inputLabel: {
         fontWeight: "bold",
@@ -36,9 +32,10 @@ const styles = theme => ({
             },
         },
         "& .MuiOutlinedInput-root": {
-            height: 45,
+            // height: 45,
             border: "none",
             backgroundColor: "transparent",
+            padding: 0
         }
     },
     multilineTextField: {
@@ -53,6 +50,7 @@ const styles = theme => ({
         "& .MuiOutlinedInput-root": {
             border: "none",
             backgroundColor: "transparent",
+            padding: 0
         }
     },
     notchedOutline: {
@@ -68,10 +66,11 @@ const styles = theme => ({
     },
     btnContainer: {
         display: "flex",
-        justifyContent: "flex-end"
+        justifyContent: "space-between",
+        paddingBottom: 20
     },
     btn: {
-        width: 200,
+        width: 100,
         height: 45,
         backgroundColor: "#f5f5f5",
         color: "#000",
@@ -85,7 +84,9 @@ const styles = theme => ({
         marginTop: 10,
         marginBottom: 30
     },
-
+    icons: {
+        color: '#676358'
+    }
 });
 
 class ComposeEmail extends Component {
@@ -150,34 +151,30 @@ class ComposeEmail extends Component {
     }
 
     render() {
-        const { origin, classes, email } = this.props;
+        const { classes, email, hideForm } = this.props;
         const {
             paper,
-            inputLabel,
             textField,
             notchedOutline,
             focused,
-            autoCompleteTextField,
-            divider,
             btnContainer,
             btn,
             multilineTextField,
-            sectorsContainer,
-            root
+            icons
         } = classes;
 
         const { submitLoader } = this.state;
 
         return (
-            <Fragment>
-                <br />
+            <Paper elevation={3} className={paper}>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
-                        <TextField
+                        <Typography style={{ color: '#c6bdbd' }}>{email}</Typography>
+                        {/* <TextField
                             variant="outlined"
-                            placeholder="Title of the property"
                             className={textField}
                             value={email}
+                            disabled
                             InputProps={{
                                 classes: {
                                     notchedOutline: notchedOutline,
@@ -185,14 +182,14 @@ class ComposeEmail extends Component {
                                 },
                             }}
                             onChange={(e) => {
-                                this.setState({ name: e.target.value });
+                                this.setState({ email: e.target.value });
                             }}
-                        />
+                        /> */}
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             variant="outlined"
-                            placeholder="Description"
+                            placeholder="type hrer..."
                             className={multilineTextField}
                             multiline
                             rows={4}
@@ -209,27 +206,15 @@ class ComposeEmail extends Component {
                     </Grid>
                 </Grid>
 
-                <Divider className={divider} />
                 <div className={btnContainer}>
-                    {
-                        submitLoader ?
-                            <Button
-                                variant="contained"
-                                className={btn}
-                            >
-                                <CircularProgress style={{ color: '#0095FF', width: 25, height: 25 }} />
-                            </Button>
-                            :
-                            <Button
-                                variant="contained"
-                                className={btn}
-                                onClick={this.handleSave}
-                            >
-                                Save
-                                    </Button>
-                    }
+                    <IconButton onClick={this.handleSave}>
+                        <SendIcon className={icons} style={{ color: '#33c4ff' }} />
+                    </IconButton>
+                    <IconButton onClick={hideForm}>
+                        <DeleteIcon className={icons} />
+                    </IconButton>
                 </div>
-            </Fragment >
+            </Paper>
         );
     }
 }
