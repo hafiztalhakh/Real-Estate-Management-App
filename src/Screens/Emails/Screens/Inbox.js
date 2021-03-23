@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Message(props) {
-    const { token } = useContext(ContextAPI);
+    const { token, inboxHandler } = useContext(ContextAPI);
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
@@ -59,9 +59,11 @@ export default function Message(props) {
             },
         })
             .then(res => {
-                console.log(res.data);
-                setData(res.data.messages)
-                setLoader(false)
+                if (res.data.messages) {
+                    setData(res.data.messages);
+                    inboxHandler(res.data.messages);
+                }
+                setLoader(false);
             })
             .catch(err => {
                 console.log(err);

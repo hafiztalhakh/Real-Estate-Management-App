@@ -81,33 +81,24 @@ export default function CustomTable(props) {
 
             <TableContainer className={classes.tableContainer}>
                 <Divider />
-                <Table>
+                <Table className="inbox">
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
                                 <TableRow key={index} className={row.isRead ? tableRow : tableRowUnRead} onClick={() => history.push(`/mail/${row._id}`)}>
-                                    <TableCell className={tableCell} style={{ width: 170 }}>
-                                        {
-                                            row.name.length > 15 ?
-                                                `${row.name.slice(0, 16)}...`
-                                                :
-                                                row.name
-                                        }
+                                    <TableCell className={`${tableCell} sender`}>
+                                        {row.name}
                                     </TableCell>
-                                    <TableCell className={tableCell}>
-                                        {
-                                            row.message.length > 100 ?
-                                                `${row.message.slice(0, 100)}...`
-                                                :
-                                                row.message
-                                        }
+                                    <TableCell className={`${tableCell} content`}>
+                                        {row.message}
                                     </TableCell>
-                                    <TableCell className={tableCell}>
+                                    <TableCell className={`${tableCell} date`}>
                                         {
-                                            moment().format("DD-MM-YYYY") === moment(row.createdAt).format("DD-MM-YYYY") ?
-                                                moment(row.createdAt).format("hh:mm")
-                                                :
-                                                moment(row.createdAt).format("DD MMM")
+                                            // moment().format("DD-MM-YYYY") === moment(row.createdAt).format("DD-MM-YYYY") ?
+                                            //     moment(row.createdAt).format("hh:mm")
+                                            //     :
+                                            //     moment(row.createdAt).format("DD MMM")
+                                            "02:02:00 pm"
                                         }
                                     </TableCell>
                                 </TableRow>

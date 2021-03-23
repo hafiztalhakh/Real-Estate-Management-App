@@ -6,7 +6,9 @@ const employeeContext = React.createContext(
         userId: null,
         user: {},
         saveUserHandler: () => { },
-        logoutHandler: () => { }
+        logoutHandler: () => { },
+        inboxHandler: () => { },
+        inbox: [],
     }
 );
 

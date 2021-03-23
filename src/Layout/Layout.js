@@ -33,6 +33,7 @@ class App extends Component {
     state = {
         token: null,
         user: {},
+        inbox: [],
         open: true,
         isLoading: false,
     }
@@ -117,9 +118,13 @@ class App extends Component {
         this.setState({ open: val });
     }
 
+    handleSaveInobx = inbox => {
+        this.setState({ inbox });
+    }
+
     render() {
 
-        const { open, isLoading, user, token } = this.state;
+        const { open, isLoading, user, token, inbox } = this.state;
         const { classes, desktop } = this.props;
 
         if (isLoading) {
@@ -147,7 +152,9 @@ class App extends Component {
                                 userId: user && user._id,
                                 user,
                                 saveUserHandler: this.handleSaveUser,
-                                logoutHandler: this.handleLogout
+                                logoutHandler: this.handleLogout,
+                                inboxHandler: this.handleSaveInobx,
+                                inbox
                             }}
                         >
                             {
