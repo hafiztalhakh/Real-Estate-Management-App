@@ -63,15 +63,57 @@ export default function MessageBody(props) {
     const classes = useStyles();
     const { paper, subjectLine, messageHeader, senderName, senderEmail, messageBody, messageText, messageActions, icons } = classes;
     const [data, setData] = useState({});
+    const [dataTime, setDateTime] = useState(null);
     const [noMessageScreen, setNoMessageScreen] = useState(false);
 
     useEffect(() => {
 
         if (token && inbox && inbox.length > 0) {
-            console.log(inbox);
             const tempArr = inbox.filter(message => messageId === message._id);
-            console.log(tempArr)
             setData(tempArr[0]);
+            // let tempDate = null;
+            // let x = null;
+            // var a = moment();
+            // var b = moment(tempArr[0].createdAt);
+
+            // if (moment().format("DD-MM-YYYY") === moment(tempArr[0].createdAt).format("DD-MM-YYYY")) {
+            //     tempDate = moment(tempArr[0].createdAt).format("hh:mm");
+            //     let secondsSpent = a.diff(b, 'seconds');
+            //     let minutesSpent = a.diff(b, 'minutes');
+            //     let hoursSpent = a.diff(b, 'hours');
+            //     if (secondsSpent < 60) {
+            //         x = secondsSpent;
+            //     }
+            //     else if (minutesSpent < 60) {
+            //         x = minutesSpent
+            //     }
+            //     else {
+            //         x = hoursSpent
+            //     }
+            // }
+            // else {
+            //     tempDate = moment(tempArr[0].createdAt).format("ddd, D MMM, hh:mm");
+            //     let daysSpent = a.diff(b, 'days');
+            //     let weeksSpent = a.diff(b, 'weeks');
+            //     let monthsSpent = a.diff(b, 'months');
+            //     let yearsSpent = a.diff(b, 'years');
+
+
+            //     if (daysSpent < 7) {
+            //         x = daysSpent
+            //     }
+            //     else if (weeksSpent < 7) {
+            //         x = weeksSpent
+            //     }
+            //     else if (monthsSpent < 30) {
+            //         x = monthsSpent
+            //     }
+            //     else {
+            //         x = yearsSpent
+            //     }
+            // }
+            // setDateTime(x);
+
         } else {
 
             Axios({
@@ -84,9 +126,10 @@ export default function MessageBody(props) {
                     messageId
                 }
             }).then(res => {
-                console.log(res.data.message)
-                if (res.data.message)
-                    setData(res.data.message)
+                if (res.data.message) {
+                    setData(res.data.message);
+                }
+
             }).catch(err => {
                 console.log(err);
                 setNoMessageScreen(true);
