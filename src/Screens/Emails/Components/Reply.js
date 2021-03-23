@@ -92,8 +92,6 @@ const styles = theme => ({
 class ComposeEmail extends Component {
 
     state = {
-        email: "",
-        subject: "",
         message: "",
 
         submitLoader: false,
@@ -103,29 +101,22 @@ class ComposeEmail extends Component {
 
     static contextType = ContextAPI;
 
-    handleSave = () => {
-        const {
-            name,
-            category,
-            sectors,
-            town,
-            city,
-            district,
-            province,
-            description
-        } = this.state;
+    handleSubmit = () => {
+        const { email } = this.props;
+        const { message } = this.state;
         const { token } = this.context;
 
         this.setState({ submitLoader: true });
 
         Axios({
-            url: `${baseUrl}/society/add-society`,
+            url: `${baseUrl}/message/post-reply`,
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`
             },
             data: {
-
+                email,
+                message
             }
         })
             .then(res => {
@@ -133,8 +124,6 @@ class ComposeEmail extends Component {
                 Swal.fire({
                     icon: "success",
                     text: "Sent!"
-                }).then(() => {
-                    this.props.history.push("/societies");
                 })
             })
             .catch(err => {
@@ -207,7 +196,7 @@ class ComposeEmail extends Component {
                 </Grid>
 
                 <div className={btnContainer}>
-                    <IconButton onClick={this.handleSave}>
+                    <IconButton onClick={this.handleSubmit}>
                         <SendIcon className={icons} style={{ color: '#33c4ff' }} />
                     </IconButton>
                     <IconButton onClick={hideForm}>
