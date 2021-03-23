@@ -2,10 +2,12 @@ import React, { useEffect, useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Paper, Typography, Button, Divider } from '@material-ui/core';
 import moment from 'moment';
-
+import Axios from 'axios';
 import ReplyIcon from '@material-ui/icons/Reply';
+import ForwardIcon from '@material-ui/icons/Forward';
 
 import ContextAPI from '../../../ContextAPI/ContextAPI';
+import baseUrl from '../../../Util/baseUrl';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -18,9 +20,12 @@ const useStyles = makeStyles(theme => ({
             boxShadow: "none",
         }
     },
+    subjectLine: {
+        fontWeight: 'normal'
+    },
     messageHeader: {
         display: 'flex',
-        justifyContent: 'space-btween',
+        justifyContent: 'space-between',
         width: '100%'
     },
     senderName: {
@@ -56,8 +61,9 @@ export default function MessageBody(props) {
     const { match } = props;
     const messageId = match.params.id;
     const classes = useStyles();
-    const { paper, messageHeader, senderName, senderEmail, messageBody, messageText, messageActions, icons } = classes;
+    const { paper, subjectLine, messageHeader, senderName, senderEmail, messageBody, messageText, messageActions, icons } = classes;
     const [data, setData] = useState({});
+    const [noMessageScreen, setNoMessageScreen] = useState(false);
 
     useEffect(() => {
 
@@ -66,63 +72,77 @@ export default function MessageBody(props) {
             const tempArr = inbox.filter(message => messageId === message._id);
             console.log(tempArr)
             setData(tempArr[0]);
+        } else {
+
+            Axios({
+                url: `${baseUrl}/message/get-message`,
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                params: {
+                    messageId
+                }
+            }).then(res => {
+                console.log(res.data.message)
+                if (res.data.message)
+                    setData(res.data.message)
+            }).catch(err => {
+                console.log(err);
+                setNoMessageScreen(true);
+            })
         }
     }, [inbox]);
 
     return (
         <Container maxWidth="lg">
             <Paper elevation={3} className={paper}>
-
-                <div>
-                    <div>
-                        <h1>{data.subject}</h1>
-                    </div>
-                    <div className={messageHeader}>
+                {
+                    !noMessageScreen ?
                         <div>
-                            <Typography className={senderName}>{data.name}</Typography>
-                            <Typography className={senderEmail}>{`<${data.email}>`}</Typography>
+                            <div>
+                                <h1 className={subjectLine}>{data.subject}</h1>
+                            </div>
+                            <div className={messageHeader}>
+                                <div>
+                                    <Typography className={senderName}>{data.name}</Typography>
+                                    <Typography className={senderEmail}>{`<${data.email}>`}</Typography>
+                                </div>
+                                <div>
+                                    <Typography>
+                                        {
+                                            moment().format("DD-MM-YYYY") === moment(data.createdAt).format("DD-MM-YYYY") ?
+                                                `${moment(data.createdAt).format("hh:mm")}`  /*ago wala scene krna hai */
+                                                :
+                                                moment(data.createdAt).format("ddd, D MMM, hh:mm")
+                                        }
+                                    </Typography>
+                                </div>
+                            </div>
+                            <div className={messageBody}>
+                                <p className={messageText}>{data.message}</p>
+                            </div>
+                            <Divider />
+                            <div className={messageActions}>
+                                <Button
+                                    variant="outlined"
+                                    color="default"
+                                    style={{ textTransform: "capitalize", fontWeight: "bold" }}
+                                >
+                                    <ReplyIcon className={icons} />   Reply
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    color="default"
+                                    style={{ textTransform: "capitalize", fontWeight: "bold", marginLeft: 10 }}
+                                >
+                                    <ForwardIcon className={icons} />   Forward
+                                </Button>
+                            </div>
                         </div>
-                        <div>
-                            <p>
-                                {
-                                    moment().format("DD-MM-YYYY") === moment(data.createdAt).format("DD-MM-YYYY") ?
-                                        `${moment(data.createdAt).format("hh:mm")}`  /*ago wala scene krna hai */
-                                        :
-                                        moment(data.createdAt).format("ddd, D MMM, hh:mm")
-                                }
-                            </p>
-                        </div>
-                    </div>
-                    <div className={messageBody}>
-                        <p className={messageText}>{data.message}</p>
-                    </div>
-                    <Divider />
-                    <div className={messageActions}>
-                        <Button
-                            variant="outlined"
-                            color="default"
-                            style={{ textTransform: "capitalize", fontWeight: "bold" }}
-                        >
-                            <ReplyIcon className={icons} />   Reply
-                        </Button>
-                    </div>
-                </div>
-
-                {/* <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={2} className={tableCellHead}>Date & Time:</Grid>
-                    <Grid item xs={12} sm={12} md={9}>{moment().format("DD-MM-YYYY hh:mm:ss a")}</Grid>
-                    <Grid item xs={12} sm={12} md={2} className={tableCellHead}>Name:</Grid>
-                    <Grid item xs={12} sm={12} md={9}>{data.name}</Grid>
-                    <Grid item xs={12} sm={12} md={2} className={tableCellHead}>Email:</Grid>
-                    <Grid item xs={12} sm={12} md={9}>hafiz.talhakh@gmail.com</Grid>
-                    <Grid item xs={12} sm={12} md={2} className={tableCellHead}>Subject:</Grid>
-                    <Grid item xs={12} sm={12} md={9}>Testing</Grid>
-                    <Grid item xs={12} sm={12} md={2} className={tableCellHead}>Message:</Grid>
-                    <Grid item xs={12} sm={12} md={9}>
-                        <p style={{ whiteSpace: "pre-line", margin: 0 }}>We at Shaheer Enterprises present the largest selection of both commercial and residential properties to choose from. We deal in all kinds of sale, purchase and rent of both residential and commercial properties.
-                        </p>
-                    </Grid>
-                </Grid> */}
+                        :
+                        <h1>No Message</h1>
+                }
             </Paper>
         </Container>
     );

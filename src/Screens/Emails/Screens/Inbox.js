@@ -56,7 +56,7 @@ export default function Message(props) {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
-            },
+            }
         })
             .then(res => {
                 if (res.data.messages) {
