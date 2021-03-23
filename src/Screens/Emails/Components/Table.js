@@ -86,19 +86,14 @@ export default function CustomTable(props) {
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                             return (
                                 <TableRow key={index} className={row.isRead ? tableRow : tableRowUnRead} onClick={() => history.push(`/mail/${row._id}`)}>
-                                    <TableCell className={`${tableCell} sender`}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell className={`${tableCell} content`}>
-                                        {row.message}
-                                    </TableCell>
+                                    <TableCell className={`${tableCell} sender`}>{row.name}</TableCell>
+                                    <TableCell className={`${tableCell} content`}>{row.message} </TableCell>
                                     <TableCell className={`${tableCell} date`}>
                                         {
-                                            // moment().format("DD-MM-YYYY") === moment(row.createdAt).format("DD-MM-YYYY") ?
-                                            //     moment(row.createdAt).format("hh:mm")
-                                            //     :
-                                            //     moment(row.createdAt).format("DD MMM")
-                                            "02:02:00 pm"
+                                            moment().format("DD-MM-YYYY") === moment(row.createdAt).format("DD-MM-YYYY") ?
+                                                moment(row.createdAt).format("hh:mm")
+                                                :
+                                                moment(row.createdAt).format("DD MMM")
                                         }
                                     </TableCell>
                                 </TableRow>
