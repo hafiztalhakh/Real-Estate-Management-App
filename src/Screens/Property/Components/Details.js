@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, IconButton, Grid, CircularProgress, Divider, Chip, Menu, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
@@ -9,6 +9,7 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import BlockIcon from '@material-ui/icons/Block';
 
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 import Axios from 'axios';
 import baseUrl from '../../../Util/baseUrl';
 import Swal from 'sweetalert2';
@@ -113,6 +114,7 @@ const formatter = new Intl.NumberFormat('ur', {
 });
 
 export default function Details(props) {
+    const { token } = useContext(ContextAPI);
     const classes = useStles();
     const { container,
         centerContainer,
@@ -140,18 +142,22 @@ export default function Details(props) {
         Axios({
             url: `${baseUrl}/property/get-property`,
             method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 propertyId
             }
         })
             .then(res => {
                 // console.log(res.data);
-                setData(res.data.property)
+                if (res.data.property)
+                    setData(res.data.property);
                 setLoader(false);
             })
             .catch(err => {
                 console.log(err);
-                setLoader(false)
+                setLoader(false);
             })
 
     }, [propertyId]);
@@ -161,6 +167,9 @@ export default function Details(props) {
         Axios({
             url: `${baseUrl}/property/delete-property`,
             method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             params: {
                 propertyId
             }
@@ -236,6 +245,9 @@ export default function Details(props) {
         Axios({
             url: tempUrl,
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             data: {
                 propertyId
             }
@@ -278,6 +290,9 @@ export default function Details(props) {
         Axios({
             url: tempUrl,
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             data: {
                 propertyId
             }
@@ -312,6 +327,9 @@ export default function Details(props) {
         Axios({
             url: `${baseUrl}/property/mark-as-sold`,
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             data: {
                 propertyId
             }

@@ -51,10 +51,7 @@ export default function Property() {
 
         Axios({
             url: `${baseUrl}/property/get-featured-properties`,
-            method: "GET",
-            params: {
-                type: "category type area society sector subSector demand reference referrer contact"
-            }
+            method: "GET"
         })
             .then(res => {
                 setData(res.data.properties)

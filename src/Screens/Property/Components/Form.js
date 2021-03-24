@@ -5,6 +5,7 @@ import Axios from 'axios';
 import Swal from 'sweetalert2';
 
 import baseUrl from '../../../Util/baseUrl';
+import ContextAPI from '../../../ContextAPI/ContextAPI';
 
 const styles = theme => ({
     paper: {
@@ -145,6 +146,8 @@ class PropertyForm extends Component {
 
     }
 
+    static contextType = ContextAPI;
+
     componentDidMount() {
 
         this.getSocities();
@@ -221,6 +224,7 @@ class PropertyForm extends Component {
 
     handleSave = () => {
         const { origin, data } = this.props;
+        const { token } = this.context;
         const {
             title,
             plotNumber,
@@ -293,6 +297,9 @@ class PropertyForm extends Component {
         Axios({
             url: tempUrl,
             method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             data: tempData
         })
             .then(res => {

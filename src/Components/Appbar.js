@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { List, ListItem, ListItemIcon, Typography, ListItemText, IconButton, AppBar, Toolbar, makeStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import PeopleIcon from '@material-ui/icons/People';
 import Notifications from './Notifications';
+import ContextAPI from '../ContextAPI/ContextAPI';
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -67,7 +68,8 @@ const drawerWidth = 240;
 
 export default function Topbar(props) {
 
-    const { toggleDrawer, open, handleSwitchUser } = props;
+    const { toggleDrawer, open } = props;
+    const { logoutHandler } = useContext(ContextAPI);
     const classes = styles();
 
     return (
@@ -87,22 +89,16 @@ export default function Topbar(props) {
                 >
                     Shaheer Enterprises
                 </h2>
-                {/* <Notifications />
+                {/* <Notifications /> */}
                 <List className={classes.webAppbarButton}>
-                    <ListItem button onClick={handleSwitchUser}>
-                        <ListItemIcon style={{ minWidth: 35 }}>
-                            <PeopleIcon style={{ color: 'black', fontSize: 27 }} />
-                        </ListItemIcon>
-                        <ListItemText primary={<Typography
-                            style={{
-                                color: '#0095FF',
-                                marginTop: 2,
-                                fontWeight: 'bold',
-                                width: 100,
-                            }}>Switch User</Typography>}
+                    <ListItem button onClick={logoutHandler}>
+                        <ListItemText
+                            primary={
+                                <Typography>Logout</Typography>
+                            }
                         />
                     </ListItem>
-                </List> */}
+                </List>
             </Toolbar>
         </AppBar>
     )
