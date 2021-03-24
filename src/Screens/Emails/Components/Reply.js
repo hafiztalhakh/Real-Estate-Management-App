@@ -102,7 +102,7 @@ class ComposeEmail extends Component {
     static contextType = ContextAPI;
 
     handleSubmit = () => {
-        const { email } = this.props;
+        const { email, subject } = this.props;
         const { message } = this.state;
         const { token } = this.context;
 
@@ -116,6 +116,7 @@ class ComposeEmail extends Component {
             },
             data: {
                 email,
+                subject,
                 message
             }
         })
@@ -123,7 +124,9 @@ class ComposeEmail extends Component {
                 this.setState({ submitLoader: false });
                 Swal.fire({
                     icon: "success",
-                    text: "Sent!"
+                    title: "Message Sent!"
+                }).then(() => {
+                    this.props.history.push('/inbox');
                 })
             })
             .catch(err => {
@@ -143,16 +146,13 @@ class ComposeEmail extends Component {
         const { classes, email, hideForm } = this.props;
         const {
             paper,
-            textField,
             notchedOutline,
             focused,
             btnContainer,
-            btn,
             multilineTextField,
             icons
         } = classes;
-
-        const { submitLoader } = this.state;
+        // const { submitLoader } = this.state;
 
         return (
             <Paper elevation={3} className={paper}>
@@ -181,7 +181,7 @@ class ComposeEmail extends Component {
                             placeholder="type hrer..."
                             className={multilineTextField}
                             multiline
-                            rows={4}
+                            // rows=
                             InputProps={{
                                 classes: {
                                     notchedOutline: notchedOutline,
@@ -189,7 +189,7 @@ class ComposeEmail extends Component {
                                 },
                             }}
                             onChange={(e) => {
-                                this.setState({ description: e.target.value });
+                                this.setState({ message: e.target.value });
                             }}
                         />
                     </Grid>

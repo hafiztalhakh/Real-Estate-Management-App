@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import baseUrl from '../../../Util/baseUrl';
 import Table from '../Components/Table';
 import ContextAPI from '../../../ContextAPI/ContextAPI';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -78,54 +79,56 @@ export default function Message(props) {
             })
     }
 
-    // if (isDesktop) {
-    return (
-        <Container maxWidth="lg">
-            <Paper elevation={3} className={paper}>
+    if (isDesktop) {
+        return (
+            <Container maxWidth="lg">
+                <Paper elevation={3} className={paper}>
+                    <h1>Emails</h1>
+                    {/* <Divider className={divider} /> */}
+                    {
+                        loader ?
+                            <div className={classes.centerContainer}>
+                                <CircularProgress className={classes.circularProgress} />
+                            </div>
+                            :
+                            <Table messages={data} getData={handleGetSocieties} {...props} />
+                    }
+                </Paper>
+            </Container>
+        )
+    } else {
+        return (
+            <Container maxWidth="md">
                 <h1>Emails</h1>
-                {/* <Divider className={divider} /> */}
+
                 {
                     loader ?
                         <div className={classes.centerContainer}>
                             <CircularProgress className={classes.circularProgress} />
                         </div>
                         :
-                        <Table messages={data} getData={handleGetSocieties} {...props} />
+                        data.length > 0 ? data.map((el, i) => (
+                            <ListItem key={i} disableGutters onClick={() => props.history.push(`/mail/${el._id}`)}>
+                                <ListItemIcon>
+                                    <ApartmentIcon />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <strong>{el.name}</strong>
+                                    }
+                                    secondary={
+                                        <span>{el.message.slice(0, 100)}</span>
+                                    }
+                                />
+                            </ListItem>
+                        ))
+                            :
+                            <div className={classes.centerContainer}>
+                                <h1 align="center">No data found</h1>
+                            </div>
                 }
-            </Paper>
-        </Container>
-    )
-    // } else {
-    //     return (
-    //         <Container maxWidth="md">
-    //             <h1>Societies List</h1>
-    //             <Divider className={divider} />
-    //             {
-    //                 loader ?
-    //                     <div className={classes.centerContainer}>
-    //                         <CircularProgress className={classes.circularProgress} />
-    //                     </div>
-    //                     :
-    //                     data.length > 0 ? data.map((el, i) => (
-    //                         <Modal societyId={el._id} getData={handleGetSocieties}>
-    //                             <ListItem key={i} disableGutters>
-    //                                 <ListItemIcon>
-    //                                     <ApartmentIcon />
-    //                                 </ListItemIcon>
-    //                                 <ListItemText primary={
-    //                                     <strong>{el.name}</strong>
-    //                                 }
-    //                                 />
-    //                             </ListItem>
-    //                         </Modal>
-    //                     ))
-    //                         :
-    //                         <div className={classes.centerContainer}>
-    //                             <h1 align="center">No data found</h1>
-    //                         </div>
-    //             }
-    //         </Container>
-    //     )
-    // }
+            </Container>
+        )
+    }
 }
 

@@ -73,6 +73,9 @@ export default function MessageBody(props) {
         if (token && inbox && inbox.length > 0) {
             const tempArr = inbox.filter(message => messageId === message._id);
             setData(tempArr[0]);
+            if (!tempArr[0].isRead)
+                handleMarkAsRead();
+
             // let tempDate = null;
             // let x = null;
             // var a = moment();
@@ -117,7 +120,6 @@ export default function MessageBody(props) {
             // setDateTime(x);
 
         } else {
-
             Axios({
                 url: `${baseUrl}/message/get-message`,
                 method: "GET",
@@ -139,9 +141,27 @@ export default function MessageBody(props) {
         }
     }, [inbox]);
 
+    const handleMarkAsRead = () => {
+        Axios({
+            url: `${baseUrl}/message/mark-as-read`,
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            data: {
+                messageId
+            }
+        }).then(res => {
+            //do nothing
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
     const handleHideForm = () => {
         setShowReply(false);
     }
+
     return (
         <Container maxWidth="lg">
             <Paper elevation={3} className={paper}>
@@ -173,7 +193,7 @@ export default function MessageBody(props) {
 
                             {
                                 showReplyForm ?
-                                    < Reply email={data.email} hideForm={handleHideForm} />
+                                    <Reply {...props} email={data.email} subject={data.subject} hideForm={handleHideForm} />
                                     :
                                     <div className={messageActions}>
                                         <Divider style={{ margin: "30px 0" }} />
